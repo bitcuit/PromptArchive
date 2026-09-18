@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PROMPT ARCHIVE ROSETTE</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main class="page">
+  <div class="topline">
+    <span>PROMPT ARCHIVE / COSTUME LIBRARY SYSTEM</span>
+    <span class="collection-pill" id="collectionPill">ROSETTE COLLECTION</span>
+  </div>
+
+  <section class="archive">
+    
+
+    <div class="typewriter">
+      <div class="roller"></div>
+      <div class="screw s1"></div><div class="screw s2"></div><div class="screw s3"></div><div class="screw s4"></div>
+
+      <div class="identity">
+        <div class="brand-stack">
+          <div class="brand">✦ PROMPT ARCHIVE : COSTUME LIBRARY</div>
+          <div class="brand-sub">historical & fantasy costume index</div>
+        </div>
+        <div class="identity-actions">
+          <button class="help" id="helpBtn" type="button" aria-label="사용법">?</button>
+        </div>
+      </div>
+
+      <div class="screen-frame">
+        <div class="screen">
+          <div class="screen-head">
+            <div class="screen-title">ARCHIVE MIXER</div>
+            <div class="screen-tools">
+              <label class="lang-switch" title="드롭다운 언어 전환">
+                <span class="lang-label ko">한</span>
+                <input id="langToggle" type="checkbox" aria-label="Switch dropdown language">
+                <span class="lang-track"><span class="lang-thumb"></span></span>
+                <span class="lang-label en">EN</span>
+              </label>
+              <div class="preset-tools">
+                <button class="tool star" id="presetOpen" type="button" title="프리셋">★</button>
+                <div class="preset-menu" id="presetMenu" hidden>
+                  <div class="preset-head">
+                    <input id="presetName" type="text" placeholder="프리셋 이름" autocomplete="off">
+                    <button class="preset-save-btn" id="presetSaveGo" type="button" title="저장"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 2.5h9l2 2v9h-11z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><rect x="5" y="2.5" width="5" height="3.5" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="4.5" y="9" width="7" height="4.5" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></button>
+                  </div>
+                  <div class="preset-list" id="presetList"></div>
+                </div>
+              </div>
+              <div class="status" id="status">READY · SLOT 01</div>
+            </div>
+          </div>
+
+          <section class="settings-board">
+            <div class="group-card">
+              <div class="group-title">01 / ARCHIVE INDEX</div>
+              <div class="field"><label id="labelCollection">COLLECTION</label>
+                <select id="collection">
+                  <option value="antiquity">Antiquity</option>
+                  <option value="rosette" selected>Rosette</option>
+                  <option value="modern">Modern</option>
+                  <option value="fantasy">Fantasy Index</option>
+                </select>
+                <span class="btns">
+                <button class="reroll" data-reroll="collection" type="button" title="이 줄만 랜덤"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="1.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="5" cy="5" r="1.3" fill="currentColor"/><circle cx="11" cy="5" r="1.3" fill="currentColor"/><circle cx="8" cy="8" r="1.3" fill="currentColor"/><circle cx="5" cy="11" r="1.3" fill="currentColor"/><circle cx="11" cy="11" r="1.3" fill="currentColor"/></svg></button>
+                <button class="lock" data-lock="collection" type="button">◇</button>
+                </span>
+              </div>
+              <div class="field"><label id="labelPeriod">PERIOD</label>
+                <div class="control">
+                  <select id="period"></select>
+                  <div class="multi-select" data-multi="period" hidden>
+                    <button class="multi-toggle" type="button" aria-expanded="false"><span class="multi-summary"></span></button>
+                    <div class="multi-menu" hidden>
+                      <div class="multi-presets" id="periodPresets"></div>
+                      <div class="multi-list" id="periodList"></div>
+                    </div>
+                  </div>
+                  <select id="periodMulti" multiple hidden></select>
+                </div>
+                <span class="btns">
+                <button class="reroll" data-reroll="period" type="button" title="이 줄만 랜덤"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="1.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="5" cy="5" r="1.3" fill="currentColor"/><circle cx="11" cy="5" r="1.3" fill="currentColor"/><circle cx="8" cy="8" r="1.3" fill="currentColor"/><circle cx="5" cy="11" r="1.3" fill="currentColor"/><circle cx="11" cy="11" r="1.3" fill="currentColor"/></svg></button>
+                <button class="lock" data-lock="period" type="button">◇</button>
+                </span>
+              </div>
+              <div class="field"><label id="labelGender">GENDER</label>
+                <select id="gender">
+                  <option value="Feminine">Feminine</option>
+                  <option value="Masculine">Masculine</option>
+                  <option value="Neutral">Neutral</option>
+                </select>
+                <span class="btns">
+                <button class="reroll" data-reroll="gender" type="button" title="이 줄만 랜덤"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="1.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="5" cy="5" r="1.3" fill="currentColor"/><circle cx="11" cy="5" r="1.3" fill="currentColor"/><circle cx="8" cy="8" r="1.3" fill="currentColor"/><circle cx="5" cy="11" r="1.3" fill="currentColor"/><circle cx="11" cy="11" r="1.3" fill="currentColor"/></svg></button>
+                <button class="lock" data-lock="gender" type="button">◇</button>
+                </span>
+              </div>
+              <div class="field"><label id="labelFidelity">FIDELITY</label>
+                <select id="fidelity">
+                  <option value="Historical">Historical</option>
+                  <option value="Romanticized" selected>Romanticized</option>
+                  <option value="Fantasy">Fantasy</option>
+                  <option value="Otherworldly">Otherworldly</option>
+                </select>
+                <span class="btns">
+                <button class="reroll" data-reroll="fidelity" type="button" title="이 줄만 랜덤"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="1.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="5" cy="5" r="1.3" fill="currentColor"/><circle cx="11" cy="5" r="1.3" fill="currentColor"/><circle cx="8" cy="8" r="1.3" fill="currentColor"/><circle cx="5" cy="11" r="1.3" fill="currentColor"/><circle cx="11" cy="11" r="1.3" fill="currentColor"/></svg></button>
+                <button class="lock" data-lock="fidelity" type="button">◇</button>
+                </span>
+              </div>
+              <div class="field"><label id="labelDetail">DETAIL LEVEL</label>
+                <select id="detail">
+                  <option value="Simple">Simple</option>
+                  <option value="Medium" selected>Medium</option>
+                  <option value="Max">Max</option>
+                  <option value="Random">Random</option>
+                </select>
+                <span class="btns">
+                <button class="reroll" data-reroll="detail" type="button" title="이 줄만 랜덤"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="1.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="5" cy="5" r="1.3" fill="currentColor"/><circle cx="11" cy="5" r="1.3" fill="currentColor"/><circle cx="8" cy="8" r="1.3" fill="currentColor"/><circle cx="5" cy="11" r="1.3" fill="currentColor"/><circle cx="11" cy="11" r="1.3" fill="currentColor"/></svg></button>
+                <button class="lock" data-lock="detail" type="button">◇</button>
+                </span>
+              </div>
+              <div class="field"><label id="labelColor">BASE COLOR</label>
+                <select id="color"></select>
+                <span class="btns">
+                <button class="reroll" data-reroll="color" type="button" title="이 줄만 랜덤"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="1.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="5" cy="5" r="1.3" fill="currentColor"/><circle cx="11" cy="5" r="1.3" fill="currentColor"/><circle cx="8" cy="8" r="1.3" fill="currentColor"/><circle cx="5" cy="11" r="1.3" fill="currentColor"/><circle cx="11" cy="11" r="1.3" fill="currentColor"/></svg></button>
+                <button class="lock" data-lock="color" type="button">◇</button>
+                </span>
+              </div>
+              <div class="field"><label id="labelAccent">ACCENT COLOR</label>
+                <select id="accent"></select>
+                <span class="btns">
+                <button class="reroll" data-reroll="accent" type="button" title="이 줄만 랜덤"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="1.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="5" cy="5" r="1.3" fill="currentColor"/><circle cx="11" cy="5" r="1.3" fill="currentColor"/><circle cx="8" cy="8" r="1.3" fill="currentColor"/><circle cx="5" cy="11" r="1.3" fill="currentColor"/><circle cx="11" cy="11" r="1.3" fill="currentColor"/></svg></button>
+                <button class="lock" data-lock="accent" type="button">◇</button>
+                </span>
+              </div>
+              <div class="field"><label id="labelOther">OTHER</label>
+                <input id="other" type="text" placeholder="추가 태그, 쉼표로 구분" autocomplete="off">
+                <span class="btns">
+                <button class="reroll" data-reroll="other" type="button" title="이 줄만 랜덤"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="1.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="5" cy="5" r="1.3" fill="currentColor"/><circle cx="11" cy="5" r="1.3" fill="currentColor"/><circle cx="8" cy="8" r="1.3" fill="currentColor"/><circle cx="5" cy="11" r="1.3" fill="currentColor"/><circle cx="11" cy="11" r="1.3" fill="currentColor"/></svg></button>
+                <button class="lock" data-lock="other" type="button">◇</button>
+                </span>
+              </div>
+            </div>
+
+            <div class="group-card">
+              <div class="group-title">02 / COSTUME CONSTRUCTION</div>
+              <div class="slot-search">
+                <input id="slotSearch" type="search" placeholder="항목 검색 — 레이스, corset, 가면 …" autocomplete="off">
+                <button id="slotSearchClear" type="button" title="검색 지우기">×</button>
+                <div class="search-panel" id="searchPanel" hidden>
+                  <div class="search-tabs" id="searchTabs"></div>
+                  <div class="search-list" id="searchList"></div>
+                </div>
+              </div>
+              <div class="cat-bar" id="catBar"></div>
+              <div class="ban-list" id="banList" hidden></div>
+              <div class="ban-menu" id="banMenu" hidden>
+                <div class="ban-menu-head"><span id="banMenuTitle"></span><button type="button" id="banMenuAll" class="multi-preset"></button></div>
+                <div class="multi-list" id="banMenuList"></div>
+              </div>
+              <div class="field"><label id="labelFoundation">FOUNDATION</label>
+                <select id="foundation"></select>
+                <span class="btns">
+                <button class="reroll" data-reroll="foundation" type="button" title="이 줄만 랜덤"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="1.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="5" cy="5" r="1.3" fill="currentColor"/><circle cx="11" cy="5" r="1.3" fill="currentColor"/><circle cx="8" cy="8" r="1.3" fill="currentColor"/><circle cx="5" cy="11" r="1.3" fill="currentColor"/><circle cx="11" cy="11" r="1.3" fill="currentColor"/></svg></button>
+                <button class="lock" data-lock="foundation" type="button" title="값 잠그기">◇</button>
+                <button class="skip" data-skip="foundation" type="button" title="이 슬롯 빼기">−</button>
+                <button class="ban" data-ban="foundation" type="button" title="랜덤에서 뺄 항목 고르기">⊘</button>
+                </span>
+              </div>
+              <div class="field"><label id="labelStructure">STRUCTURE</label>
+                <select id="structure"></select>
+                <span class="btns">
+                <button class="reroll" data-reroll="structure" type="button" title="이 줄만 랜덤"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="1.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="5" cy="5" r="1.3" fill="currentColor"/><circle cx="11" cy="5" r="1.3" fill="currentColor"/><circle cx="8" cy="8" r="1.3" fill="currentColor"/><circle cx="5" cy="11" r="1.3" fill="currentColor"/><circle cx="11" cy="11" r="1.3" fill="currentColor"/></svg></button>
+                <button class="lock" data-lock="structure" type="button" title="값 잠그기">◇</button>
+                <button class="skip" data-skip="structure" type="button" title="이 슬롯 빼기">−</button>
+                <button class="ban" data-ban="structure" type="button" title="랜덤에서 뺄 항목 고르기">⊘</button>
+                </span>
+              </div>
+              <div class="field"><label id="labelGarment">MAIN GARMENT</label>
+                <select id="garment"></select>
+                <span class="btns">
+                <button class="reroll" data-reroll="garment" type="button" title="이 줄만 랜덤"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="1.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="5" cy="5" r="1.3" fill="currentColor"/><circle cx="11" cy="5" r="1.3" fill="currentColor"/><circle cx="8" cy="8" r="1.3" fill="currentColor"/><circle cx="5" cy="11" r="1.3" fill="currentColor"/><circle cx="11" cy="11" r="1.3" fill="currentColor"/></svg></button>
+                <button class="lock" data-lock="garment" type="button" title="값 잠그기">◇</button>
+                <button class="skip" data-skip="garment" type="button" title="이 슬롯 빼기">−</button>
+                <button class="ban" data-ban="garment" type="button" title="랜덤에서 뺄 항목 고르기">⊘</button>
+                </span>
+              </div>
+              <div class="field"><label id="labelNeckwear">NECKWEAR</label>
+                <select id="neckwear"></select>
+                <span class="btns">
+                <button class="reroll" data-reroll="neckwear" type="button" title="이 줄만 랜덤"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="1.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="5" cy="5" r="1.3" fill="currentColor"/><circle cx="11" cy="5" r="1.3" fill="currentColor"/><circle cx="8" cy="8" r="1.3" fill="currentColor"/><circle cx="5" cy="11" r="1.3" fill="currentColor"/><circle cx="11" cy="11" r="1.3" fill="currentColor"/></svg></button>
+                <button class="lock" data-lock="neckwear" type="button" title="값 잠그기">◇</button>
+                <button class="skip" data-skip="neckwear" type="button" title="이 슬롯 빼기">−</button>
+                <button class="ban" data-ban="neckwear" type="button" title="랜덤에서 뺄 항목 고르기">⊘</button>
+                </span>
+              </div>
+              <div class="field"><label id="labelOuter">OUTER LAYER</label>
+                <select id="outer"></select>
+                <span class="btns">
+                <button class="reroll" data-reroll="outer" type="button" title="이 줄만 랜덤"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="1.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="5" cy="5" r="1.3" fill="currentColor"/><circle cx="11" cy="5" r="1.3" fill="currentColor"/><circle cx="8" cy="8" r="1.3" fill="currentColor"/><circle cx="5" cy="11" r="1.3" fill="currentColor"/><circle cx="11" cy="11" r="1.3" fill="currentColor"/></svg></button>
+                <button class="lock" data-lock="outer" type="button" title="값 잠그기">◇</button>
+                <button class="skip" data-skip="outer" type="button" title="이 슬롯 빼기">−</button>
+                <button class="ban" data-ban="outer" type="button" title="랜덤에서 뺄 항목 고르기">⊘</button>
+                </span>
+              </div>
+              <div class="field"><label id="labelFootwear">FOOTWEAR</label>
+                <select id="footwear"></select>
+                <span class="btns">
+                <button class="reroll" data-reroll="footwear" type="button" title="이 줄만 랜덤"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="1.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="5" cy="5" r="1.3" fill="currentColor"/><circle cx="11" cy="5" r="1.3" fill="currentColor"/><circle cx="8" cy="8" r="1.3" fill="currentColor"/><circle cx="5" cy="11" r="1.3" fill="currentColor"/><circle cx="11" cy="11" r="1.3" fill="currentColor"/></svg></button>
+                <button class="lock" data-lock="footwear" type="button" title="값 잠그기">◇</button>
+                <button class="skip" data-skip="footwear" type="button" title="이 슬롯 빼기">−</button>
+                <button class="ban" data-ban="footwear" type="button" title="랜덤에서 뺄 항목 고르기">⊘</button>
+                </span>
+              </div>
+              <div class="field"><label id="labelHeadwear">HEADWEAR</label>
+                <select id="headwear"></select>
+                <span class="btns">
+                <button class="reroll" data-reroll="headwear" type="button" title="이 줄만 랜덤"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="1.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="5" cy="5" r="1.3" fill="currentColor"/><circle cx="11" cy="5" r="1.3" fill="currentColor"/><circle cx="8" cy="8" r="1.3" fill="currentColor"/><circle cx="5" cy="11" r="1.3" fill="currentColor"/><circle cx="11" cy="11" r="1.3" fill="currentColor"/></svg></button>
+                <button class="lock" data-lock="headwear" type="button" title="값 잠그기">◇</button>
+                <button class="skip" data-skip="headwear" type="button" title="이 슬롯 빼기">−</button>
+                <button class="ban" data-ban="headwear" type="button" title="랜덤에서 뺄 항목 고르기">⊘</button>
+                </span>
+              </div>
+              <div class="field"><label id="labelAccessories">ACCESSORIES</label>
+                <div class="control">
+                  <div class="multi-select" data-multi="accessories">
+                    <button class="multi-toggle" type="button" aria-expanded="false"><span class="multi-summary"></span></button>
+                    <div class="multi-menu" hidden>
+                      <div class="multi-modes">
+                        <button class="multi-mode on" data-mode="combine" type="button">＋ 함께 사용</button>
+                        <button class="multi-mode" data-mode="random" type="button"><svg class="ico ico-inline" viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="1.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="5" cy="5" r="1.3" fill="currentColor"/><circle cx="11" cy="5" r="1.3" fill="currentColor"/><circle cx="8" cy="8" r="1.3" fill="currentColor"/><circle cx="5" cy="11" r="1.3" fill="currentColor"/><circle cx="11" cy="11" r="1.3" fill="currentColor"/></svg> 랜덤 1개</button>
+                        <button class="multi-none" type="button">없음</button>
+                      </div>
+                      <div class="multi-list" id="accessoriesList"></div>
+                    </div>
+                  </div>
+                  <select id="accessories" multiple hidden></select>
+                </div>
+                <span class="btns">
+                <button class="reroll" data-reroll="accessories" type="button" title="이 줄만 랜덤"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="1.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="5" cy="5" r="1.3" fill="currentColor"/><circle cx="11" cy="5" r="1.3" fill="currentColor"/><circle cx="8" cy="8" r="1.3" fill="currentColor"/><circle cx="5" cy="11" r="1.3" fill="currentColor"/><circle cx="11" cy="11" r="1.3" fill="currentColor"/></svg></button>
+                <button class="lock" data-lock="accessories" type="button" title="값 잠그기">◇</button>
+                <button class="skip" data-skip="accessories" type="button" title="이 슬롯 빼기">−</button>
+                <button class="ban" data-ban="accessories" type="button" title="랜덤에서 뺄 항목 고르기">⊘</button>
+                </span>
+              </div>
+            </div>
+          </section>
+
+          <div class="actions">
+            <button class="big" id="shuffleBtn" type="button">SHUFFLE PARTS</button>
+            <button class="big primary" id="transcribeBtn" type="button">GENERATE PROMPT</button>
+          </div>
+
+          <section class="archive-preview-strip">
+            <div class="preview-index">03 / ARCHIVE PREVIEW</div>
+            <div class="preview-summary">
+              <span id="previewEra">18C ROCOCO</span>
+              <span class="preview-dot">•</span>
+              <span id="previewMode">Romanticized · Feminine</span>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <div class="typewriter-deck">
+        <div class="carriage-rail">
+          <div class="carriage-knob left"></div>
+          <div class="carriage-bar"></div>
+          <div class="carriage-knob right"></div>
+        </div>
+
+        <div class="typebars" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+
+        <div class="keyboard">
+        <div class="dial" title="Archive selector"></div>
+        <div class="keybank" aria-hidden="true">
+          <div class="key-row">
+            <span class="key">1</span><span class="key">2</span><span class="key">3</span><span class="key">4</span><span class="key">5</span><span class="key">6</span><span class="key">7</span><span class="key">8</span><span class="key">9</span><span class="key">0</span>
+          </div>
+          <div class="key-row mid">
+            <span class="key">Q</span><span class="key">W</span><span class="key">E</span><span class="key">R</span><span class="key">T</span><span class="key">Y</span><span class="key">U</span><span class="key">I</span><span class="key">O</span><span class="key">P</span>
+          </div>
+          <div class="key-row lower">
+            <span class="key">A</span><span class="key">S</span><span class="key">D</span><span class="key">F</span><span class="key">G</span><span class="key">H</span><span class="key">J</span><span class="key">K</span><span class="key">L</span>
+          </div>
+          <div class="typewriter-spacebar">
+            <div class="spacebar"></div>
+          </div>
+        </div>
+        <div class="machine-endcap" aria-hidden="true"></div>
+      </div>
+      </div>
+    </div>
+
+    <div class="output-assembly" aria-hidden="true">
+      <div class="output-housing">
+        <div class="output-slot"></div>
+        
+      </div>
+    </div>
+
+    <div class="result-zone" id="resultZone" aria-live="polite">
+      <div class="result-clip">
+        <article class="sheet" id="sheet">
+        <div class="sheet-head">
+          <div>
+            <div class="sheet-code" id="sheetCode">PA · RST · 18C · Nº 0001</div>
+            <div class="sheet-title" id="sheetTitle">ROCOCO — ROMANTICIZED</div>
+          </div>
+          <div class="sheet-meta" id="sheetMeta">FEMININE<br>DETAIL: MEDIUM</div>
+        </div>
+        <div class="prompt-label">CATALOG ENTRY · PROMPT</div>
+        <div class="prompt" id="prompt"></div>
+        <div class="sheet-actions">
+          <button class="paper-btn" id="copyBtn" type="button">COPY</button>
+          <button class="paper-btn" id="saveBtn" type="button">SAVE .TXT</button>
+          <button class="paper-btn" id="reprintBtn" type="button">REPRINT</button>
+        </div>
+      
+        <div class="tear-rule" aria-hidden="true"></div>
+        <button class="tear-handle" id="tearHandle" type="button" aria-label="Tear off printed prompt">
+          <span aria-hidden="true">✂</span>
+          <span>DRAG TO TEAR</span>
+        </button>
+      </article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="help-modal" id="helpModal">
+  <div class="help-card">
+    <div class="help-top">
+      <div class="help-title">? HOW TO USE</div>
+      <button class="help-close" id="helpClose" type="button">×</button>
+    </div>
+    <div class="help-screen">
+      <div class="help-inner">
+        <p class="help-intro">서양 복식사를 시대별로 조합해 NovelAI 프롬프트로 출력하는 장치.<br>표기는 한 / EN 스위치로 바뀌고, 출력은 항상 영문.</p>
+
+        <div class="help-step">
+          <div class="step-no">STEP 01</div>
+          <h4>고르기</h4>
+          <p>컬렉션 · 시대 · 성별을 정함.<br>조합에 따라 아래 슬롯이 바뀜.<br>기본 색 · 포인트 색 · 추가 태그도 여기.<br>디테일은 태그 양 (랜덤 가능).</p>
+        </div>
+
+        <div class="help-step">
+          <div class="step-no">STEP 02</div>
+          <h4>고증 강도</h4>
+          <p>고증 · 로맨틱은 고른 시대만.<br>판타지는 인접 시대까지, 이세계는 전부.<br>판타지 인덱스는 시대를 직접 체크.<br>가면 · 장식 태그는 판타지부터.</p>
+        </div>
+
+        <div class="help-step">
+          <div class="step-no">STEP 03</div>
+          <h4>줄마다 버튼</h4>
+          <p><svg class="ico ico-inline" viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="1.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="5" cy="5" r="1.3" fill="currentColor"/><circle cx="11" cy="5" r="1.3" fill="currentColor"/><circle cx="8" cy="8" r="1.3" fill="currentColor"/><circle cx="5" cy="11" r="1.3" fill="currentColor"/><circle cx="11" cy="11" r="1.3" fill="currentColor"/></svg> 그 줄만 다시 뽑음.<br>◇ 잠그면(◆) 섞어도 안 바뀜.<br>− 슬롯 자체를 뺌.<br>⊘ 목록에서 랜덤에 안 나올 항목 체크.</p>
+        </div>
+
+        <div class="help-step">
+          <div class="step-no">STEP 04</div>
+          <h4>검색 · 필터</h4>
+          <p>검색창에 한글 · 영어 · 문구 아무거나.<br>결과를 누르면 바로 선택됨.<br>다른 시대에 있으면 칩으로 이동.<br>필터 칩으로 갑옷 · 가면 등을 통째로 끔.</p>
+        </div>
+
+        <div class="help-step">
+          <div class="step-no">STEP 05</div>
+          <h4>액세서리 · 프리셋</h4>
+          <p>액세서리는 여러 개 체크 가능.<br>＋ 함께 사용 / <svg class="ico ico-inline" viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="1.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="5" cy="5" r="1.3" fill="currentColor"/><circle cx="11" cy="5" r="1.3" fill="currentColor"/><circle cx="8" cy="8" r="1.3" fill="currentColor"/><circle cx="5" cy="11" r="1.3" fill="currentColor"/><circle cx="11" cy="11" r="1.3" fill="currentColor"/></svg> 랜덤 1개.<br>★ 에서 프리셋 목록, 이름 쓰고 <svg class="ico ico-inline" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 2.5h9l2 2v9h-11z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><rect x="5" y="2.5" width="5" height="3.5" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="4.5" y="9" width="7" height="4.5" fill="none" stroke="currentColor" stroke-width="1.2"/></svg> 로 저장.<br>잠금 · 제외 · 필터까지 같이 저장됨.</p>
+        </div>
+
+        <div class="help-step">
+          <div class="step-no">STEP 06</div>
+          <h4>섞고 뽑기</h4>
+          <p>SHUFFLE PARTS는 안 잠긴 줄만 다시.<br>GENERATE PROMPT로 카드 인쇄.<br>REPRINT는 설정 그대로 새 조합.<br>COPY · SAVE .TXT · DRAG TO TEAR.</p>
+        </div>
+
+        <p class="help-note">모자 · 베일 · 머리 장식만 나옴. 헤어스타일 · 화장 · 포즈 태그는 넣지 않으니 캐릭터 쪽 프롬프트에서 직접 지정할 것. 프롬프트에 나오는 항목은 전부 화면에 보이는 것뿐.</p>
+      </div>
+    </div>
+    <div class="help-actions">
+      <button class="big primary" id="helpOk" type="button">OK, START MIXING</button>
+    </div>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
+

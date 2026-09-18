@@ -1,0 +1,50 @@
+# Image files
+*.png
+*.jpg
+*.jpeg
+*.PNG
+*.JPG
+*.JPEG
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+.cache/
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Dependencies and build output
+node_modules/
+dist/
+build/
+coverage/
+
+# Working backups and scratch (not part of the app)
+*.bak
+*.typewriter
+*.document
+*.orig
+patch*.py
+sim.js
+HANDOFF.md
+
+# Series workshop files (not part of the site)
+SKILL.md
+KEYWORDS.md
+Rosette/Claude outputs/
