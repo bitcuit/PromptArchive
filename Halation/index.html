@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PROMPT ARCHIVE : HALATION</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-theme="silver">
+<main class="darkroom">
+  <div class="bench">
+
+    <section class="rig">
+      <div class="camera" id="machine">
+        <div class="top-plate">
+          <button class="wind" id="shuffleBtn" type="button" data-tip="잠그지 않은 칸을 전부 랜덤으로 바꿈 · 찍지는 않음" data-tip-at="below">WIND FILM</button>
+          <button class="shutter" id="printBtn" type="button" data-tip="지금 설정으로 프롬프트 한 장 뽑기" data-tip-at="below">RELEASE SHUTTER</button>
+        </div>
+
+        <div class="face">
+          <span class="grip" aria-hidden="true"></span>
+          <div class="lens">
+            <div class="glass">
+              <div class="glass-icon" id="heroIcon">🎞️</div>
+              <div class="glass-name" id="heroName">RANDOM SCENE</div>
+              <div class="glass-sub" id="heroSub">any season</div>
+            </div>
+          </div>
+
+          <div class="sleeve">
+            <div class="windows" aria-hidden="true">
+              <span class="finder"></span>
+              <span class="flash" id="flashUnit"></span>
+            </div>
+            <div class="brand" aria-label="Prompt Archive Halation">
+              <small>PROMPT ARCHIVE</small>
+              <strong>HALATION</strong>
+              <em>ISO 400 · 27 EXP · WITH FLASH</em>
+            </div>
+            <div class="loaded">
+              <div class="worn-row" id="heroStack" hidden></div>
+              <div class="dye-row" id="previewColors"></div>
+            </div>
+            <div class="sleeve-tools">
+              <div class="status" id="status">READY · FRAME 01</div>
+              <button class="sticker" id="settingsLanguage" type="button" aria-pressed="false" data-tip="칸 이름과 선택지를 한글로 / 영어로">한글 보기</button>
+              <div class="body-colors">
+                <button class="sticker" id="themeToggle" type="button" aria-expanded="false" data-tip="카메라 색 바꾸기">BODY</button>
+                <div class="body-tray" id="themePalette">
+                  <button class="body-chip" data-t="silver" title="실버" type="button"></button>
+                  <button class="body-chip" data-t="ice" title="아이스" type="button"></button>
+                  <button class="body-chip" data-t="rose" title="로즈" type="button"></button>
+                  <button class="body-chip" data-t="champagne" title="샴페인" type="button"></button>
+                  <button class="body-chip" data-t="mint" title="민트" type="button"></button>
+                </div>
+              </div>
+              <button class="sticker round" id="helpBtn" type="button" aria-label="사용법" data-tip="사용법">?</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="roll">
+        <div class="strip">
+          <div class="cell"><label>PEOPLE</label>
+            <select id="people"><option value="solo">One</option><option value="duo">Two</option></select>
+            <button class="dice" data-reroll="people" type="button">🎲</button>
+            <button class="hold" data-lock="people" type="button">◇</button>
+          </div>
+          <div class="cell" id="pairCell"><label>PAIR</label>
+            <select id="pair"><option value="gg">Girl &amp; Girl</option><option value="bg">Boy &amp; Girl</option><option value="bb">Boy &amp; Boy</option></select>
+            <button class="dice" data-reroll="pair" type="button">🎲</button>
+            <button class="hold" data-lock="pair" type="button">◇</button>
+          </div>
+          <div class="cell"><label>SCENE</label>
+            <select id="mainStyle">
+              <option value="random">Random</option>
+              <option value="season:spring">Random · Spring</option><option value="season:summer">Random · Summer</option>
+              <option value="season:autumn">Random · Autumn</option><option value="season:winter">Random · Winter</option>
+              <option value="sakura">Cherry Blossom Road</option><option value="classroom">Classroom Window</option>
+              <option value="field">Riverbank</option><option value="station">Country Station</option>
+              <option value="seaside">Breakwater</option><option value="busstop">Country Bus Stop</option>
+              <option value="stream">Mountain Stream</option><option value="festival">Summer Festival</option>
+              <option value="rooftop">School Rooftop</option><option value="ginkgo">Ginkgo Avenue</option>
+              <option value="library">Library</option><option value="crossing">Railroad Crossing</option>
+              <option value="snow">Snowy Lane</option><option value="konbini">Convenience Store Night</option>
+              <option value="kotatsu">Kotatsu Room</option><option value="dawn">Hilltop at Dawn</option>
+              <option value="hanami">Blossom Picnic</option><option value="hanabi">Fireworks Night</option>
+              <option value="tatamiroom">Summer Tatami Room</option><option value="cornershop">Corner Shop</option>
+              <option value="market">Neighborhood Market</option><option value="shoppingst">Shopping Street</option>
+              <option value="kitchen">Home Kitchen</option><option value="veranda">Laundry Balcony</option>
+              <option value="room">My Room</option><option value="bus">Bus Ride</option>
+            </select>
+            <button class="dice" data-reroll="mainStyle" type="button" aria-label="SCENE만 랜덤 선택">🎲</button>
+            <button class="hold" data-lock="mainStyle" type="button">◇</button>
+          </div>
+  
+          <div class="cell"><label>WEATHER</label>
+            <div class="light-box">
+              <select id="environment">
+                <option value="random">Random</option><option value="morning">Morning</option><option value="noon">Midday Sun</option>
+                <option value="dappled">Leaf Shade</option><option value="golden">Sunset</option><option value="bluehour">Twilight</option>
+                <option value="overcast">Overcast</option><option value="afterrain">After Rain</option><option value="night">Night</option>
+                <option value="dawn">Sunrise</option><option value="shower">Sudden Shower</option><option value="thunder">Thunderstorm</option><option value="outage">Power Cut at Night</option><option value="snowy">Heavy Snow</option><option value="sunshower">Sun Shower</option><option value="custom">Other</option>
+              </select>
+              <div class="light-typed" id="environmentInlineEditor" hidden>
+                <input id="environmentCustom" type="text" aria-label="직접 입력할 날씨나 빛" placeholder="drizzle, sun shower, morning mist..." autocomplete="off">
+              </div>
+            </div>
+            <button class="dice" data-reroll="environment" type="button" aria-label="WEATHER만 랜덤 선택">🎲</button>
+            <button class="hold" data-lock="environment" type="button">◇</button>
+          </div>
+  
+          <div class="cell"><label>IN HAND</label>
+            <select id="backPiece">
+              <option value="random">Random</option><option value="none">None</option>
+              <option value="camera">Film Camera</option><option value="earphones">Earphones &amp; Player</option>
+              <option value="book">Paperback</option><option value="notebook">Notebook &amp; Pencil</option>
+              <option value="bag">School Bag</option><option value="umbrella">Clear Umbrella</option>
+              <option value="bicycle">Bicycle</option><option value="can">Canned Juice</option>
+              <option value="bread">Melon Bread</option><option value="dango">Dango Skewer</option>
+              <option value="bouquet">Wildflowers</option><option value="ramune">Ramune</option>
+              <option value="shavedice">Shaved Ice</option><option value="fan">Paper Fan</option>
+              <option value="sparkler">Sparkler</option><option value="candyapple">Candy Apple</option>
+              <option value="net">Butterfly Net</option><option value="sandals">Sandals in Hand</option>
+              <option value="leaf">Autumn Leaf</option><option value="sweetpotato">Roasted Sweet Potato</option>
+              <option value="bun">Steamed Bun</option><option value="hotcan">Hot Canned Coffee</option>
+              <option value="mikan">Mandarin Orange</option><option value="mug">Mug</option><option value="snowball">Snowball</option>
+              <option value="popsicle">Popsicle</option><option value="icecream">Ice Cream Cone</option><option value="watermelon">Watermelon Slice</option>
+              <option value="bento">Bento</option><option value="basket">Shopping Basket</option><option value="groceries">Grocery Bag</option>
+              <option value="plasticbag">Plastic Bag</option><option value="flashlight">Flashlight</option><option value="ladle">Ladle</option>
+              <option value="laundrybasket">Laundry Basket</option>
+            </select>
+            <button class="dice" data-reroll="backPiece" type="button" aria-label="IN HAND만 랜덤 선택">🎲</button>
+            <button class="hold" data-lock="backPiece" type="button">◇</button>
+          </div>
+  
+          <div class="cell"><label id="heroModeLabel">HEADWEAR</label>
+            <div class="picker" data-multi="heroMode">
+              <button class="picker-face" id="heroModeToggle" type="button" aria-expanded="false" aria-controls="heroModeMenu"><span class="picker-value">None</span></button>
+              <div class="picker-list" id="heroModeMenu" role="group" aria-labelledby="heroModeLabel" hidden>
+                <button class="tick-mode" type="button" data-mode-group="heroMode" aria-pressed="true">＋ 함께 사용</button>
+                <label class="tick"><input type="checkbox" value="strawhat" data-label="Straw Hat"><span>Straw Hat</span></label>
+                <label class="tick"><input type="checkbox" value="cap" data-label="Baseball Cap"><span>Baseball Cap</span></label>
+                <label class="tick"><input type="checkbox" value="flowercrown" data-label="Flower Wreath"><span>Flower Wreath</span></label>
+                <label class="tick"><input type="checkbox" value="hairclip" data-label="Hairclip"><span>Hairclip</span></label>
+                <label class="tick"><input type="checkbox" value="ribbon" data-label="Hair Ribbon"><span>Hair Ribbon</span></label>
+                <label class="tick"><input type="checkbox" value="headphones" data-label="Headphones"><span>Headphones</span></label>
+                <label class="tick"><input type="checkbox" value="beanie" data-label="Beanie"><span>Beanie</span></label>
+                <label class="tick"><input type="checkbox" value="earmuffs" data-label="Earmuffs"><span>Earmuffs</span></label>
+                <label class="tick"><input type="checkbox" value="none" data-label="None" checked><span>None</span></label>
+              </div>
+            </div>
+            <button class="dice" data-reroll="heroMode" type="button" aria-label="HEADWEAR만 랜덤 선택">🎲</button>
+            <button class="hold" data-lock="heroMode" type="button">◇</button>
+          </div>
+  
+          <div class="cell"><label>OUTFIT</label>
+            <select id="formMode">
+              <option value="random">Random</option>
+              <option value="casual">Casual</option>
+              <option value="uniform">School Uniform</option>
+              <option value="none">Scene Only</option>
+            </select>
+            <button class="dice" data-reroll="formMode" type="button" aria-label="OUTFIT만 랜덤 선택">🎲</button>
+            <button class="hold" data-lock="formMode" type="button">◇</button>
+          </div>
+  
+          <div class="cell"><label>BOTTOM</label>
+            <select id="bottomType">
+              <option value="any">Random</option><option value="skirt">Skirt</option><option value="pants">Pants</option><option value="dress">One-piece</option>
+            </select>
+            <button class="dice" data-reroll="bottomType" type="button" aria-label="BOTTOM만 랜덤 선택">🎲</button>
+            <button class="hold" data-lock="bottomType" type="button">◇</button>
+          </div>
+  
+          <div class="cell"><label>BASE COLOR</label>
+            <select id="color"><option value="white">white</option><option value="navy">navy</option><option value="black">black</option><option value="gray">gray</option><option value="beige">beige</option><option value="cream">cream</option><option value="light blue">light blue</option><option value="khaki">khaki</option><option value="brown">brown</option><option value="pale pink">pale pink</option></select>
+            <button class="dice" data-reroll="color" type="button" aria-label="BASE COLOR만 랜덤 선택">🎲</button>
+            <button class="hold" data-lock="color" type="button">◇</button>
+          </div>
+  
+          <div class="cell"><label>ACCENT</label>
+            <select id="accentColor"><option value="none">None</option><option value="white">white</option><option value="navy">navy</option><option value="black">black</option><option value="gray">gray</option><option value="beige">beige</option><option value="cream">cream</option><option value="light blue">light blue</option><option value="khaki">khaki</option><option value="brown">brown</option><option value="pale pink">pale pink</option></select>
+            <button class="dice" data-reroll="accentColor" type="button" aria-label="ACCENT COLOR만 랜덤 선택">🎲</button>
+            <button class="hold" data-lock="accentColor" type="button">◇</button>
+          </div>
+  
+          <div class="cell"><label>OTHER</label>
+            <input class="typed" id="customAdd" placeholder="contrail, stray cat, wind..." autocomplete="off">
+            <button class="dice" data-reroll="customAdd" type="button" aria-label="OTHER만 랜덤 선택">🎲</button>
+            <button class="hold" data-lock="customAdd" type="button">◇</button>
+          </div>
+  
+          <div class="cell"><label>COMPLEXITY</label>
+            <select id="complexity"><option value="medium">Medium</option><option value="simple">Simple</option><option value="max">Max</option><option value="random">Random</option></select>
+            <button class="dice" data-reroll="complexity" type="button" aria-label="COMPLEXITY만 랜덤 선택">🎲</button>
+            <button class="hold" data-lock="complexity" type="button">◇</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="tray">
+      <div class="desk" aria-hidden="true">
+        <span class="snap under"></span>
+        <span class="snap"></span>
+      </div>
+      <div class="out" id="paperFeed">
+        <article class="print" id="receipt">
+          <div class="tear" id="tearHandle" role="button" tabindex="0" aria-label="누르거나 아래로 끌어 사진 더미 치우기" data-tip="누르거나 아래로 끌면 사진 더미를 치움">
+            <span class="tear-label">✂ DRAG TO TEAR</span>
+          </div>
+          <div class="rebate" aria-hidden="true">
+            <span id="printCaption"></span>
+            <span>HALATION 400</span>
+          </div>
+          <div class="exposure">
+            <div class="prompt-text" id="prompt"></div>
+            <div class="prompt-parts" id="promptParts" hidden></div>
+            <span class="burn" id="dateStamp" aria-hidden="true"></span>
+          </div>
+          <div class="notes" id="chips"></div>
+          <div class="print-foot">
+            <div class="lab" id="meta">ROLL NO. H-01<br>FRAME: 00 / 27<br>STATUS: UNEXPOSED</div>
+            <div class="print-actions">
+              <button class="tab" id="splitBtn" type="button" aria-pressed="false" data-tip="장면(기본)과 인물(캐릭터)로 나눠 보기 · 한 사람일 때">SPLIT</button>
+              <button class="tab swap" id="copyBtn" type="button" data-tip="프롬프트 전체를 한 줄로 복사"><span class="say">COPY</span><span class="say done" aria-hidden="true">COPIED</span></button>
+              <button class="tab" id="saveBtn" type="button" data-tip="프롬프트를 .txt 파일로 저장">SAVE .TXT</button>
+              <button class="tab" id="rerollBtn" type="button" data-tip="같은 설정으로 한 장 더 뽑기">RESHOOT</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </aside>
+
+  </div>
+</main>
+
+<div class="manual" id="helpModal" role="dialog" aria-modal="true" aria-label="사용법">
+  <div class="manual-card">
+    <div class="manual-head">
+      <strong>HOW TO USE</strong>
+      <button class="sticker round" id="closeHelp" type="button" aria-label="닫기">×</button>
+    </div>
+    <ol class="manual-steps">
+      <li><h4>찍기</h4><p>RELEASE SHUTTER를 누르면<br>지금 설정으로 프롬프트가 한 장 나옴.<br>인화지의 RESHOOT도 같음.</p></li>
+      <li><h4>섞기</h4><p>WIND FILM은 잠그지 않은 칸을 전부 랜덤으로 바꿈.<br>찍지는 않으니 바꾼 뒤 셔터를 누름.<br>🎲는 그 칸만, ◇를 눌러 잠그면(◆) 그대로.</p></li>
+      <li><h4>복사 · 저장</h4><p>COPY는 프롬프트 전체를 한 줄로 복사.<br>NovelAI 프롬프트 칸에 붙여넣기.<br>SAVE .TXT는 파일로 저장.</p></li>
+      <li><h4>두 사람 · 나눠 보기</h4><p>처음에 고른 인원은 PEOPLE · PAIR에 잠겨 있음(◆).<br>PEOPLE에서 둘을 고르면 기본 · 캐릭터 1 · 캐릭터 2로 나뉨.<br>각 칸의 COPY로 NovelAI의 Base Prompt와 Character 칸에 하나씩.<br>한 사람일 때는 SPLIT으로 나눠 보기를 켜고 끔.</p></li>
+      <li><h4>장면 · 날씨</h4><p>SCENE에서 장소를 고름.<br>Random · Spring처럼 계절만 정해도 됨.<br>WEATHER에서 소나기 · 천둥 · 정전을 고르면<br>그 날씨에 맞는 동작이 나옴.</p></li>
+      <li><h4>랜덤은 장면을 따름</h4><p>손에 든 것 · 빛 · 모자를 Random으로 두면<br>그 장면에 있을 법한 것만 나옴.<br>직접 고른 것은 그대로, 단 계절이 안 맞으면 빠짐(여름에 비니 ✗).</p></li>
+      <li><h4>옷과 구도</h4><p>Casual은 사복, School Uniform은 교복.<br>Scene Only는 옷을 쓰지 않음(옷이 정해진 캐릭터용).<br>상반신 구도에서는 신발 · 양말을 쓰지 않음.</p></li>
+      <li><h4>사진 더미 치우기</h4><p>인화지 위쪽 절취선을 누르거나 아래로 끌면<br>쌓인 사진 더미가 치워짐.</p></li>
+    </ol>
+    <div class="manual-foot"><button class="shutter flat" id="okHelp" type="button">OK</button></div>
+  </div>
+</div>
+
+<div class="manual open cast-veil" id="castModal" role="dialog" aria-modal="true" aria-labelledby="castTitle">
+  <div class="cast-print">
+    <div class="cast-top">
+      <div class="rebate" aria-hidden="true"><span>&#9656; 00 &nbsp;LOAD</span><span>HALATION 400</span></div>
+      <button class="sticker round" id="closeCast" type="button" aria-label="닫기">×</button>
+    </div>
+    <div class="cast-exposure">
+      <div class="cast-head">
+        <strong id="castTitle">몇 명을 찍을까요?</strong>
+        <span class="cast-note">나중에 PEOPLE 칸에서 바꿀 수 있음</span>
+      </div>
+      <div class="cast-roll">
+        <button class="cast" type="button" data-people="solo"><b>SOLO</b><span>혼자</span></button>
+        <button class="cast" type="button" data-people="duo" data-pair="gg"><b>GIRL &amp; GIRL</b><span>여자 둘</span></button>
+        <button class="cast" type="button" data-people="duo" data-pair="bg"><b>BOY &amp; GIRL</b><span>남자와 여자</span></button>
+        <button class="cast" type="button" data-people="duo" data-pair="bb"><b>BOY &amp; BOY</b><span>남자 둘</span></button>
+      </div>
+      <span class="burn" id="castStamp" aria-hidden="true"></span>
+    </div>
+  </div>
+</div>
+
+<script src="data.js" defer></script>
+<script src="app.js" defer></script>
+</body>
+</html>
