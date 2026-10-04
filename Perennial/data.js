@@ -46,6 +46,7 @@ const umbrellaActs = (name) => [
 const PERENNIAL = {
   // 옷 장식(decor · motifs)의 한국어 이름. 설정 칸의 칩에 보인다
   decorKo: {
+    'drawstring waist': '허리 끈',
     'braided bracelet': '엮은 팔찌',
     'embroidered patches': '자수 패치',
     'ruffle trim': '러플 단',
@@ -274,70 +275,90 @@ const PERENNIAL = {
   //   decor   이 옷의 장식. '옷 장식' 양만큼 뽑혀 옷 태그 뒤에 붙는다. 계절의 motifs 가 하나 섞일 수 있다(noMotif 면 안 섞임)
   outfits: [
     // 봄
-    { id: 'rose-strapless', season: 'spring', label: '티 드레스 · 리넨 모자', tags: ['{c1} tea dress', 'square neckline', 'short puff sleeves', 'wide-brimmed {c2} linen hat'], decor: ['lace trim', 'scalloped hem', 'pearl buttons', 'rosette at the waist'], shoes: 'strappy flats' },
-    { id: 'yellow-floral', season: 'spring', label: '티어드 원피스 · 버킷햇', tags: ['{c1} tiered dress', 'cap sleeves', '{c2} cotton bucket hat'], decor: ['white lace collar', 'daisy embroidery', 'ruffled hem', 'bow at the back'], shoes: 'mary janes' },
-    { id: 'sakura-chiffon', season: 'spring', label: '쉬폰 원피스', tags: ['sheer {c1} chiffon dress', 'layered skirt', 'cherry blossom hair ornament'], decor: ['petal-shaped hem', 'sheer puff sleeves', 'satin sash', 'pearl details'], shoes: 'ballet flats' },
-    { id: 'cardigan-floral', season: 'spring', label: '가디건 · 꽃무늬 원피스', tags: ['{c2} cardigan', '{c1} floral print dress', 'long dress'], decor: ['pearl buttons on the cardigan', 'embroidered pocket', 'lace hem', 'ribbon belt'], shoes: 'brown loafers' },
-    { id: 'blouse-flare', season: 'spring', label: '프릴 블라우스 · 플레어 치마', tags: ['{c2} frilled blouse', '{c1} flared skirt', 'hair ribbon'], decor: ['peter pan collar', 'pintuck pleats', 'lace cuffs', 'scalloped skirt hem'], shoes: 'white socks, mary janes' },
-    { id: 'lavender-vest', season: 'spring', label: '니트 조끼 · 미디 치마', tags: ['{c1} knit vest', '{c2} collared blouse', 'pleated midi skirt'], decor: ['cable knit pattern', 'embroidered flowers on the vest', 'ribbon tie collar', 'lace-edged collar'], shoes: 'loafers' },
-    { id: 'trench-spring', season: 'spring', label: '트렌치코트', tags: ['{c2} trench coat', 'belted coat', '{c1} dress underneath'], decor: ['belt tied in a bow', 'epaulettes', 'checkered lining', 'tortoiseshell buttons'], shoes: 'ankle boots' },
-    { id: 'denim-jacket', season: 'spring', label: '연청 데님 재킷 · 꽃무늬 원피스', tags: ['light denim jacket', '{c1} floral sundress'], decor: ['embroidered patches', 'rolled cuffs', 'daisy embroidery', 'pearl buttons'], shoes: '{c2} sneakers' },
-    { id: 'puff-jeans', season: 'spring', label: '퍼프 소매 블라우스 · 청바지', tags: ['{c1} puff-sleeve blouse', 'light wash jeans'], decor: ['smocked bodice', 'ribbon tie collar', 'lace cuffs', 'tiny flower buttons'], shoes: '{c2} ballet flats' },
-    { id: 'sailor-dress', season: 'spring', label: '세일러 칼라 원피스', ward: true, tags: ['{c1} sailor collar dress', '{c2} neckerchief'], decor: ['white piping', 'pleated hem', 'pearl buttons', 'bow at the back'], shoes: 'mary janes' },
-    { id: 'knit-set', season: 'spring', label: '크롭 가디건 · 니트 치마 세트', ward: true, tags: ['{c1} cropped cardigan', 'matching {c1} knit skirt', '{c2} camisole'], decor: ['pearl buttons on the cardigan', 'scalloped hem', 'cable knit pattern', 'ribbon belt'], shoes: 'loafers' },
-    { id: 'shirt-dress-spring', season: 'spring', label: '셔츠 원피스 · 벨트', ward: true, tags: ['{c1} button-up shirt dress', '{c2} belt'], decor: ['patch pockets', 'rolled sleeves', 'embroidered pocket', 'tortoiseshell buttons'], shoes: 'white sneakers' },
+    { id: 'rose-strapless', season: 'spring', sex: 'f', label: '티 드레스 · 리넨 모자', tags: ['{c1} tea dress', 'square neckline', 'short puff sleeves', 'wide-brimmed {c2} linen hat'], decor: ['lace trim', 'scalloped hem', 'pearl buttons', 'rosette at the waist'], shoes: 'strappy flats' },
+    { id: 'yellow-floral', season: 'spring', sex: 'f', label: '티어드 원피스 · 버킷햇', tags: ['{c1} tiered dress', 'cap sleeves', '{c2} cotton bucket hat'], decor: ['white lace collar', 'daisy embroidery', 'ruffled hem', 'bow at the back'], shoes: 'mary janes' },
+    { id: 'sakura-chiffon', season: 'spring', sex: 'f', label: '쉬폰 원피스', tags: ['sheer {c1} chiffon dress', 'layered skirt', 'cherry blossom hair ornament'], decor: ['petal-shaped hem', 'sheer puff sleeves', 'satin sash', 'pearl details'], shoes: 'ballet flats' },
+    { id: 'cardigan-floral', season: 'spring', sex: 'f', label: '가디건 · 꽃무늬 원피스', tags: ['{c2} cardigan', '{c1} floral print dress', 'long dress'], decor: ['pearl buttons on the cardigan', 'embroidered pocket', 'lace hem', 'ribbon belt'], shoes: 'brown loafers' },
+    { id: 'blouse-flare', season: 'spring', sex: 'f', label: '프릴 블라우스 · 플레어 치마', tags: ['{c2} frilled blouse', '{c1} flared skirt', 'hair ribbon'], decor: ['peter pan collar', 'pintuck pleats', 'lace cuffs', 'scalloped skirt hem'], shoes: 'white socks, mary janes' },
+    { id: 'lavender-vest', season: 'spring', sex: 'f', label: '니트 조끼 · 미디 치마', tags: ['{c1} knit vest', '{c2} collared blouse', 'pleated midi skirt'], decor: ['cable knit pattern', 'embroidered flowers on the vest', 'ribbon tie collar', 'lace-edged collar'], shoes: 'loafers' },
+    { id: 'trench-spring', season: 'spring', sex: 'f', label: '트렌치코트', tags: ['{c2} trench coat', 'belted coat', '{c1} dress underneath'], decor: ['belt tied in a bow', 'epaulettes', 'checkered lining', 'tortoiseshell buttons'], shoes: 'ankle boots' },
+    { id: 'denim-jacket', season: 'spring', sex: 'f', label: '연청 데님 재킷 · 꽃무늬 원피스', tags: ['light denim jacket', '{c1} floral sundress'], decor: ['embroidered patches', 'rolled cuffs', 'daisy embroidery', 'pearl buttons'], shoes: '{c2} sneakers' },
+    { id: 'puff-jeans', season: 'spring', sex: 'f', label: '퍼프 소매 블라우스 · 청바지', tags: ['{c1} puff-sleeve blouse', 'light wash jeans'], decor: ['smocked bodice', 'ribbon tie collar', 'lace cuffs', 'tiny flower buttons'], shoes: '{c2} ballet flats' },
+    { id: 'sailor-dress', season: 'spring', sex: 'f', label: '세일러 칼라 원피스', ward: true, tags: ['{c1} sailor collar dress', '{c2} neckerchief'], decor: ['white piping', 'pleated hem', 'pearl buttons', 'bow at the back'], shoes: 'mary janes' },
+    { id: 'knit-set', season: 'spring', sex: 'f', label: '크롭 가디건 · 니트 치마 세트', ward: true, tags: ['{c1} cropped cardigan', 'matching {c1} knit skirt', '{c2} camisole'], decor: ['pearl buttons on the cardigan', 'scalloped hem', 'cable knit pattern', 'ribbon belt'], shoes: 'loafers' },
+    { id: 'shirt-dress-spring', season: 'spring', sex: 'f', label: '셔츠 원피스 · 벨트', ward: true, tags: ['{c1} button-up shirt dress', '{c2} belt'], decor: ['patch pockets', 'rolled sleeves', 'embroidered pocket', 'tortoiseshell buttons'], shoes: 'white sneakers' },
     // 여름
-    { id: 'white-sundress', season: 'summer', label: '리넨 슬립 원피스 · 챙 넓은 모자', tags: ['{c1} linen slip dress', 'square neckline', 'wide-brimmed {c2} sun hat'], decor: ['eyelet lace', 'ribbon on the hat', 'smocked bodice', 'ruffled straps'], shoes: 'woven sandals' },
-    { id: 'blue-frill', season: 'summer', label: '스목 원피스', tags: ['{c1} smock dress', '{c2} frilled collar', 'short puff sleeves'], decor: ['white piping', 'button-down front', 'layered frills', 'bow at the chest'], shoes: 'white canvas shoes' },
-    { id: 'shirt-tie', season: 'summer', label: '반팔 블라우스 · 멜빵 치마', tags: ['{c2} short-sleeved blouse', 'ribbon bow tie', '{c1} suspender skirt'], decor: ['contrast collar', 'heart-shaped buttons', 'embroidered pocket emblem', 'sharp skirt pleats'], shoes: 'ankle socks, white sneakers' },
-    { id: 'stripe-open', season: 'summer', label: '줄무늬 보트넥 · 퀼로트', tags: ['{c1} and {c2} striped boat-neck top', 'white culottes', 'canvas bucket hat'], decor: ['rolled cuffs', 'frayed hem', 'shell necklace', 'anklet'], shoes: 'canvas slip-ons' },
-    { id: 'lime-camisole', season: 'summer', label: '홀터 · 반바지', tags: ['{c1} halter top', 'high-waisted {c2} shorts', 'woven sun visor'], decor: ['tie-back halter strap', 'woven belt', 'ribbon on the visor', 'cherry earrings'], shoes: 'sandals' },
-    { id: 'linen-shirtdress', season: 'summer', label: '리넨 셔츠 원피스', tags: ['{c1} linen shirt dress', 'rolled sleeves', 'thin belt'], decor: ['wooden buttons', 'patch pockets', 'rope belt', 'embroidered hem'], shoes: 'espadrilles' },
-    { id: 'swim-cover', season: 'summer', label: '수영복 · 비치는 셔츠', tags: ['{c1} one-piece swimsuit', 'sheer {c2} cover-up shirt', 'wide-brimmed sun hat'], decor: ['frilled swimsuit trim', 'bow on the hip', 'lace cover-up edge', 'ribbon on the hat'], noMotif: true, shoes: 'flip-flops' },
-    { id: 'tiered-beach', season: 'summer', label: '오프숄더 블라우스 · 티어드 스커트', tags: ['{c2} off-shoulder blouse', 'long {c1} tiered skirt', 'wide-brimmed sun hat'], decor: ['crochet trim', 'tassels', 'shell buttons', 'embroidered flowers'], shoes: 'sandals' },
-    { id: 'bikini-frill', season: 'summer', label: '프릴 비키니 · 사롱', tags: ['{c1} frilled bikini', '{c2} sarong'], decor: ['ruffle trim', 'bow ties at the hips', 'shell necklace', 'anklet'], shoes: 'flip-flops' },
-    { id: 'bikini-retro', season: 'summer', label: '레트로 하이웨이스트 비키니', tags: ['retro {c1} bikini top', 'high-waisted {c2} bikini bottoms'], decor: ['tie-front top', 'front buttons', 'scalloped edges', 'shell buttons'], shoes: 'sandals' },
-    { id: 'swim-skirted', season: 'summer', label: '치마 달린 수영복', tags: ['{c1} skirted swimsuit', '{c2} waistband'], decor: ['tiered ruffle skirt', 'sailor collar', 'bow at the chest', 'white piping'], shoes: 'jelly sandals' },
-    { id: 'swim-halter', season: 'summer', label: '홀터넥 물방울 수영복', tags: ['{c1} halter swimsuit', '{c2} polka dot pattern'], decor: ['ring detail', 'tie-back halter strap', 'contrast binding', 'bow on the hip'], shoes: 'flip-flops' },
-    { id: 'romper', season: 'summer', label: '롬퍼', ward: true, tags: ['{c1} romper', '{c2} waist tie', 'puff sleeves'], decor: ['ruffled hem', 'shell buttons', 'woven belt', 'cherry earrings'], shoes: 'espadrilles' },
-    { id: 'maxi-dress', season: 'summer', label: '홀터 맥시 원피스', ward: true, tags: ['{c1} halter maxi dress', '{c2} sash'], decor: ['tassels', 'crochet trim', 'shell necklace', 'anklet'], shoes: 'flat sandals' },
-    { id: 'tee-skirt', season: 'summer', label: '크롭 티 · 데님 미니스커트', ward: true, tags: ['{c1} cropped t-shirt', 'light denim mini skirt', '{c2} canvas cap'], decor: ['rolled cuffs', 'frayed hem', 'braided bracelet', 'patch pockets'], shoes: 'high-top sneakers' },
-    { id: 'yukata-violet', season: 'summer', label: '나팔꽃 유카타', tags: ['{c2} yukata', '{c1} morning glory print', 'obi', 'kanzashi'], decor: ['large obi bow', 'obijime cord', 'tassel charm', 'round paper fan tucked in the obi'], noMotif: true, shoes: 'geta' },
-    { id: 'yukata-navy', season: 'summer', label: '금붕어 무늬 유카타', tags: ['{c1} yukata', 'goldfish print', '{c2} obi'], decor: ['obi bow', 'goldfish charm', 'white wave pattern', 'tassel charm'], noMotif: true, shoes: 'geta' },
+    { id: 'white-sundress', season: 'summer', sex: 'f', label: '리넨 슬립 원피스 · 챙 넓은 모자', tags: ['{c1} linen slip dress', 'square neckline', 'wide-brimmed {c2} sun hat'], decor: ['eyelet lace', 'ribbon on the hat', 'smocked bodice', 'ruffled straps'], shoes: 'woven sandals' },
+    { id: 'blue-frill', season: 'summer', sex: 'f', label: '스목 원피스', tags: ['{c1} smock dress', '{c2} frilled collar', 'short puff sleeves'], decor: ['white piping', 'button-down front', 'layered frills', 'bow at the chest'], shoes: 'white canvas shoes' },
+    { id: 'shirt-tie', season: 'summer', sex: 'f', label: '반팔 블라우스 · 멜빵 치마', tags: ['{c2} short-sleeved blouse', 'ribbon bow tie', '{c1} suspender skirt'], decor: ['contrast collar', 'heart-shaped buttons', 'embroidered pocket emblem', 'sharp skirt pleats'], shoes: 'ankle socks, white sneakers' },
+    { id: 'stripe-open', season: 'summer', sex: 'f', label: '줄무늬 보트넥 · 퀼로트', tags: ['{c1} and {c2} striped boat-neck top', 'white culottes', 'canvas bucket hat'], decor: ['rolled cuffs', 'frayed hem', 'shell necklace', 'anklet'], shoes: 'canvas slip-ons' },
+    { id: 'lime-camisole', season: 'summer', sex: 'f', label: '홀터 · 반바지', tags: ['{c1} halter top', 'high-waisted {c2} shorts', 'woven sun visor'], decor: ['tie-back halter strap', 'woven belt', 'ribbon on the visor', 'cherry earrings'], shoes: 'sandals' },
+    { id: 'linen-shirtdress', season: 'summer', sex: 'f', label: '리넨 셔츠 원피스', tags: ['{c1} linen shirt dress', 'rolled sleeves', 'thin belt'], decor: ['wooden buttons', 'patch pockets', 'rope belt', 'embroidered hem'], shoes: 'espadrilles' },
+    { id: 'swim-cover', season: 'summer', sex: 'f', label: '수영복 · 비치는 셔츠', tags: ['{c1} one-piece swimsuit', 'sheer {c2} cover-up shirt', 'wide-brimmed sun hat'], decor: ['frilled swimsuit trim', 'bow on the hip', 'lace cover-up edge', 'ribbon on the hat'], noMotif: true, shoes: 'flip-flops' },
+    { id: 'tiered-beach', season: 'summer', sex: 'f', label: '오프숄더 블라우스 · 티어드 스커트', tags: ['{c2} off-shoulder blouse', 'long {c1} tiered skirt', 'wide-brimmed sun hat'], decor: ['crochet trim', 'tassels', 'shell buttons', 'embroidered flowers'], shoes: 'sandals' },
+    { id: 'bikini-frill', season: 'summer', sex: 'f', label: '프릴 비키니 · 사롱', tags: ['{c1} frilled bikini', '{c2} sarong'], decor: ['ruffle trim', 'bow ties at the hips', 'shell necklace', 'anklet'], shoes: 'flip-flops' },
+    { id: 'bikini-retro', season: 'summer', sex: 'f', label: '레트로 하이웨이스트 비키니', tags: ['retro {c1} bikini top', 'high-waisted {c2} bikini bottoms'], decor: ['tie-front top', 'front buttons', 'scalloped edges', 'shell buttons'], shoes: 'sandals' },
+    { id: 'swim-skirted', season: 'summer', sex: 'f', label: '치마 달린 수영복', tags: ['{c1} skirted swimsuit', '{c2} waistband'], decor: ['tiered ruffle skirt', 'sailor collar', 'bow at the chest', 'white piping'], shoes: 'jelly sandals' },
+    { id: 'swim-halter', season: 'summer', sex: 'f', label: '홀터넥 물방울 수영복', tags: ['{c1} halter swimsuit', '{c2} polka dot pattern'], decor: ['ring detail', 'tie-back halter strap', 'contrast binding', 'bow on the hip'], shoes: 'flip-flops' },
+    { id: 'romper', season: 'summer', sex: 'f', label: '롬퍼', ward: true, tags: ['{c1} romper', '{c2} waist tie', 'puff sleeves'], decor: ['ruffled hem', 'shell buttons', 'woven belt', 'cherry earrings'], shoes: 'espadrilles' },
+    { id: 'maxi-dress', season: 'summer', sex: 'f', label: '홀터 맥시 원피스', ward: true, tags: ['{c1} halter maxi dress', '{c2} sash'], decor: ['tassels', 'crochet trim', 'shell necklace', 'anklet'], shoes: 'flat sandals' },
+    { id: 'tee-skirt', season: 'summer', sex: 'f', label: '크롭 티 · 데님 미니스커트', ward: true, tags: ['{c1} cropped t-shirt', 'light denim mini skirt', '{c2} canvas cap'], decor: ['rolled cuffs', 'frayed hem', 'braided bracelet', 'patch pockets'], shoes: 'high-top sneakers' },
+    { id: 'yukata-violet', season: 'summer', sex: 'f', label: '나팔꽃 유카타', tags: ['{c2} yukata', '{c1} morning glory print', 'obi', 'kanzashi'], decor: ['large obi bow', 'obijime cord', 'tassel charm', 'round paper fan tucked in the obi'], noMotif: true, shoes: 'geta' },
+    { id: 'yukata-navy', season: 'summer', sex: 'f', label: '금붕어 무늬 유카타', tags: ['{c1} yukata', 'goldfish print', '{c2} obi'], decor: ['obi bow', 'goldfish charm', 'white wave pattern', 'tassel charm'], noMotif: true, shoes: 'geta' },
     { id: 'frog-raincoat', season: 'summer', label: '개구리 얼굴 비옷 망토', kinds: ['rain'], tags: ['green rain poncho', 'frog face on the hood', 'short rain poncho', 'white t-shirt', 'denim shorts'], decor: ['frog-shaped pocket', 'lily pad patch', 'webbed-foot toggles', 'water drop print'], noMotif: true, shoes: 'green rubber boots' },
     { id: 'duck-raincoat', season: 'summer', label: '노란 오리 우비', kinds: ['rain'], tags: ['yellow duck raincoat', 'duck bill on the hood', 'glossy vinyl', 'oversized', 'white shorts'], decor: ['duck feet print', 'orange piping', 'tail flap on the back', 'bubble print'], noMotif: true, shoes: 'white rubber boots' },
     { id: 'yellow-slicker', season: 'summer', label: '노란 고무 비옷 · 비 모자', kinds: ['rain'], tags: ['yellow rain slicker', 'wide-brimmed rain hat', 'navy shorts'], decor: ['toggle clasps', 'reflective strip', 'big patch pockets', 'corduroy collar'], noMotif: true, shoes: 'navy rubber boots' },
-    { id: 'clear-raincoat', season: 'summer', label: '투명 비옷 · 꽃무늬 원피스', kinds: ['rain'], tags: ['clear vinyl raincoat', '{c1} floral dress underneath'], decor: ['snap buttons', 'colored binding', 'drawstring hood', 'pastel trim'], noMotif: true, shoes: '{c2} rubber boots' },
-    { id: 'dot-raincoat', season: 'summer', label: '물방울 비옷', kinds: ['rain'], tags: ['{c1} polka dot raincoat', '{c2} buttons', 'belted raincoat'], decor: ['white collar', 'bow belt', 'scalloped hood edge', 'cherry print lining'], noMotif: true, shoes: '{c2} rubber boots' },
-    { id: 'cat-raincoat', season: 'summer', label: '고양이 귀 비옷', kinds: ['rain'], tags: ['pink raincoat', 'cat ears on the hood', 'knee-length raincoat'], decor: ['paw print pocket', 'whisker embroidery', 'tail-shaped zipper pull', 'bell charm'], noMotif: true, shoes: 'pink rubber boots' },
+    { id: 'clear-raincoat', season: 'summer', sex: 'f', label: '투명 비옷 · 꽃무늬 원피스', kinds: ['rain'], tags: ['clear vinyl raincoat', '{c1} floral dress underneath'], decor: ['snap buttons', 'colored binding', 'drawstring hood', 'pastel trim'], noMotif: true, shoes: '{c2} rubber boots' },
+    { id: 'dot-raincoat', season: 'summer', sex: 'f', label: '물방울 비옷', kinds: ['rain'], tags: ['{c1} polka dot raincoat', '{c2} buttons', 'belted raincoat'], decor: ['white collar', 'bow belt', 'scalloped hood edge', 'cherry print lining'], noMotif: true, shoes: '{c2} rubber boots' },
+    { id: 'cat-raincoat', season: 'summer', sex: 'f', label: '고양이 귀 비옷', kinds: ['rain'], tags: ['pink raincoat', 'cat ears on the hood', 'knee-length raincoat'], decor: ['paw print pocket', 'whisker embroidery', 'tail-shaped zipper pull', 'bell charm'], noMotif: true, shoes: 'pink rubber boots' },
     // 가을
-    { id: 'knit-plaid', season: 'autumn', label: '니트 · 체크 치마 · 베레모', tags: ['oversized {c2} sweater', '{c1} plaid skirt', 'beret'], decor: ['elbow patches', 'leather buttons', 'fringe hem on the skirt', 'acorn brooch'], shoes: 'knee socks, brown boots' },
-    { id: 'camel-coat', season: 'autumn', label: '코트 · 터틀넥', tags: ['{c1} coat', '{c2} turtleneck sweater', 'long pleated skirt'], decor: ['double-breasted buttons', 'leaf brooch', 'fur-lined collar', 'belted waist'], shoes: 'ankle boots' },
-    { id: 'corduroy-dress', season: 'autumn', label: '코듀로이 원피스', tags: ['{c1} corduroy dress', 'long sleeves', '{c2} collar'], decor: ['lace collar trim', 'gold buttons', 'embroidered mushrooms', 'pleated hem'], shoes: 'mary janes' },
-    { id: 'mustard-cardigan', season: 'autumn', label: '가디건 · 코듀로이 바지', tags: ['{c1} cardigan', '{c2} blouse', 'corduroy pants'], decor: ['knit leaf pattern', 'wooden toggle buttons', 'ribbon at the collar', 'patch pockets'], shoes: 'loafers' },
-    { id: 'tartan-cape', season: 'autumn', label: '타탄 망토 · 니트 베레모', tags: ['{c1} tartan cape', '{c2} turtleneck', 'wool skirt', 'knit beret'], decor: ['fringe trim', 'pom-pom ties', 'leather clasp', 'embroidered border'], shoes: 'lace-up boots' },
-    { id: 'mushroom-cape', season: 'autumn', label: '갈색 후드 망토 · 버섯 무늬 원피스', tags: ['brown hooded cape', 'mushroom print dress'], decor: ['acorn buttons', 'leaf-shaped collar', 'red polka dots', 'fern embroidery'], shoes: 'brown boots' },
-    { id: 'trench-autumn', season: 'autumn', label: '트렌치코트 · 니트', tags: ['{c1} trench coat', 'belted trench', '{c2} knit sweater underneath', 'pleated midi skirt'], decor: ['storm flap', 'buckled cuffs', 'plaid lining', 'tortoiseshell buttons'], shoes: 'loafers' },
-    { id: 'suede-jacket', season: 'autumn', label: '스웨이드 재킷 · 니트 원피스', tags: ['{c1} suede jacket', '{c2} knit dress'], decor: ['fringe trim', 'brass buttons', 'patch pockets', 'leather belt'], shoes: 'ankle boots' },
-    { id: 'ribbed-dress', season: 'autumn', label: '골지 니트 원피스 · 어깨에 건 가디건', tags: ['{c1} ribbed knit dress', '{c2} cardigan over the shoulders'], decor: ['pearl buttons', 'cable knit border', 'ribbon at the collar', 'knit leaf pattern'], shoes: 'mary janes' },
+    { id: 'knit-plaid', season: 'autumn', sex: 'f', label: '니트 · 체크 치마 · 베레모', tags: ['oversized {c2} sweater', '{c1} plaid skirt', 'beret'], decor: ['elbow patches', 'leather buttons', 'fringe hem on the skirt', 'acorn brooch'], shoes: 'knee socks, brown boots' },
+    { id: 'camel-coat', season: 'autumn', sex: 'f', label: '코트 · 터틀넥', tags: ['{c1} coat', '{c2} turtleneck sweater', 'long pleated skirt'], decor: ['double-breasted buttons', 'leaf brooch', 'fur-lined collar', 'belted waist'], shoes: 'ankle boots' },
+    { id: 'corduroy-dress', season: 'autumn', sex: 'f', label: '코듀로이 원피스', tags: ['{c1} corduroy dress', 'long sleeves', '{c2} collar'], decor: ['lace collar trim', 'gold buttons', 'embroidered mushrooms', 'pleated hem'], shoes: 'mary janes' },
+    { id: 'mustard-cardigan', season: 'autumn', sex: 'f', label: '가디건 · 코듀로이 바지', tags: ['{c1} cardigan', '{c2} blouse', 'corduroy pants'], decor: ['knit leaf pattern', 'wooden toggle buttons', 'ribbon at the collar', 'patch pockets'], shoes: 'loafers' },
+    { id: 'tartan-cape', season: 'autumn', sex: 'f', label: '타탄 망토 · 니트 베레모', tags: ['{c1} tartan cape', '{c2} turtleneck', 'wool skirt', 'knit beret'], decor: ['fringe trim', 'pom-pom ties', 'leather clasp', 'embroidered border'], shoes: 'lace-up boots' },
+    { id: 'mushroom-cape', season: 'autumn', sex: 'f', label: '갈색 후드 망토 · 버섯 무늬 원피스', tags: ['brown hooded cape', 'mushroom print dress'], decor: ['acorn buttons', 'leaf-shaped collar', 'red polka dots', 'fern embroidery'], shoes: 'brown boots' },
+    { id: 'trench-autumn', season: 'autumn', sex: 'f', label: '트렌치코트 · 니트', tags: ['{c1} trench coat', 'belted trench', '{c2} knit sweater underneath', 'pleated midi skirt'], decor: ['storm flap', 'buckled cuffs', 'plaid lining', 'tortoiseshell buttons'], shoes: 'loafers' },
+    { id: 'suede-jacket', season: 'autumn', sex: 'f', label: '스웨이드 재킷 · 니트 원피스', tags: ['{c1} suede jacket', '{c2} knit dress'], decor: ['fringe trim', 'brass buttons', 'patch pockets', 'leather belt'], shoes: 'ankle boots' },
+    { id: 'ribbed-dress', season: 'autumn', sex: 'f', label: '골지 니트 원피스 · 어깨에 건 가디건', tags: ['{c1} ribbed knit dress', '{c2} cardigan over the shoulders'], decor: ['pearl buttons', 'cable knit border', 'ribbon at the collar', 'knit leaf pattern'], shoes: 'mary janes' },
     { id: 'sweater-vest', season: 'autumn', label: '칼라 셔츠 · 스웨터 조끼 · 와이드 바지', tags: ['{c2} collared shirt', '{c1} sweater vest', 'wide trousers'], decor: ['argyle pattern', 'contrast collar', 'elbow patches', 'leather buttons'], shoes: 'loafers' },
-    { id: 'tweed-blazer', season: 'autumn', label: '트위드 재킷 · 플리츠 치마', ward: true, tags: ['{c1} tweed blazer', '{c2} pleated skirt'], decor: ['gold buttons', 'fringe trim', 'leaf brooch', 'pocket flaps'], shoes: 'loafers' },
-    { id: 'turtleneck-maxi', season: 'autumn', label: '터틀넥 · 코듀로이 롱스커트', ward: true, tags: ['{c2} turtleneck', '{c1} corduroy maxi skirt'], decor: ['leather belt', 'acorn brooch', 'embroidered border', 'front buttons'], shoes: 'ankle boots' },
-    { id: 'leather-jacket', season: 'autumn', label: '라이더 재킷 · 미디 원피스', ward: true, tags: ['{c1} faux leather jacket', '{c2} midi dress'], decor: ['brass buttons', 'belted waist', 'lace hem', 'leaf brooch'], shoes: 'lace-up boots' },
+    { id: 'tweed-blazer', season: 'autumn', sex: 'f', label: '트위드 재킷 · 플리츠 치마', ward: true, tags: ['{c1} tweed blazer', '{c2} pleated skirt'], decor: ['gold buttons', 'fringe trim', 'leaf brooch', 'pocket flaps'], shoes: 'loafers' },
+    { id: 'turtleneck-maxi', season: 'autumn', sex: 'f', label: '터틀넥 · 코듀로이 롱스커트', ward: true, tags: ['{c2} turtleneck', '{c1} corduroy maxi skirt'], decor: ['leather belt', 'acorn brooch', 'embroidered border', 'front buttons'], shoes: 'ankle boots' },
+    { id: 'leather-jacket', season: 'autumn', sex: 'f', label: '라이더 재킷 · 미디 원피스', ward: true, tags: ['{c1} faux leather jacket', '{c2} midi dress'], decor: ['brass buttons', 'belted waist', 'lace hem', 'leaf brooch'], shoes: 'lace-up boots' },
     // 겨울
-    { id: 'poncho-earflap', season: 'winter', label: '니트 케이프 · 방울 모자', tags: ['{c2} cable-knit cape', '{c1} pom-pom knit hat', '{c1} mittens', 'wool tights'], decor: ['pom-pom trim', 'nordic pattern', 'tassels on the hat', 'embroidered snowflakes'], shoes: 'shearling boots' },
+    { id: 'poncho-earflap', season: 'winter', sex: 'f', label: '니트 케이프 · 방울 모자', tags: ['{c2} cable-knit cape', '{c1} pom-pom knit hat', '{c1} mittens', 'wool tights'], decor: ['pom-pom trim', 'nordic pattern', 'tassels on the hat', 'embroidered snowflakes'], shoes: 'shearling boots' },
     { id: 'duffle', season: 'winter', label: '더플코트 · 목도리', tags: ['{c1} duffle coat', 'toggle buttons', '{c2} scarf', 'knit gloves'], decor: ['horn toggles', 'plaid lining', 'fur-trimmed hood', 'pocket flaps'], shoes: 'snow boots' },
-    { id: 'white-fur', season: 'winter', label: '털 트림 코트 · 방울 모자', tags: ['{c2} coat', 'fur-trimmed coat', 'pom-pom beanie', 'earmuffs'], decor: ['pearl buttons', 'satin bow', 'fluffy cuffs', 'silver embroidery'], shoes: 'white boots' },
-    { id: 'fair-isle', season: 'winter', label: '페어아일 니트 · 울 치마', tags: ['{c1} fair isle sweater', 'knit beanie', 'long {c2} wool skirt', 'mittens'], decor: ['reindeer pattern', 'pom-pom on the beanie', 'heart pattern', 'cable knit border'], shoes: 'brown boots' },
-    { id: 'red-coat', season: 'winter', label: '울 코트 · 털 깃', tags: ['{c1} wool coat', 'white fur collar', '{c2} tartan scarf', 'beret'], decor: ['gold buttons', 'holly brooch', 'velvet bow', 'white cuffs'], shoes: 'black boots' },
-    { id: 'skating', season: 'winter', label: '스케이트 차림', tags: ['{c2} turtleneck', 'short {c1} pleated skirt', 'thick tights', 'ear warmers', 'mittens'], decor: ['sparkly trim', 'snowflake embroidery', 'pom-pom laces', 'ribbon on the ear warmers'], shoes: 'ice skates' },
+    { id: 'white-fur', season: 'winter', sex: 'f', label: '털 트림 코트 · 방울 모자', tags: ['{c2} coat', 'fur-trimmed coat', 'pom-pom beanie', 'earmuffs'], decor: ['pearl buttons', 'satin bow', 'fluffy cuffs', 'silver embroidery'], shoes: 'white boots' },
+    { id: 'fair-isle', season: 'winter', sex: 'f', label: '페어아일 니트 · 울 치마', tags: ['{c1} fair isle sweater', 'knit beanie', 'long {c2} wool skirt', 'mittens'], decor: ['reindeer pattern', 'pom-pom on the beanie', 'heart pattern', 'cable knit border'], shoes: 'brown boots' },
+    { id: 'red-coat', season: 'winter', sex: 'f', label: '울 코트 · 털 깃', tags: ['{c1} wool coat', 'white fur collar', '{c2} tartan scarf', 'beret'], decor: ['gold buttons', 'holly brooch', 'velvet bow', 'white cuffs'], shoes: 'black boots' },
+    { id: 'skating', season: 'winter', sex: 'f', label: '스케이트 차림', tags: ['{c2} turtleneck', 'short {c1} pleated skirt', 'thick tights', 'ear warmers', 'mittens'], decor: ['sparkly trim', 'snowflake embroidery', 'pom-pom laces', 'ribbon on the ear warmers'], shoes: 'ice skates' },
     { id: 'cream-puffer', season: 'winter', label: '패딩 · 니트 목도리', tags: ['{c2} puffer jacket', 'chunky {c1} knit scarf', 'wide pants'], decor: ['quilted pattern', 'toggle drawstrings', 'knit pom-pom', 'fleece collar'], shoes: 'snow boots' },
-    { id: 'long-coat', season: 'winter', label: '롱 울 코트 · 터틀넥 원피스', tags: ['{c1} long wool coat', '{c2} turtleneck dress'], decor: ['double-breasted buttons', 'belted waist', 'fur-lined collar', 'velvet bow'], shoes: 'knee-high boots' },
-    { id: 'shearling', season: 'winter', label: '시어링 재킷 · 니트 원피스', tags: ['{c2} shearling jacket', '{c1} knit dress'], decor: ['fleece collar', 'horn toggles', 'patch pockets', 'knit pom-pom'], shoes: 'snow boots' },
-    { id: 'cape-coat', season: 'winter', label: '케이프 코트 · 털 머프', tags: ['{c1} cape coat', '{c2} fur muff', 'beret'], decor: ['gold buttons', 'satin bow', 'embroidered border', 'pom-pom ties'], shoes: 'lace-up boots' },
-    { id: 'parka', season: 'winter', label: '털 후드 파카 · 니트 레깅스', ward: true, tags: ['{c1} parka', 'fur-trimmed hood', '{c2} knit leggings'], decor: ['toggle drawstrings', 'big patch pockets', 'knit pom-pom', 'quilted pattern'], shoes: 'snow boots' },
-    { id: 'velvet-dress', season: 'winter', label: '벨벳 원피스 · 레이스 깃', ward: true, tags: ['{c1} velvet dress', '{c2} lace collar', 'long sleeves'], decor: ['velvet bow', 'pearl buttons', 'white cuffs', 'satin bow'], shoes: 'mary janes' },
-    { id: 'chunky-cardigan', season: 'winter', label: '두꺼운 니트 가디건 · 스웨터 원피스', ward: true, tags: ['{c2} chunky knit cardigan', '{c1} sweater dress'], decor: ['cable knit border', 'wooden toggle buttons', 'heart pattern', 'pom-pom trim'], shoes: 'shearling boots' }
+    { id: 'long-coat', season: 'winter', sex: 'f', label: '롱 울 코트 · 터틀넥 원피스', tags: ['{c1} long wool coat', '{c2} turtleneck dress'], decor: ['double-breasted buttons', 'belted waist', 'fur-lined collar', 'velvet bow'], shoes: 'knee-high boots' },
+    { id: 'shearling', season: 'winter', sex: 'f', label: '시어링 재킷 · 니트 원피스', tags: ['{c2} shearling jacket', '{c1} knit dress'], decor: ['fleece collar', 'horn toggles', 'patch pockets', 'knit pom-pom'], shoes: 'snow boots' },
+    { id: 'cape-coat', season: 'winter', sex: 'f', label: '케이프 코트 · 털 머프', tags: ['{c1} cape coat', '{c2} fur muff', 'beret'], decor: ['gold buttons', 'satin bow', 'embroidered border', 'pom-pom ties'], shoes: 'lace-up boots' },
+    { id: 'parka', season: 'winter', sex: 'f', label: '털 후드 파카 · 니트 레깅스', ward: true, tags: ['{c1} parka', 'fur-trimmed hood', '{c2} knit leggings'], decor: ['toggle drawstrings', 'big patch pockets', 'knit pom-pom', 'quilted pattern'], shoes: 'snow boots' },
+    { id: 'velvet-dress', season: 'winter', sex: 'f', label: '벨벳 원피스 · 레이스 깃', ward: true, tags: ['{c1} velvet dress', '{c2} lace collar', 'long sleeves'], decor: ['velvet bow', 'pearl buttons', 'white cuffs', 'satin bow'], shoes: 'mary janes' },
+    { id: 'chunky-cardigan', season: 'winter', sex: 'f', label: '두꺼운 니트 가디건 · 스웨터 원피스', ward: true, tags: ['{c2} chunky knit cardigan', '{c1} sweater dress'], decor: ['cable knit border', 'wooden toggle buttons', 'heart pattern', 'pom-pom trim'], shoes: 'shearling boots' },
+    // 남성 · 공용(성별 표시 없음) — 성별을 남성 · 공용으로 고를 때 화보에 나온다
+    { id: 'm-sp-cardigan', season: 'spring', sex: 'm', label: '가디건 · 버튼다운 셔츠 · 면바지', tags: ['{c2} cardigan', '{c1} button-down shirt', 'chino pants'], decor: ['elbow patches', 'leather buttons', 'rolled cuffs'], noMotif: true, shoes: 'loafers' },
+    { id: 'm-sp-vest', season: 'spring', sex: 'm', label: '니트 조끼 · 셔츠 · 슬랙스', tags: ['{c1} knit vest', '{c2} collared shirt', 'pleated slacks'], decor: ['cable knit pattern', 'rolled sleeves', 'tie clip'], noMotif: true, shoes: 'loafers' },
+    { id: 'sp-trench-u', season: 'spring', label: '트렌치코트 · 크루넥 니트 · 슬랙스', tags: ['{c2} trench coat', '{c1} crew-neck sweater', 'slim trousers'], decor: ['storm flap', 'epaulettes', 'checkered lining'], noMotif: true, shoes: 'leather loafers' },
+    { id: 'sp-denim-u', season: 'spring', label: '데님 재킷 · 티셔츠 · 면바지', tags: ['light denim jacket', '{c1} t-shirt', '{c2} chino pants'], decor: ['embroidered patches', 'rolled cuffs', 'brass buttons'], noMotif: true, shoes: 'white sneakers' },
+    { id: 'm-su-linen', season: 'summer', sex: 'm', label: '리넨 셔츠 · 반바지', tags: ['{c1} linen shirt', '{c2} shorts'], decor: ['rolled sleeves', 'shell buttons', 'woven belt'], noMotif: true, shoes: 'espadrilles' },
+    { id: 'su-camp-u', season: 'summer', label: '오픈칼라 셔츠 · 리넨 바지 · 밀짚모자', tags: ['{c1} open-collar shirt', '{c2} linen trousers', 'straw hat'], decor: ['wave pattern trim', 'wooden buttons', 'rope belt'], noMotif: true, shoes: 'leather sandals' },
+    { id: 'su-tee-u', season: 'summer', label: '티셔츠 · 카고 반바지 · 버킷햇', tags: ['{c1} t-shirt', '{c2} cargo shorts', 'canvas bucket hat'], decor: ['patch pockets', 'frayed hem', 'braided bracelet'], noMotif: true, shoes: 'canvas sneakers' },
+    { id: 'm-su-trunks', season: 'summer', sex: 'm', label: '수영 반바지 · 반팔 셔츠', tags: ['{c1} swim trunks', 'open {c2} short-sleeved shirt'], decor: ['wave pattern trim', 'shell necklace', 'drawstring waist'], noMotif: true, shoes: 'flip-flops' },
+    { id: 'su-rash-u', season: 'summer', label: '래시가드 · 보드 반바지', tags: ['{c1} rash guard', '{c2} board shorts'], decor: ['contrast binding', 'reflective piping', 'drawstring waist'], noMotif: true, shoes: 'flip-flops' },
+    { id: 'su-jinbei-u', season: 'summer', label: '진베이', tags: ['{c1} jinbei', '{c2} ties at the front'], decor: ['white wave pattern', 'tassel charm', 'contrast binding'], noMotif: true, shoes: 'geta' },
+    { id: 'm-su-yukata', season: 'summer', sex: 'm', label: '남자 유카타 · 가쿠오비', tags: ['{c1} yukata', '{c2} kaku obi'], decor: ['white wave pattern', 'tassel charm', 'round paper fan tucked in the obi'], noMotif: true, shoes: 'geta' },
+    { id: 'm-au-coat', season: 'autumn', sex: 'm', label: '울 오버코트 · 터틀넥 · 울 바지', tags: ['{c1} wool overcoat', '{c2} turtleneck sweater', 'wool trousers'], decor: ['double-breasted buttons', 'plaid lining', 'pocket flaps'], noMotif: true, shoes: 'leather oxfords' },
+    { id: 'm-au-shawl', season: 'autumn', sex: 'm', label: '숄칼라 가디건 · 플란넬 셔츠', tags: ['{c1} shawl-collar cardigan', '{c2} flannel shirt', 'corduroy pants'], decor: ['leather buttons', 'elbow patches', 'knit leaf pattern'], noMotif: true, shoes: 'suede chukka boots' },
+    { id: 'au-suede-u', season: 'autumn', label: '스웨이드 재킷 · 후드티 · 청바지', tags: ['{c1} suede jacket', '{c2} hoodie', 'dark jeans'], decor: ['brass buttons', 'leather belt', 'embroidered pocket'], noMotif: true, shoes: 'lace-up boots' },
+    { id: 'au-flannel-u', season: 'autumn', label: '체크 셔츠 · 헨리넥 · 청바지', tags: ['{c1} plaid flannel shirt', '{c2} henley shirt underneath', 'straight jeans'], decor: ['rolled sleeves', 'wooden buttons', 'leather belt'], noMotif: true, shoes: 'work boots' },
+    { id: 'm-wi-peacoat', season: 'winter', sex: 'm', label: '피코트 · 니트 목도리', tags: ['{c1} pea coat', '{c2} knit scarf', 'wool trousers'], decor: ['brass buttons', 'plaid lining', 'cable knit border'], noMotif: true, shoes: 'leather boots' },
+    { id: 'm-wi-chester', season: 'winter', sex: 'm', label: '롱 체스터 코트 · 케이블 니트', tags: ['{c1} long chesterfield coat', '{c2} cable-knit sweater', 'slacks'], decor: ['double-breasted buttons', 'plaid lining', 'cable knit pattern'], noMotif: true, shoes: 'leather oxfords' },
+    { id: 'm-wi-shearling', season: 'winter', sex: 'm', label: '시어링 칼라 재킷 · 터틀넥 · 청바지', tags: ['{c1} shearling-collar jacket', '{c2} turtleneck', 'dark jeans'], decor: ['leather buttons', 'fleece collar', 'quilted pattern'], noMotif: true, shoes: 'leather boots' },
+    { id: 'wi-nordic-u', season: 'winter', label: '노르딕 니트 · 비니 · 코듀로이 바지', tags: ['{c1} nordic sweater', '{c2} knit beanie', 'corduroy pants'], decor: ['snowflake pattern', 'pom-pom on the beanie', 'reindeer pattern'], noMotif: true, shoes: 'duck boots' }
   ],
 
   // ── 옷장: 조각을 조합해서 옷만 뽑는다 ──
@@ -913,7 +934,7 @@ const PERENNIAL = {
         { id: 'petal', label: '떨어지는 꽃잎 받기', pose: 'stand', tags: ['catching falling petals', 'palms up'], face: [] }
       ],
       props: ['rose', 'flower-basket', 'parasol', 'book', 'watering-can', 'piano', 'rose-bouquet', 'lilac-bouquet'],
-      outfits: ['rose-strapless', 'sakura-chiffon', 'blouse-flare', 'cardigan-floral'],
+      outfits: ['rose-strapless', 'sakura-chiffon', 'blouse-flare', 'cardigan-floral', 'm-sp-cardigan', 'm-sp-vest', 'sp-trench-u', 'sp-denim-u'],
       shots: ['portrait', 'side', 'upper', 'cowboy', 'full', 'foreground'],
       tones: ['airy', 'film', 'dreamy', 'watercolor']
     },
@@ -934,7 +955,7 @@ const PERENNIAL = {
         { id: 'spin', label: '들꽃 한 줌 꺾기', pose: 'stand', tags: ['picking wildflowers', 'small bunch in one hand'], face: [] }
       ],
       props: ['flower-basket', 'picnic', 'daisy-chain', 'kite', 'rabbit', 'bubbles', 'book', 'piano', 'wild-bouquet'],
-      outfits: ['yellow-floral', 'rose-strapless', 'blouse-flare', 'lavender-vest', 'puff-jeans'],
+      outfits: ['yellow-floral', 'rose-strapless', 'blouse-flare', 'lavender-vest', 'puff-jeans', 'm-sp-cardigan', 'm-sp-vest', 'sp-trench-u', 'sp-denim-u'],
       shots: ['full', 'low', 'top', 'cowboy', 'portrait'],
       tones: ['airy', 'vivid', 'watercolor', 'anime']
     },
@@ -955,7 +976,7 @@ const PERENNIAL = {
         { id: 'wind', label: '손바닥 꽃잎을 후 불기', pose: 'stand', tags: ['blowing petals off the palm'], face: [] }
       ],
       props: ['cherry-branch', 'picnic', 'book', 'camera', 'bubbles'],
-      outfits: ['sakura-chiffon', 'cardigan-floral', 'trench-spring', 'lavender-vest', 'denim-jacket'],
+      outfits: ['sakura-chiffon', 'cardigan-floral', 'trench-spring', 'lavender-vest', 'denim-jacket', 'm-sp-cardigan', 'm-sp-vest', 'sp-trench-u', 'sp-denim-u'],
       shots: ['portrait', 'upper', 'cowboy', 'full', 'low', 'foreground'],
       tones: ['airy', 'dreamy', 'film', 'watercolor']
     },
@@ -975,7 +996,7 @@ const PERENNIAL = {
         { id: 'stand', label: '튤립 한 송이를 두 손으로 감싸기', pose: 'stand', tags: ['standing among the tulips', 'cupping a tulip bloom in both hands'], face: ['eye contact'] }
       ],
       props: ['flower-basket', 'watering-can', 'bubbles', 'camera', 'parasol', 'tulip-bouquet'],
-      outfits: ['blouse-flare', 'yellow-floral', 'trench-spring', 'lavender-vest', 'denim-jacket', 'puff-jeans'],
+      outfits: ['blouse-flare', 'yellow-floral', 'trench-spring', 'lavender-vest', 'denim-jacket', 'puff-jeans', 'm-sp-cardigan', 'm-sp-vest', 'sp-trench-u', 'sp-denim-u'],
       shots: ['full', 'cowboy', 'above', 'foreground', 'rear'],
       tones: ['vivid', 'airy', 'film', 'anime']
     },
@@ -995,7 +1016,7 @@ const PERENNIAL = {
         { id: 'sea', label: '유채 한 가지 꺾어 들고 바다 보기', pose: 'stand', tags: ['plucking a canola sprig', 'looking toward the sea'], face: [] }
       ],
       props: ['kite', 'picnic', 'bubbles', 'daisy-chain', 'camera', 'canola-bunch', 'cherry-branch'],
-      outfits: ['yellow-floral', 'rose-strapless', 'trench-spring', 'blouse-flare', 'denim-jacket', 'puff-jeans'],
+      outfits: ['yellow-floral', 'rose-strapless', 'trench-spring', 'blouse-flare', 'denim-jacket', 'puff-jeans', 'm-sp-cardigan', 'm-sp-vest', 'sp-trench-u', 'sp-denim-u'],
       shots: ['full', 'low', 'cowboy', 'rear', 'foreground'],
       tones: ['vivid', 'airy', 'anime', 'film']
     },
@@ -1015,7 +1036,7 @@ const PERENNIAL = {
         { id: 'lie', label: '누워서 클로버 잎을 하늘에 비추기', pose: 'lie', tags: ['lying in the clover', 'holding a clover leaf up to the sky'], face: [] }
       ],
       props: ['daisy-chain', 'rabbit', 'picnic', 'book', 'bubbles', 'wild-bouquet'],
-      outfits: ['blouse-flare', 'cardigan-floral', 'lavender-vest', 'yellow-floral', 'denim-jacket', 'puff-jeans'],
+      outfits: ['blouse-flare', 'cardigan-floral', 'lavender-vest', 'yellow-floral', 'denim-jacket', 'puff-jeans', 'm-sp-cardigan', 'm-sp-vest', 'sp-trench-u', 'sp-denim-u'],
       shots: ['full', 'above', 'top', 'cowboy', 'fullside'],
       tones: ['airy', 'watercolor', 'film', 'dreamy']
     },
@@ -1036,7 +1057,7 @@ const PERENNIAL = {
         { id: 'arch', label: '늘어진 가지 아래 지나가기', pose: 'walk', tags: ['ducking under an arching forsythia branch', 'hand lifting it aside'], face: [] }
       ],
       props: ['forsythia-branch', 'picnic', 'bubbles', 'camera', 'book'],
-      outfits: ['cardigan-floral', 'blouse-flare', 'lavender-vest', 'trench-spring', 'denim-jacket', 'puff-jeans', 'sakura-chiffon', 'yellow-floral', 'rose-strapless'],
+      outfits: ['cardigan-floral', 'blouse-flare', 'lavender-vest', 'trench-spring', 'denim-jacket', 'puff-jeans', 'sakura-chiffon', 'yellow-floral', 'rose-strapless', 'm-sp-cardigan', 'm-sp-vest', 'sp-trench-u', 'sp-denim-u'],
       shots: ['full', 'cowboy', 'portrait', 'low', 'foreground', 'fullside'],
       tones: ['vivid', 'airy', 'film', 'anime']
     },
@@ -1056,7 +1077,7 @@ const PERENNIAL = {
         { id: 'steps', label: '꽃가지 짚으며 계단 오르기', pose: 'walk', tags: ['climbing the rocky steps', 'hand on a flowering branch'], face: [] }
       ],
       props: ['azalea-branch', 'camera', 'book'],
-      outfits: ['cardigan-floral', 'blouse-flare', 'lavender-vest', 'trench-spring', 'denim-jacket', 'puff-jeans', 'sakura-chiffon', 'yellow-floral', 'rose-strapless'],
+      outfits: ['cardigan-floral', 'blouse-flare', 'lavender-vest', 'trench-spring', 'denim-jacket', 'puff-jeans', 'sakura-chiffon', 'yellow-floral', 'rose-strapless', 'm-sp-cardigan', 'm-sp-vest', 'sp-trench-u', 'sp-denim-u'],
       shots: ['full', 'wide', 'low', 'cowboy', 'rear', 'foreground'],
       tones: ['vivid', 'film', 'watercolor', 'muted']
     },
@@ -1076,7 +1097,7 @@ const PERENNIAL = {
         { id: 'sky', label: '꽃잎을 하늘에 비춰 보기', pose: 'stand', tags: ['holding a magnolia petal up against the sky'], face: [] }
       ],
       props: ['magnolia-branch', 'book', 'camera'],
-      outfits: ['cardigan-floral', 'blouse-flare', 'lavender-vest', 'trench-spring', 'denim-jacket', 'puff-jeans', 'sakura-chiffon', 'yellow-floral', 'rose-strapless'],
+      outfits: ['cardigan-floral', 'blouse-flare', 'lavender-vest', 'trench-spring', 'denim-jacket', 'puff-jeans', 'sakura-chiffon', 'yellow-floral', 'rose-strapless', 'm-sp-cardigan', 'm-sp-vest', 'sp-trench-u', 'sp-denim-u'],
       shots: ['portrait', 'upper', 'low', 'cowboy', 'side', 'foreground'],
       tones: ['airy', 'dreamy', 'film', 'watercolor']
     },
@@ -1096,7 +1117,7 @@ const PERENNIAL = {
         { id: 'face', label: '꽃송이에 얼굴 기울이기', pose: 'stand', tags: ['tilting the face into the hanging flowers'], face: ['eyes closed'] }
       ],
       props: ['wisteria-cluster', 'lilac-bouquet', 'book', 'parasol', 'camera'],
-      outfits: ['cardigan-floral', 'blouse-flare', 'lavender-vest', 'trench-spring', 'denim-jacket', 'puff-jeans', 'sakura-chiffon', 'yellow-floral', 'rose-strapless'],
+      outfits: ['cardigan-floral', 'blouse-flare', 'lavender-vest', 'trench-spring', 'denim-jacket', 'puff-jeans', 'sakura-chiffon', 'yellow-floral', 'rose-strapless', 'm-sp-cardigan', 'm-sp-vest', 'sp-trench-u', 'sp-denim-u'],
       shots: ['portrait', 'cowboy', 'full', 'rear', 'foreground', 'side'],
       tones: ['dreamy', 'airy', 'watercolor', 'film']
     },
@@ -1118,7 +1139,7 @@ const PERENNIAL = {
         { id: 'away', label: '해바라기 줄기에 뺨 기대기', pose: 'stand', tags: ['cheek resting against a sunflower stalk'], face: [] }
       ],
       props: ['sunflowers', 'pinwheel', 'camera', 'ramune', 'bubbles'],
-      outfits: ['white-sundress', 'blue-frill', 'lime-camisole', 'linen-shirtdress'],
+      outfits: ['white-sundress', 'blue-frill', 'lime-camisole', 'linen-shirtdress', 'm-su-linen', 'su-camp-u', 'su-tee-u'],
       shots: ['side', 'portrait', 'cowboy', 'low', 'foreground'],
       tones: ['vivid', 'anime', 'film', 'golden']
     },
@@ -1139,7 +1160,7 @@ const PERENNIAL = {
         { id: 'kneel', label: '무릎 꿇고 장지문 밀어 열기', pose: 'sit', shoes: '', tags: ['kneeling on the floor', 'sliding a paper door open', 'barefoot'], face: ['eye contact'] }
       ],
       props: ['watermelon', 'shaved-ice', 'ramune', 'book', 'pinwheel', 'ukulele'],
-      outfits: ['blue-frill', 'yukata-violet', 'white-sundress', 'linen-shirtdress'],
+      outfits: ['blue-frill', 'yukata-violet', 'white-sundress', 'linen-shirtdress', 'su-jinbei-u', 'm-su-yukata', 'm-su-linen', 'su-tee-u'],
       shots: ['fullside', 'side', 'cowboy', 'above', 'top', 'full'],
       tones: ['anime', 'film', 'vivid', 'airy']
     },
@@ -1159,7 +1180,7 @@ const PERENNIAL = {
         { id: 'splash', label: '발로 물 차기', pose: 'sit', shoes: '', tags: ['kicking water', 'splashing', 'water droplets', 'barefoot'], face: [] }
       ],
       props: ['float', 'water-gun', 'ramune', 'shaved-ice'],
-      outfits: ['stripe-open', 'swim-cover', 'white-sundress', 'lime-camisole', 'bikini-frill', 'bikini-retro', 'swim-skirted', 'swim-halter'],
+      outfits: ['stripe-open', 'swim-cover', 'white-sundress', 'lime-camisole', 'bikini-frill', 'bikini-retro', 'swim-skirted', 'swim-halter', 'm-su-trunks', 'su-rash-u', 'su-camp-u'],
       shots: ['fullside', 'full', 'low', 'above', 'cowboy'],
       tones: ['vivid', 'anime', 'airy', 'cool']
     },
@@ -1179,7 +1200,7 @@ const PERENNIAL = {
         { id: 'hill', label: '낮은 가지를 잡고 골짜기 보기', pose: 'stand', tags: ['holding a low branch', 'looking down at the valley'], face: [] }
       ],
       props: ['guitar', 'birds', 'book', 'fruit-basket', 'picnic', 'camera', 'ukulele'],
-      outfits: ['shirt-tie', 'lime-camisole', 'white-sundress', 'linen-shirtdress'],
+      outfits: ['shirt-tie', 'lime-camisole', 'white-sundress', 'linen-shirtdress', 'm-su-linen', 'su-camp-u', 'su-tee-u'],
       shots: ['full', 'top', 'fullside', 'cowboy', 'above'],
       tones: ['anime', 'vivid', 'film', 'watercolor']
     },
@@ -1199,7 +1220,7 @@ const PERENNIAL = {
         { id: 'bridge', label: '난간에 기대 불꽃을 가리키기', pose: 'stand', tags: ['leaning on the bridge railing', 'pointing at the fireworks'], face: [] }
       ],
       props: ['sparkler', 'goldfish-bag', 'shaved-ice', 'ramune'],
-      outfits: ['yukata-violet', 'yukata-navy'],
+      outfits: ['yukata-violet', 'yukata-navy', 'su-jinbei-u', 'm-su-yukata'],
       shots: ['portrait', 'upper', 'full', 'low', 'side', 'rear'],
       tones: ['anime', 'vivid', 'dreamy', 'film']
     },
@@ -1259,7 +1280,7 @@ const PERENNIAL = {
         { id: 'wind', label: '발등을 덮는 물결 맞기', pose: 'stand', shoes: '', tags: ['standing at the waterline', 'waves washing over the feet', 'barefoot'], face: [] }
       ],
       props: ['seashells', 'camera', 'ramune', 'pinwheel', 'kite', 'ukulele'],
-      outfits: ['tiered-beach', 'white-sundress', 'stripe-open', 'swim-cover', 'bikini-frill', 'bikini-retro', 'swim-skirted', 'swim-halter'],
+      outfits: ['tiered-beach', 'white-sundress', 'stripe-open', 'swim-cover', 'bikini-frill', 'bikini-retro', 'swim-skirted', 'swim-halter', 'm-su-trunks', 'su-rash-u', 'm-su-linen', 'su-camp-u'],
       shots: ['full', 'rear', 'low', 'cowboy', 'fullside'],
       tones: ['vivid', 'cool', 'film', 'golden']
     },
@@ -1280,7 +1301,7 @@ const PERENNIAL = {
         { id: 'lie', label: '고랑 사이에 눕기', pose: 'lie', tags: ['lying between the rows', 'lavender on both sides'], face: [] }
       ],
       props: ['lavender-bunch', 'picnic', 'camera', 'book', 'bubbles'],
-      outfits: ['white-sundress', 'blue-frill', 'linen-shirtdress', 'lime-camisole', 'tiered-beach', 'shirt-tie'],
+      outfits: ['white-sundress', 'blue-frill', 'linen-shirtdress', 'lime-camisole', 'tiered-beach', 'shirt-tie', 'm-su-linen', 'su-camp-u', 'su-tee-u'],
       shots: ['wide', 'full', 'cowboy', 'top', 'rear', 'foreground'],
       tones: ['airy', 'vivid', 'film', 'dreamy']
     },
@@ -1300,7 +1321,7 @@ const PERENNIAL = {
         { id: 'lie', label: '양귀비 속에 눕기', pose: 'lie', tags: ['lying among the poppies', 'one hand touching a flower'], face: [] }
       ],
       props: ['poppy-bouquet', 'picnic', 'camera', 'book'],
-      outfits: ['white-sundress', 'blue-frill', 'linen-shirtdress', 'lime-camisole', 'tiered-beach', 'shirt-tie'],
+      outfits: ['white-sundress', 'blue-frill', 'linen-shirtdress', 'lime-camisole', 'tiered-beach', 'shirt-tie', 'm-su-linen', 'su-camp-u', 'su-tee-u'],
       shots: ['wide', 'full', 'low', 'top', 'cowboy', 'foreground'],
       tones: ['vivid', 'film', 'anime', 'golden']
     },
@@ -1323,7 +1344,7 @@ const PERENNIAL = {
         { id: 'steps', label: '단풍잎을 빛에 비춰 보기', pose: 'stand', tags: ['standing on stone steps', 'holding a maple leaf up to the light'], face: ['eye contact'] }
       ],
       props: ['maple-leaves', 'book', 'camera', 'cocoa', 'squirrel', 'violin'],
-      outfits: ['knit-plaid', 'camel-coat', 'mustard-cardigan', 'tartan-cape', 'trench-autumn', 'ribbed-dress'],
+      outfits: ['knit-plaid', 'camel-coat', 'mustard-cardigan', 'tartan-cape', 'trench-autumn', 'ribbed-dress', 'm-au-coat', 'm-au-shawl', 'au-suede-u', 'au-flannel-u'],
       shots: ['full', 'portrait', 'low', 'rear', 'foreground', 'cowboy'],
       tones: ['golden', 'film', 'vivid', 'muted']
     },
@@ -1343,7 +1364,7 @@ const PERENNIAL = {
         { id: 'wind', label: '줄기를 당겨 꽃 향 맡기', pose: 'stand', tags: ['bending a cosmos stem toward the face', 'smelling it'], face: [] }
       ],
       props: ['flower-basket', 'camera', 'kite', 'daisy-chain', 'book', 'violin', 'cosmos-bouquet'],
-      outfits: ['corduroy-dress', 'mustard-cardigan', 'knit-plaid', 'camel-coat', 'ribbed-dress', 'sweater-vest'],
+      outfits: ['corduroy-dress', 'mustard-cardigan', 'knit-plaid', 'camel-coat', 'ribbed-dress', 'sweater-vest', 'm-au-coat', 'm-au-shawl', 'au-suede-u', 'au-flannel-u'],
       shots: ['portrait', 'cowboy', 'low', 'foreground', 'side'],
       tones: ['airy', 'watercolor', 'film', 'dreamy']
     },
@@ -1363,7 +1384,7 @@ const PERENNIAL = {
         { id: 'back', label: '억새 한 줄기 들고 돌아보기', pose: 'stand', tags: ['holding a stalk of silver grass', 'looking back over shoulder'], face: ['eye contact'] }
       ],
       props: ['kite', 'camera', 'cocoa', 'book', 'violin'],
-      outfits: ['camel-coat', 'tartan-cape', 'knit-plaid', 'mustard-cardigan', 'trench-autumn', 'suede-jacket'],
+      outfits: ['camel-coat', 'tartan-cape', 'knit-plaid', 'mustard-cardigan', 'trench-autumn', 'suede-jacket', 'm-au-coat', 'm-au-shawl', 'au-suede-u', 'au-flannel-u'],
       shots: ['rear', 'side', 'full', 'low', 'foreground'],
       tones: ['golden', 'film', 'dreamy', 'muted']
     },
@@ -1384,7 +1405,7 @@ const PERENNIAL = {
         { id: 'lamp', label: '가로등 아래 은행잎 던지기', pose: 'stand', tags: ['leaning against a street lamp', 'tossing a ginkgo leaf'], face: [] }
       ],
       props: ['leaf-pile', 'cocoa', 'book', 'camera', 'maple-leaves', 'squirrel', 'violin'],
-      outfits: ['knit-plaid', 'camel-coat', 'mustard-cardigan', 'corduroy-dress', 'trench-autumn', 'ribbed-dress', 'sweater-vest'],
+      outfits: ['knit-plaid', 'camel-coat', 'mustard-cardigan', 'corduroy-dress', 'trench-autumn', 'ribbed-dress', 'sweater-vest', 'm-au-coat', 'm-au-shawl', 'au-suede-u', 'au-flannel-u'],
       shots: ['full', 'cowboy', 'above', 'top', 'low', 'portrait'],
       tones: ['golden', 'film', 'cozy', 'muted']
     },
@@ -1405,7 +1426,7 @@ const PERENNIAL = {
         { id: 'crouch', label: '호박 하나 골라 보기', pose: 'squat', tags: ['crouching', 'patting a pumpkin'], face: [] }
       ],
       props: ['pumpkin', 'jack-lantern', 'camera', 'cocoa'],
-      outfits: ['knit-plaid', 'mustard-cardigan', 'corduroy-dress', 'suede-jacket', 'sweater-vest'],
+      outfits: ['knit-plaid', 'mustard-cardigan', 'corduroy-dress', 'suede-jacket', 'sweater-vest', 'm-au-coat', 'm-au-shawl', 'au-suede-u', 'au-flannel-u'],
       shots: ['full', 'cowboy', 'low', 'above', 'portrait'],
       tones: ['golden', 'vivid', 'cozy', 'film']
     },
@@ -1426,7 +1447,7 @@ const PERENNIAL = {
         { id: 'trail', label: '떨어진 떡갈잎 줍기', pose: 'walk', tags: ['walking down the trail', 'picking up a fallen oak leaf'], face: [] }
       ],
       props: ['acorns', 'squirrel', 'book', 'camera', 'maple-leaves'],
-      outfits: ['mushroom-cape', 'corduroy-dress', 'tartan-cape', 'knit-plaid', 'suede-jacket'],
+      outfits: ['mushroom-cape', 'corduroy-dress', 'tartan-cape', 'knit-plaid', 'suede-jacket', 'm-au-coat', 'm-au-shawl', 'au-suede-u', 'au-flannel-u'],
       shots: ['full', 'low', 'cowboy', 'above', 'foreground', 'portrait'],
       tones: ['film', 'cozy', 'watercolor', 'muted']
     },
@@ -1447,7 +1468,7 @@ const PERENNIAL = {
         { id: 'blow', label: '앉아서 보송한 이삭 불기', pose: 'sit', tags: ['sitting in the grass', 'blowing on the fluffy tips'], face: [] }
       ],
       props: ['muhly-bunch', 'camera', 'book', 'cocoa'],
-      outfits: ['knit-plaid', 'camel-coat', 'corduroy-dress', 'mustard-cardigan', 'trench-autumn', 'ribbed-dress', 'sweater-vest', 'tartan-cape'],
+      outfits: ['knit-plaid', 'camel-coat', 'corduroy-dress', 'mustard-cardigan', 'trench-autumn', 'ribbed-dress', 'sweater-vest', 'tartan-cape', 'm-au-coat', 'm-au-shawl', 'au-suede-u', 'au-flannel-u'],
       shots: ['wide', 'full', 'cowboy', 'portrait', 'rear', 'foreground'],
       tones: ['dreamy', 'airy', 'golden', 'film']
     },
@@ -1468,7 +1489,7 @@ const PERENNIAL = {
         { id: 'pick', label: '메밀꽃 한 줄기 꺾기', pose: 'stand', tags: ['picking a sprig of buckwheat flowers'], face: [] }
       ],
       props: ['buckwheat-bunch', 'camera', 'candle-lantern', 'book'],
-      outfits: ['knit-plaid', 'camel-coat', 'corduroy-dress', 'mustard-cardigan', 'trench-autumn', 'ribbed-dress', 'sweater-vest', 'tartan-cape'],
+      outfits: ['knit-plaid', 'camel-coat', 'corduroy-dress', 'mustard-cardigan', 'trench-autumn', 'ribbed-dress', 'sweater-vest', 'tartan-cape', 'm-au-coat', 'm-au-shawl', 'au-suede-u', 'au-flannel-u'],
       shots: ['wide', 'full', 'rear', 'cowboy', 'low', 'foreground'],
       tones: ['dreamy', 'muted', 'film', 'cool']
     },
@@ -1488,7 +1509,7 @@ const PERENNIAL = {
         { id: 'ear', label: '작은 꽃을 귀 뒤에 꽂기', pose: 'stand', tags: ['tucking a small flower behind the ear'], face: [] }
       ],
       props: ['aster-bouquet', 'violin', 'camera', 'book'],
-      outfits: ['knit-plaid', 'camel-coat', 'corduroy-dress', 'mustard-cardigan', 'trench-autumn', 'ribbed-dress', 'sweater-vest', 'tartan-cape'],
+      outfits: ['knit-plaid', 'camel-coat', 'corduroy-dress', 'mustard-cardigan', 'trench-autumn', 'ribbed-dress', 'sweater-vest', 'tartan-cape', 'm-au-coat', 'm-au-shawl', 'au-suede-u', 'au-flannel-u'],
       shots: ['full', 'wide', 'portrait', 'cowboy', 'low', 'side'],
       tones: ['film', 'golden', 'watercolor', 'muted']
     },
@@ -1511,7 +1532,7 @@ const PERENNIAL = {
         { id: 'touch', label: '쪼그려 눈 만져 보기', pose: 'squat', tags: ['crouching', 'touching the fresh snow'], face: [] }
       ],
       props: ['snowman', 'mini-snowmen', 'sled', 'snowball', 'cocoa', 'winter-birds'],
-      outfits: ['poncho-earflap', 'duffle', 'white-fur', 'cream-puffer', 'shearling'],
+      outfits: ['poncho-earflap', 'duffle', 'white-fur', 'cream-puffer', 'shearling', 'm-wi-peacoat', 'm-wi-chester', 'm-wi-shearling', 'wi-nordic-u'],
       shots: ['full', 'fullside', 'top', 'low', 'cowboy'],
       tones: ['cool', 'airy', 'anime', 'film']
     },
@@ -1532,7 +1553,7 @@ const PERENNIAL = {
         { id: 'path', label: '처마의 고드름 따기', pose: 'stand', tags: ['breaking off an icicle', 'looking at it'], face: [] }
       ],
       props: ['cocoa', 'candle-lantern', 'sled', 'gift', 'winter-birds', 'accordion'],
-      outfits: ['fair-isle', 'duffle', 'red-coat', 'poncho-earflap', 'shearling', 'cape-coat'],
+      outfits: ['fair-isle', 'duffle', 'red-coat', 'poncho-earflap', 'shearling', 'cape-coat', 'm-wi-peacoat', 'm-wi-chester', 'm-wi-shearling', 'wi-nordic-u'],
       shots: ['full', 'rear', 'cowboy', 'portrait', 'low'],
       tones: ['cozy', 'film', 'cool', 'golden']
     },
@@ -1553,7 +1574,7 @@ const PERENNIAL = {
         { id: 'shore', label: '물가에 쪼그려 얼음 만지기', pose: 'squat', tags: ['crouching at the shore', 'touching the ice surface'], face: [] }
       ],
       props: ['skates', 'cocoa', 'camera'],
-      outfits: ['skating', 'white-fur', 'fair-isle', 'cream-puffer', 'long-coat'],
+      outfits: ['skating', 'white-fur', 'fair-isle', 'cream-puffer', 'long-coat', 'm-wi-peacoat', 'm-wi-chester', 'm-wi-shearling', 'wi-nordic-u'],
       shots: ['full', 'low', 'fullside', 'cowboy', 'portrait'],
       tones: ['cool', 'airy', 'film', 'dreamy']
     },
@@ -1573,7 +1594,7 @@ const PERENNIAL = {
         { id: 'breath', label: '따뜻한 음료 가게에서 손 녹이기', pose: 'stand', tags: ['warming hands at the hot drink stand', 'visible breath'], face: [] }
       ],
       props: ['gift', 'cocoa', 'wreath', 'candle-lantern', 'camera', 'accordion'],
-      outfits: ['red-coat', 'duffle', 'white-fur', 'fair-isle', 'long-coat', 'cape-coat'],
+      outfits: ['red-coat', 'duffle', 'white-fur', 'fair-isle', 'long-coat', 'cape-coat', 'm-wi-peacoat', 'm-wi-chester', 'm-wi-shearling', 'wi-nordic-u'],
       shots: ['portrait', 'upper', 'cowboy', 'full', 'side', 'foreground'],
       tones: ['cozy', 'golden', 'dreamy', 'film']
     },
@@ -1593,7 +1614,7 @@ const PERENNIAL = {
         { id: 'lantern', label: '석등에 쌓인 눈 털기', pose: 'stand', tags: ['brushing snow from the stone lantern'], face: ['eye contact'] }
       ],
       props: ['camellia', 'winter-birds', 'book', 'cocoa'],
-      outfits: ['duffle', 'red-coat', 'poncho-earflap', 'white-fur', 'long-coat', 'cape-coat'],
+      outfits: ['duffle', 'red-coat', 'poncho-earflap', 'white-fur', 'long-coat', 'cape-coat', 'm-wi-peacoat', 'm-wi-chester', 'm-wi-shearling', 'wi-nordic-u'],
       shots: ['portrait', 'side', 'cowboy', 'full', 'foreground', 'above'],
       tones: ['muted', 'cool', 'watercolor', 'film']
     },
@@ -1613,7 +1634,7 @@ const PERENNIAL = {
         { id: 'walk', label: '서리 낀 울타리를 손끝으로 만지기', pose: 'stand', tags: ['touching the frosted fence', 'fingertips on the ice crystals'], face: [] }
       ],
       props: ['winter-birds', 'cocoa', 'camera'],
-      outfits: ['cream-puffer', 'fair-isle', 'duffle', 'white-fur', 'long-coat', 'shearling'],
+      outfits: ['cream-puffer', 'fair-isle', 'duffle', 'white-fur', 'long-coat', 'shearling', 'm-wi-peacoat', 'm-wi-chester', 'm-wi-shearling', 'wi-nordic-u'],
       shots: ['full', 'low', 'portrait', 'fullside', 'foreground'],
       tones: ['cool', 'airy', 'dreamy', 'golden']
     },
@@ -1633,7 +1654,7 @@ const PERENNIAL = {
         { id: 'catch', label: '눈과 함께 지는 꽃잎 받기', pose: 'stand', kinds: ['snow'], tags: ['catching a falling petal among the snowflakes'], face: [] }
       ],
       props: ['plum-branch', 'winter-birds', 'cocoa', 'book'],
-      outfits: ['duffle', 'red-coat', 'poncho-earflap', 'white-fur', 'long-coat', 'cape-coat'],
+      outfits: ['duffle', 'red-coat', 'poncho-earflap', 'white-fur', 'long-coat', 'cape-coat', 'm-wi-peacoat', 'm-wi-chester', 'm-wi-shearling', 'wi-nordic-u'],
       shots: ['portrait', 'cowboy', 'full', 'side', 'foreground', 'low'],
       tones: ['muted', 'cool', 'watercolor', 'film']
     }
