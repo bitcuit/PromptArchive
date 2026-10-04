@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PROMPT ARCHIVE : PERENNIAL</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-season="spring">
+<main class="shop">
+  <div class="floor">
+    <section class="spinner" aria-label="설정">
+      <div class="crown">
+        <p class="crown-series">PROMPT ARCHIVE</p>
+        <h1 class="crown-name">Perennial</h1>
+        <div class="crown-row">
+        <div class="modes" role="group" aria-label="무엇을 뽑나">
+          <button type="button" data-mode="scene" aria-pressed="true">화보</button>
+          <button type="button" data-mode="wardrobe" aria-pressed="false">옷장</button>
+        </div>
+        <div class="seasons" role="group" aria-label="계절">
+          <button type="button" data-season="all" aria-pressed="true">전체</button>
+          <button type="button" data-season="spring" aria-pressed="false">봄</button>
+          <button type="button" data-season="summer" aria-pressed="false">여름</button>
+          <button type="button" data-season="autumn" aria-pressed="false">가을</button>
+          <button type="button" data-season="winter" aria-pressed="false">겨울</button>
+        </div>
+        <button class="crown-help" id="helpBtn" type="button">사용법</button>
+        </div>
+      </div>
+
+      <div class="tiers">
+        <div class="pocket" data-scene-only>
+          <div class="field">
+            <label for="scene">장면</label>
+            <select id="scene"></select>
+            <button class="roll" type="button" data-roll="scene" aria-label="장면만 다시 뽑기">🎲</button>
+            <button class="lock" type="button" data-lock="scene" aria-label="장면 잠금" aria-pressed="false">◇</button>
+          </div>
+        </div>
+        <div class="pocket" data-scene-only>
+          <div class="field">
+            <label for="light">빛</label>
+            <select id="light"></select>
+            <button class="roll" type="button" data-roll="light" aria-label="빛만 다시 뽑기">🎲</button>
+            <button class="lock" type="button" data-lock="light" aria-label="빛 잠금" aria-pressed="false">◇</button>
+          </div>
+        </div>
+        <div class="pocket" data-scene-only>
+          <div class="field">
+            <label for="prop">메인 소품</label>
+            <select id="prop"></select>
+            <button class="roll" type="button" data-roll="prop" aria-label="메인 소품만 다시 뽑기">🎲</button>
+            <button class="lock" type="button" data-lock="prop" aria-label="메인 소품 잠금" aria-pressed="false">◇</button>
+          </div>
+        </div>
+        <div class="pocket" data-scene-only>
+          <div class="field">
+            <label for="prop2">곁 소품</label>
+            <select id="prop2"></select>
+            <button class="roll" type="button" data-roll="prop2" aria-label="곁 소품만 다시 뽑기">🎲</button>
+            <button class="lock" type="button" data-lock="prop2" aria-label="곁 소품 잠금" aria-pressed="false">◇</button>
+          </div>
+        </div>
+        <div class="pocket" data-scene-only>
+          <div class="field">
+            <div class="field-head">
+              <label for="moment">순간</label>
+              <label class="switch"><input id="emphasis" type="checkbox"><span>1.3배 강조 <small>NovelAI V4+</small></span></label>
+            </div>
+            <select id="moment"></select>
+            <button class="roll" type="button" data-roll="moment" aria-label="순간만 다시 뽑기">🎲</button>
+            <button class="lock" type="button" data-lock="moment" aria-label="순간 잠금" aria-pressed="false">◇</button>
+          </div>
+        </div>
+        <div class="pocket" data-scene-only>
+          <div class="field">
+            <label for="shot">구도</label>
+            <select id="shot"></select>
+            <button class="roll" type="button" data-roll="shot" aria-label="구도만 다시 뽑기">🎲</button>
+            <button class="lock" type="button" data-lock="shot" aria-label="구도 잠금" aria-pressed="false">◇</button>
+          </div>
+        </div>
+        <div class="pocket" data-scene-only>
+          <div class="field">
+            <label for="outfit">옷</label>
+            <select id="outfit"></select>
+            <button class="roll" type="button" data-roll="outfit" aria-label="옷만 다시 뽑기">🎲</button>
+            <button class="lock" type="button" data-lock="outfit" aria-label="옷 잠금" aria-pressed="false">◇</button>
+          </div>
+        </div>
+        <div class="pocket" data-scene-only>
+          <div class="field">
+            <label for="tone">톤</label>
+            <select id="tone"></select>
+            <button class="roll" type="button" data-roll="tone" aria-label="톤만 다시 뽑기">🎲</button>
+            <button class="lock" type="button" data-lock="tone" aria-label="톤 잠금" aria-pressed="false">◇</button>
+          </div>
+        </div>
+        <div class="pocket" data-scene-only>
+          <div class="field">
+            <label for="density">풍경 소품</label>
+            <select id="density">
+              <option value="low">적게</option>
+              <option value="mid">보통</option>
+              <option value="high">많이</option>
+            </select>
+            <button class="roll" type="button" data-roll="details" aria-label="풍경 소품만 다시 뽑기">🎲</button>
+          </div>
+        </div>
+        <div class="pocket" data-ward-only>
+          <div class="field">
+            <label for="cMain">상의 · 원피스 · 수영복</label>
+            <select id="cMain"></select>
+            <button class="roll" type="button" data-roll="cMain" aria-label="상의 · 원피스 · 수영복만 다시 뽑기">🎲</button>
+            <button class="lock" type="button" data-lock="cMain" aria-label="상의 · 원피스 · 수영복 잠금" aria-pressed="false">◇</button>
+          </div>
+        </div>
+        <div class="pocket" data-ward-only>
+          <div class="field">
+            <label for="cBottom">하의</label>
+            <select id="cBottom"></select>
+            <button class="roll" type="button" data-roll="cBottom" aria-label="하의만 다시 뽑기">🎲</button>
+            <button class="lock" type="button" data-lock="cBottom" aria-label="하의 잠금" aria-pressed="false">◇</button>
+          </div>
+        </div>
+        <div class="pocket" data-ward-only>
+          <div class="field">
+            <label for="cOuter">겉옷</label>
+            <select id="cOuter"></select>
+            <button class="roll" type="button" data-roll="cOuter" aria-label="겉옷만 다시 뽑기">🎲</button>
+            <button class="lock" type="button" data-lock="cOuter" aria-label="겉옷 잠금" aria-pressed="false">◇</button>
+          </div>
+        </div>
+        <div class="pocket" data-ward-only>
+          <div class="field">
+            <label for="cShoes">신발</label>
+            <select id="cShoes"></select>
+            <button class="roll" type="button" data-roll="cShoes" aria-label="신발만 다시 뽑기">🎲</button>
+            <button class="lock" type="button" data-lock="cShoes" aria-label="신발 잠금" aria-pressed="false">◇</button>
+          </div>
+        </div>
+        <div class="pocket" data-ward-only>
+          <div class="field">
+            <label for="cHat">모자</label>
+            <select id="cHat"></select>
+            <button class="roll" type="button" data-roll="cHat" aria-label="모자만 다시 뽑기">🎲</button>
+            <button class="lock" type="button" data-lock="cHat" aria-label="모자 잠금" aria-pressed="false">◇</button>
+          </div>
+        </div>
+        <div class="pocket" data-ward-only>
+          <div class="field field-text">
+            <label for="sex">옷 성별</label>
+            <select id="sex">
+              <option value="f">여성</option>
+              <option value="m">남성</option>
+              <option value="u">공용</option>
+            </select>
+          </div>
+        </div>
+        <div class="pocket">
+          <div class="field field-text">
+            <label for="prefix">맨 앞 태그</label>
+            <input id="prefix" type="text" placeholder="1girl, solo, black hair" autocomplete="off" spellcheck="false">
+          </div>
+        </div>
+        <div class="pocket pocket-wide pocket-dress">
+          <div class="field">
+            <label for="palette">옷 색</label>
+            <select id="palette"></select>
+            <button class="roll" type="button" data-roll="palette" aria-label="옷 색만 다시 뽑기">🎲</button>
+            <button class="lock" type="button" data-lock="palette" aria-label="옷 색 잠금" aria-pressed="false">◇</button>
+          </div>
+          <div class="field field-chips">
+            <div class="field-head">
+              <span class="field-name" id="decorName"><span data-scene-only>옷 장식</span><span data-ward-only>소품</span></span>
+              <button class="roll" type="button" data-roll="decor" aria-label="옷 장식만 다시 뽑기">🎲</button>
+            </div>
+            <div class="chips" id="decorChips" role="group" aria-labelledby="decorName"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="base">
+        <button class="pull-btn" id="shuffleBtn" type="button">엽서 뽑기</button>
+        <p class="base-count">No. <span id="counter">0000</span></p>
+      </div>
+    </section>
+
+    <section class="counter-top" aria-label="엽서">
+      <article class="card" id="card">
+        <div class="card-turn">
+          <div class="face front" aria-hidden="true">
+            <p class="front-season" id="frontSeason"></p>
+            <p class="front-title" id="frontTitle"></p>
+            <p class="front-sub" id="frontSub"></p>
+          </div>
+
+          <div class="face back">
+            <div class="perf" id="tearHandle" role="button" tabindex="0" aria-label="절취선 — 끌거나 눌러서 새 엽서 뽑기">
+              <span class="perf-line" aria-hidden="true"></span>
+              <span class="perf-label">✂ 떼기</span>
+            </div>
+
+            <div class="message">
+              <p class="message-head">POST CARD</p>
+              <pre class="prompt" id="prompt"></pre>
+              <div class="message-actions">
+                <button class="card-btn" id="copyBtn" type="button">복사</button>
+                <button class="card-btn" id="againBtn" type="button">다시 뽑기</button>
+                <button class="card-btn" id="saveBtn" type="button">.txt 저장</button>
+              </div>
+            </div>
+
+            <div class="address">
+              <div class="postage">
+                <div class="postmark" aria-hidden="true">
+                  <span id="markSeason"></span>
+                  <span id="markDate"></span>
+                </div>
+                <div class="stamp">
+                  <span class="stamp-season" id="stampSeason"></span>
+                  <span class="stamp-no" id="stampNo"></span>
+                </div>
+              </div>
+              <p class="addr-title" id="cardTitle"></p>
+              <p class="addr-sub" id="cardSub"></p>
+              <dl class="addr-rows" id="cardRows"></dl>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+  </div>
+</main>
+
+<dialog class="help" id="helpModal" aria-labelledby="helpTitle">
+  <div class="help-head">
+    <h2 id="helpTitle">사용법</h2>
+    <button class="help-close" id="closeHelp" type="button" aria-label="닫기">×</button>
+  </div>
+  <dl class="help-list">
+    <dt>엽서 뽑기</dt>
+    <dd>잠그지 않은 것을 전부 다시 뽑습니다. 엽서의 다시 뽑기, 왼쪽 절취선을 끌거나 누르는 것도 같습니다.</dd>
+    <dt>화보 · 옷장</dt>
+    <dd>화보는 장면 · 소품 · 빛 · 옷을 한 장으로 뽑습니다. 옷장은 배경 없이 옷만 뽑습니다 — 계절 옷장의 상의 · 하의 · 원피스 · 수영복(여름) · 겉옷 · 신발 · 모자 · 소품을 조합합니다. 원피스와 수영복에는 하의가 없고, 크롭 상의에는 하이웨이스트 하의만, 수영복에는 비치 커버업과 해변 신발만 붙습니다.</dd>
+    <dt>소품</dt>
+    <dd>옷장에서는 지금 옷에 어울리는 소품만 칩으로 보입니다. 새로 뽑으면 1~4개가 켜지고, 누르면 켜고 끕니다. 같은 부위(귀 · 목 · 손목 · 가방 · 손에 드는 것 등)는 하나만이라 같은 부위를 켜면 앞의 것이 꺼지고, 최대 4개까지입니다. 수영복이면 해변 소품만, 후드티 · 래시가드 같은 운동복이면 격식 있는 주얼리가 빠지고, 모자를 쓰면 머리띠가 빠집니다.</dd>
+    <dt>옷장에서 조합</dt>
+    <dd>화보의 옷 칸에서 고르면(랜덤일 때도 절반쯤) 장면 계절의 옷장 조각으로 옷을 짭니다. 조각을 바꾸려면 옷장 탭으로 가서 고친 뒤 화보로 돌아오면 됩니다. 수영장은 수영복만, 바닷가는 수영복도 나오고, 축제 · 비 오는 장면은 완성된 옷만 씁니다. 옷 성별은 옷장 탭에서 고릅니다.</dd>
+    <dt>계절</dt>
+    <dd>위의 봄 · 여름 · 가을 · 겨울을 누르면 그 계절의 장면에서만 뽑습니다.</dd>
+    <dt>🎲 · ◇</dt>
+    <dd>🎲는 그 칸만 다시 뽑습니다. ◇를 눌러 ◆가 되면 새로 뽑아도 그대로 남습니다. 순간이나 빛을 잠그면 장면도 같이 잠깁니다.</dd>
+    <dt>메인 소품 · 곁 소품</dt>
+    <dd>메인 소품이 있으면 순간이 그 소품으로 하는 동작으로 바뀝니다. 곁 소품은 메인 소품과 어울리는 것만 곁에 놓입니다. 불꽃은 저녁과 밤에만, 우산은 비 올 때만 나옵니다.</dd>
+    <dt>옷</dt>
+    <dd>기본으로 계절 화보 옷이 둘째 줄에 붙습니다. 옷이 정해진 캐릭터라면 "장면만"을 고르세요. 발이 안 보이는 구도에서는 신발이 빠지고, 맨발로 물에 들어가는 순간에는 신발을 쓰지 않습니다.</dd>
+    <dt>옷 색</dt>
+    <dd>계절마다 어울리는 두 가지 색의 배색이 있고, 옷의 주색과 보조색을 채웁니다. 개구리 비옷처럼 색이 정체성인 옷은 색이 정해져 있습니다.</dd>
+    <dt>옷 장식</dt>
+    <dd>고른 옷에 붙일 수 있는 장식(그 옷의 장식과 계절 무늬)이 칩으로 보입니다. 켜진 칩만 프롬프트에 들어갑니다. 누르면 켜고 끄고, 🎲는 두 개를 새로 고릅니다.</dd>
+    <dt>맨 앞 태그</dt>
+    <dd>캐릭터 태그를 적어 두면 프롬프트 맨 앞에 붙습니다.</dd>
+  </dl>
+</dialog>
+
+<script src="data.js" defer></script>
+<script src="app.js" defer></script>
+</body>
+</html>
