@@ -177,9 +177,11 @@
     return own.length ? own : D.shots.filter((x) => fitsPose(x, m)).map((x) => x.id);
   }
 
+  // 완성된 옷: 이 장면 것 중 성별 · 빛이 맞는 것. 빛이 안 맞으면 성별만 맞는 것으로 물러선다
   function outfitCandidates() {
-    const own = scene().outfits.filter((id) => fitsLight(byId(D.outfits, id)));
-    return own.length ? own : scene().outfits;
+    const mine = scene().outfits.filter((id) => sexOk(byId(D.outfits, id)));
+    const own = mine.filter((id) => fitsLight(byId(D.outfits, id)));
+    return own.length ? own : mine.length ? mine : scene().outfits;
   }
 
   // 빛을 고를 때, 잠긴 소품이 특정 빛만 받으면 그 빛 안에서 고른다
@@ -218,7 +220,7 @@
     // 잠갔어도 계절이 다르면 풀고 다시 뽑는다
     if (prop() && !inSeason(prop())) locks.prop = false;
     if (prop2() && !inSeason(prop2())) locks.prop2 = false;
-    if (state.outfit && state.outfit !== 'none' && state.outfit !== 'mix' && !inSeason(byId(D.outfits, state.outfit))) locks.outfit = false;
+    if (state.outfit && state.outfit !== 'none' && state.outfit !== 'mix' && (!inSeason(byId(D.outfits, state.outfit)) || !sexOk(byId(D.outfits, state.outfit)))) locks.outfit = false;
     if (!locks.prop) rollProp();
     if (!locks.prop2) rollProp2();
     if (!locks.shot || !byId(D.shots, state.shot)) state.shot = pick(s.shots);
@@ -588,7 +590,7 @@
     s.lights.forEach((x) => el.light.append(option(x.id, x.label)));
     fillSplit(el.shot, D.shots, s.shots);
     fillSplit(el.tone, D.tones, s.tones);
-    fillSplit(el.outfit, D.outfits.filter(inSeason), s.outfits, option('none', '장면만 (옷 없음)'));
+    fillSplit(el.outfit, D.outfits.filter((x) => inSeason(x) && sexOk(x)), s.outfits, option('none', '장면만 (옷 없음)'));
     if (s.mix !== false) el.outfit.insertBefore(option('mix', '옷장에서 조합 (옷장 탭에서 고치기)'), el.outfit.children[1]);
     if (state.mode === 'wardrobe') renderClosetSelects();
 
@@ -836,7 +838,14 @@
   el.sex.addEventListener('change', () => {
     state.sex = el.sex.value;
     save('sex', state.sex);
-    fitCloset(false);
+    // 화보의 완성된 옷이 이 성별에 안 맞으면 맞는 것으로 바꾼다
+    const o = state.outfit && state.outfit !== 'none' && state.outfit !== 'mix' ? byId(D.outfits, state.outfit) : null;
+    if (o && !sexOk(o)) {
+      locks.outfit = false;
+      state.outfit = pick(outfitCandidates());
+      rollDecor();
+    }
+    if (closetActive()) fitCloset(false);
     fitAcc();
     render();
   });
@@ -991,6 +1000,10 @@
       s.tones.forEach((x) => { if (!byId(D.tones, x)) bad.push(`${s.id}: 없는 톤 ${x}`); });
       s.outfits.forEach((x) => { if (!byId(D.outfits, x)) bad.push(`${s.id}: 없는 옷 ${x}`); });
       s.props.forEach((x) => { if (!byId(D.props, x)) bad.push(`${s.id}: 없는 소품 ${x}`); });
+      ['f', 'm', 'u'].forEach((sx) => {
+        const ok = (x) => x && (sx === 'u' ? !x.sex : !x.sex || x.sex === sx);
+        if (!s.outfits.some((id) => ok(byId(D.outfits, id)))) bad.push(`${s.id} ${sx}: 맞는 완성된 옷이 없음`);
+      });
       s.lights.forEach((l) => {
         const n = s.details.filter((x) => typeof x === 'string' || fitsLight(x, l)).length;
         if (n < DENSITY.high) bad.push(`${s.id}: 빛 ${l.id} 에서 details가 ${DENSITY.high}개보다 적음`);
@@ -1003,6 +1016,7 @@
     D.outfits.forEach((o) => {
       if (!o.ward && !D.scenes.some((s) => s.outfits.includes(o.id))) bad.push(`어느 장면에도 없는 옷: ${o.id}`);
       if (!o.decor || o.decor.length < 3) bad.push(`${o.id}: decor가 3개보다 적음`);
+      if (o.sex && !['f', 'm'].includes(o.sex)) bad.push(`${o.id}: 성별 표시가 f · m 이 아님`);
       (o.decor || []).forEach((t) => { if (!D.decorKo[t]) bad.push(`${o.id}: 한국어 이름 없는 장식 ${t}`); });
     });
     Object.entries(D.closet).forEach(([sid, c]) => {
