@@ -1,10 +1,10 @@
 {
-  "at": "2026-10-03 23:29",
+  "at": "2026-10-05 00:58",
   "by": "claude-code",
-  "doing": "Halation 에디션을 커밋하고 랜딩 페이지는 나중에 새로 디자인하려고 비워 둠",
-  "where": "Perennial/app.js inSeason() · enterScene(), Perennial/index.html .crown",
+  "doing": "Perennial 화보 성별과 첫 화면 카드 · 태그 · 검색을 커밋했어요",
+  "where": "index.html, Perennial/app.js outfitCandidates()",
   "state": "돌아감",
-  "next": "랜딩 페이지(index.html) 새로 디자인하기",
+  "next": "GitHub Desktop으로 올리고 Pages에서 첫 화면 확인",
   "blocked": "",
-  "session": { "id": "3bd7c373-f547-47ec-a7f8-9471676ccb17", "title": "", "tool": "claude-code" }
+  "session": { "id": "2011f0e2-eef2-40d0-86a2-bf0d7df73281", "title": "", "tool": "claude-code" }
 }
