@@ -10,14 +10,15 @@
 <main class="shop">
   <div class="floor">
     <section class="spinner" aria-label="설정">
+      <div class="crown-wrap">
+      <div class="modes" role="group" aria-label="무엇을 뽑나">
+        <button type="button" data-mode="scene" aria-pressed="true">화보</button>
+        <button type="button" data-mode="wardrobe" aria-pressed="false">옷장</button>
+      </div>
       <div class="crown">
         <p class="crown-series">PROMPT ARCHIVE</p>
         <h1 class="crown-name">Perennial</h1>
         <div class="crown-row">
-        <div class="modes" role="group" aria-label="무엇을 뽑나">
-          <button type="button" data-mode="scene" aria-pressed="true">화보</button>
-          <button type="button" data-mode="wardrobe" aria-pressed="false">옷장</button>
-        </div>
         <div class="seasons" role="group" aria-label="계절">
           <button type="button" data-season="all" aria-pressed="true">전체</button>
           <button type="button" data-season="spring" aria-pressed="false">봄</button>
@@ -27,6 +28,7 @@
         </div>
         <button class="crown-help" id="helpBtn" type="button">사용법</button>
         </div>
+      </div>
       </div>
 
       <div class="tiers">
@@ -97,17 +99,6 @@
             <button class="lock" type="button" data-lock="tone" aria-label="톤 잠금" aria-pressed="false">◇</button>
           </div>
         </div>
-        <div class="pocket" data-scene-only>
-          <div class="field">
-            <label for="density">풍경 소품</label>
-            <select id="density">
-              <option value="low">적게</option>
-              <option value="mid">보통</option>
-              <option value="high">많이</option>
-            </select>
-            <button class="roll" type="button" data-roll="details" aria-label="풍경 소품만 다시 뽑기">🎲</button>
-          </div>
-        </div>
         <div class="pocket" data-ward-only>
           <div class="field">
             <label for="cMain">상의 · 원피스 · 수영복</label>
@@ -158,18 +149,23 @@
             </select>
           </div>
         </div>
-        <div class="pocket">
-          <div class="field field-text">
-            <label for="prefix">맨 앞 태그</label>
-            <input id="prefix" type="text" placeholder="1girl, solo, black hair" autocomplete="off" spellcheck="false">
-          </div>
-        </div>
         <div class="pocket pocket-wide pocket-dress">
+          <div class="dress-left">
           <div class="field">
             <label for="palette">옷 색</label>
             <select id="palette"></select>
             <button class="roll" type="button" data-roll="palette" aria-label="옷 색만 다시 뽑기">🎲</button>
             <button class="lock" type="button" data-lock="palette" aria-label="옷 색 잠금" aria-pressed="false">◇</button>
+          </div>
+          <div class="field" data-scene-only>
+            <label for="density">풍경 소품</label>
+            <select id="density">
+              <option value="low">적게</option>
+              <option value="mid">보통</option>
+              <option value="high">많이</option>
+            </select>
+            <button class="roll" type="button" data-roll="details" aria-label="풍경 소품만 다시 뽑기">🎲</button>
+          </div>
           </div>
           <div class="field field-chips">
             <div class="field-head">
@@ -260,8 +256,6 @@
     <dd>계절마다 어울리는 두 가지 색의 배색이 있고, 옷의 주색과 보조색을 채웁니다. 개구리 비옷처럼 색이 정체성인 옷은 색이 정해져 있습니다.</dd>
     <dt>옷 장식</dt>
     <dd>고른 옷에 붙일 수 있는 장식(그 옷의 장식과 계절 무늬)이 칩으로 보입니다. 켜진 칩만 프롬프트에 들어갑니다. 누르면 켜고 끄고, 🎲는 두 개를 새로 고릅니다.</dd>
-    <dt>맨 앞 태그</dt>
-    <dd>캐릭터 태그를 적어 두면 프롬프트 맨 앞에 붙습니다.</dd>
   </dl>
 </dialog>
 

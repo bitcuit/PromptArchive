@@ -42,7 +42,7 @@ button:disabled { cursor: default; opacity: 0.35; }
 .shop {
   max-width: 1840px;
   margin: 0 auto;
-  padding: 16px 40px 16px;
+  padding: 40px 40px 14px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -72,11 +72,10 @@ button:disabled { cursor: default; opacity: 0.35; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 8px 24px 8px;
-  margin-bottom: 12px;
+  gap: 4px;
+  padding: 8px 26px 7px;
   background: var(--paper);
-  border-radius: 999px;
+  border-radius: 18px;
   box-shadow: var(--shadow);
   z-index: 1;
 }
@@ -93,14 +92,38 @@ button:disabled { cursor: default; opacity: 0.35; }
   gap: 10px;
 }
 /* 사용법: 계절 탭 끝, 가는 선으로 나눈 테 두른 버튼 */
-/* 화보 / 옷장: 붙어 있는 두 칸 */
-.modes { display: flex; border: 1px solid var(--paper-edge); border-radius: 999px; padding: 2px; background: #fff; margin-right: 4px; }
-.modes button { border: 0; background: transparent; padding: 3px 12px; border-radius: 999px; font-size: 13px; color: var(--ink-soft); }
-.modes button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+/* 화보 / 옷장: 간판 위에 꽂힌 구분 탭 — 고른 탭은 간판과 같은 종이로 이어지고, 안 고른 탭은 뒤로 물러난다 */
+.crown-wrap {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.modes { display: flex; gap: 6px; position: relative; z-index: 2; margin-bottom: -1px; }
+.modes button {
+  border: 0;
+  min-width: 96px;
+  padding: 7px 26px 8px;
+  border-radius: 14px 14px 0 0;
+  background: var(--wall-shade);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+  cursor: pointer;
+}
+/* 움직이지 않는다 — 두 탭은 같은 높이 · 같은 선, 고른 쪽은 색으로만 */
+.modes button:hover { color: var(--ink-soft); background: #e3dccf; }
+.modes button[aria-pressed="true"] {
+  background: var(--paper);
+  color: var(--accent-ink);
+  box-shadow: 0 -4px 10px rgba(70, 58, 40, 0.06);
+  cursor: default;
+}
 /* 옷장에서는 화보 전용 칸을 숨긴다 */
 body[data-mode="wardrobe"] [data-scene-only] { display: none; }
 body:not([data-mode="wardrobe"]) [data-ward-only] { display: none; }
-body[data-mode="wardrobe"] .pocket:has(#prefix) { grid-column: 1 / -1; }
 /* 옷장에서는 소품 칩 칸을 넓게 — 세로 공간이 남는다 */
 body[data-mode="wardrobe"] .chips { max-height: 200px; }
 .crown-help {
@@ -155,7 +178,7 @@ body[data-mode="wardrobe"] .chips { max-height: 200px; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 26px;
-  row-gap: 11px;
+  row-gap: 8px;
 }
 
 /* 엽서 한 칸 = 설정 하나. 아랫부분은 진열 주머니에 꽂혀 있다 */
@@ -184,6 +207,8 @@ body[data-mode="wardrobe"] .chips { max-height: 200px; }
 .pocket-wide { grid-column: 1 / -1; }
 /* 옷 색과 옷 장식을 한 줄에 — 왼쪽 선택 상자, 오른쪽 칩 */
 .pocket-dress { display: grid; grid-template-columns: 250px 1fr; column-gap: 22px; align-items: start; }
+/* 왼쪽 단: 옷 색 아래 풍경 소품(화보만) */
+.dress-left { display: flex; flex-direction: column; gap: 10px; }
 .pocket-dress > .field-chips { padding-top: 0; border-left: 1px solid var(--paper-edge); padding-left: 18px; }
 
 .field {
@@ -264,7 +289,7 @@ body[data-mode="wardrobe"] .chips { max-height: 200px; }
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  margin-top: 16px;
+  margin-top: 12px;
   z-index: 1;
 }
 .pull-btn {
