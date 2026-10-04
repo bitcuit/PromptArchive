@@ -13,7 +13,7 @@
 
   const DENSITY = { low: 1, mid: 3, high: 5 };
   const DECOR_PICK = 2;       // 새로 뽑을 때 켜지는 옷 장식 수
-  // 표정 칸에는 눈의 상태와 시선만 둔다. 웃음 · 수줍음 같은 감정은 캐릭터마다 달라 맨 앞 태그에 맡긴다
+  // 표정 칸에는 눈의 상태와 시선만 둔다. 웃음 · 수줍음 같은 감정은 캐릭터마다 달라 이미지 툴 쪽 캐릭터 프롬프트에 맡긴다
   const FACE_OK = ['eyes closed', 'eye contact', 'one eye closed'];
   const MOTIF_CHANCE = 0.6;   // 옷 장식에 계절 무늬가 하나 섞일 확률
   // 화보는 인물이 주인공 물건과 작용하는 장면이다 — 새로 뽑으면 메인 소품이 늘 나온다(없음은 직접 고를 때만)
@@ -46,7 +46,6 @@
     palette: null,
     density: load('density', 'mid'),
     emphasis: load('emphasis', false),
-    prefix: load('prefix', ''),
     count: load('count', 0)
   };
   if (!DENSITY[state.density]) state.density = 'mid';
@@ -457,8 +456,6 @@
     });
 
     const parts = [];
-    const prefix = fresh(state.prefix.split(',').map((t) => t.trim()));
-    if (prefix.length) parts.push(prefix.join(', '));
     // 옷장 조각 한 줄 — 원피스(상의) · 하의 · 겉옷 · 소품 · 신발 · 모자. shoes 를 주면 신발이 그것으로 바뀐다('' 이면 뺌)
     const closetWear = (shoes) => {
       // 하의가 보조색이면 겉옷은 계절 무채색으로 — 같은 색 세트처럼 보이지 않게
@@ -474,10 +471,9 @@
       const tail = [foot, cHat() && cHat().t].filter(Boolean);
       return fresh([...pieces, ...accTexts(), ...tail].map(paint));
     };
-    // 옷장: 옷 한 줄만
+    // 옷장: 옷 한 줄만 (캐릭터 프롬프트 뒤에 붙여 쓴다)
     if (state.mode === 'wardrobe') {
-      parts.push(closetWear().join(', '));
-      return parts.filter(Boolean).join(', ');
+      return closetWear().join(', ');
     }
     parts.push(fresh(sh.tags).join(', '));
     const act = fresh(m.tags).join(', ');
@@ -509,7 +505,7 @@
     scene: $('#scene'), prop: $('#prop'), prop2: $('#prop2'), moment: $('#moment'), light: $('#light'),
     shot: $('#shot'), tone: $('#tone'), outfit: $('#outfit'), density: $('#density'), decorChips: $('#decorChips'), palette: $('#palette'),
     cMain: $('#cMain'), cBottom: $('#cBottom'), cOuter: $('#cOuter'), cShoes: $('#cShoes'), cHat: $('#cHat'), sex: $('#sex'),
-    emphasis: $('#emphasis'), prefix: $('#prefix'),
+    emphasis: $('#emphasis'),
     card: $('#card'), prompt: $('#prompt'), copy: $('#copyBtn'),
     frontSeason: $('#frontSeason'), frontTitle: $('#frontTitle'), frontSub: $('#frontSub'),
     stampSeason: $('#stampSeason'), stampNo: $('#stampNo'),
@@ -869,12 +865,6 @@
     save('emphasis', state.emphasis);
     renderCard();
   });
-  el.prefix.value = state.prefix;
-  el.prefix.addEventListener('input', () => {
-    state.prefix = el.prefix.value;
-    save('prefix', state.prefix);
-    renderCard();
-  });
 
   document.querySelectorAll('[data-roll]').forEach((b) => {
     b.addEventListener('click', () => {
@@ -1059,8 +1049,13 @@
   // 자가 점검에서 쓰는 창구
   window.__perennial = { state, locks, print, buildPrompt, validate, enterScene, enterWardSeason, render, roll, settle, cMain, cBottom, cOuter, cShoes, cHat, bottomsFor, fitCloset, mainPool, mixing, accPool, accById };
 
+  // 시작: 옷장 탭으로 저장돼 있어도 장면 · 옷장 계절을 먼저 정한 뒤 옷장을 연다
+  //(옷장 계절이 없을 때 옷장 조각 · 배색을 읽으면 오류가 나 화면이 빈 채로 멈췄다)
+  const startMode = state.mode;
+  state.mode = 'scene';
   enterScene(pick(D.scenes).id);
   state.wardSeason = scene().season;
+  state.mode = startMode;
   if (state.mode === 'wardrobe') enterWardSeason(state.wardSeason);
   state.count += 1;
   save('count', state.count);
