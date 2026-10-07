@@ -154,7 +154,7 @@ outfit color: deep burgundy, victorian bustle era fashion, bustle, soft drapes o
 
 ### 프롬프트 출력
 
-`GENERATE PROMPT`를 누르면 타자기 아래에서 색인 카드 한 장이 나옵니다.
+`GENERATE PROMPT`를 누르면 안 잠긴 줄을 모두 섞고, 타자기 아래에서 색인 카드 한 장이 나옵니다. 남길 값은 ◇ 로 잠그고, 한 줄만 바꾸려면 그 줄의 🎲 를 누릅니다.
 
 - `COPY` — 결과를 클립보드에 복사합니다.
 - `SAVE .TXT` — 결과를 텍스트 파일로 저장합니다.

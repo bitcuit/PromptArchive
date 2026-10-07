@@ -162,8 +162,7 @@
             </div>
 
             <div class="screen-bottom">
-              <button class="big-btn" id="shuffleBtn">SHUFFLE PARTS</button>
-              <button class="big-btn primary" id="printBtn">PRINT OUTFIT</button>
+              <button class="big-btn primary" id="printBtn" title="잠그지 않은 줄을 섞고 출력 · 잠근 줄은 그대로">PRINT OUTFIT</button>
             </div>
           </div>
         </div>
@@ -174,7 +173,6 @@
             <button class="mini-icon emoji-icon" id="quickTheme" title="Theme">🌐</button>
             <button class="mini-icon emoji-icon" id="quickHero" title="Head Piece">🌟</button>
             <button class="mini-icon emoji-icon" id="quickAdd" title="Other tags">✏️</button>
-            <button class="mini-icon emoji-icon" id="quickShuffle" title="Shuffle">✨</button>
             <button class="mini-icon emoji-icon" id="quickHelp" title="Help">❓</button>
           </div>
           <div class="printer-box"><div class="slot"></div><div class="slot-label">PROMPT OUTPUT SLOT</div></div>
@@ -218,7 +216,7 @@
       <div class="help-inner">
         <p class="help-intro">Y2K 의상 태그를 랜덤 조합해 NovelAI 프롬프트로 출력하는 장치.</p>
         <div class="help-step"><div class="step-no">STEP 01</div><h4>고르기</h4><p>각 줄에서 원하는 값을 고름.<br>안 쓸 항목은 None.</p></div>
-        <div class="help-step"><div class="step-no">STEP 02</div><h4>섞기</h4><p>🎲는 그 줄만 랜덤.<br>SHUFFLE은 전부 랜덤.<br>◇로 잠그면(◆) 섞어도 안 바뀜.</p></div>
+        <div class="help-step"><div class="step-no">STEP 02</div><h4>섞기</h4><p>PRINT는 잠그지 않은 줄을 전부 섞고 출력.<br>값을 지키려면 ◇로 잠금(◆).<br>한 줄만 바꾸려면 그 줄의 🎲.</p></div>
         <div class="help-step"><div class="step-no">STEP 03</div><h4>복사하기</h4><p>출력된 프롬프트를 COPY로 복사.<br>NovelAI에 붙여넣으면 끝.</p></div>
         <div class="help-step"><div class="step-no">STEP 04</div><h4>COMPLEXITY</h4><p>출력되는 태그의 양.<br>Simple은 적고 깔끔하게.<br>Max는 옷마다 전용 디테일까지 붙음.</p></div>
       </div>

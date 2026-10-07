@@ -60,29 +60,14 @@ button:focus-visible,input:focus-visible,[role="button"]:focus-visible{outline:2
 /* ---- camera ------------------------------------------------------------ */
 .camera{position:relative;z-index:2}
 .top-plate{
-  display:flex;align-items:flex-end;justify-content:space-between;gap:12px;
+  display:flex;align-items:flex-end;justify-content:flex-end;gap:12px;
   padding:0 58px;height:40px;
 }
-/* Two controls standing on the top of the body. */
-.wind,.shutter{
-  border:0;border-radius:16px 16px 0 0;padding:0 22px;
+/* The shutter standing on the top right of the body. */
+.shutter{
+  border:0;border-radius:16px 16px 0 0;padding:0 30px;
   font-size:11.5px;font-weight:700;letter-spacing:.1em;white-space:nowrap;
   transition:height .08s ease-out;
-}
-.wind{
-  position:relative;height:30px;padding:0 20px 0 38px;color:var(--c4);
-  background:linear-gradient(180deg,#fff 0,var(--metal-hi) 22%,var(--metal-lo) 100%);
-  box-shadow:-3px -3px 7px rgba(255,255,255,.92),3px -1px 8px rgba(150,152,165,.45),inset 0 1px 0 #fff;
-}
-/* The knurled edge of the winding wheel. */
-.wind::before{
-  content:"";position:absolute;left:14px;top:9px;bottom:7px;width:15px;border-radius:3px;
-  background:repeating-linear-gradient(90deg,var(--c3) 0 1.5px,transparent 1.5px 4px);
-}
-.wind:active{height:27px}
-.camera.firing .wind::before{animation:windOn .24s linear infinite}
-@keyframes windOn{to{background-position:4px 0}}
-.shutter{
   height:36px;color:var(--aqua-ink);
   background:linear-gradient(180deg,#fff 0,var(--aqua-hi) 18%,var(--aqua-lo) 100%);
   box-shadow:-3px -3px 7px rgba(255,255,255,.92),3px -1px 8px rgba(120,170,205,.4),inset 0 1px 0 rgba(255,255,255,.9);
@@ -492,9 +477,7 @@ select,.typed,.light-typed input,.picker-face{
 @media (max-width:620px){
   .darkroom{padding:20px 14px 56px}
   .top-plate{padding:0 34px;height:36px;gap:8px}
-  .wind,.shutter{padding:0 13px;font-size:10px;letter-spacing:.05em}
-  .wind{height:27px}
-  .shutter{height:32px}
+  .shutter{padding:0 13px;font-size:10px;letter-spacing:.05em;height:32px}
   .face{grid-template-columns:minmax(0,1fr);justify-items:center;gap:16px;padding:22px 56px 22px 24px;border-radius:28px}
   .grip{right:16px;width:22px}
   .lens{width:168px;padding:18px}
@@ -516,5 +499,5 @@ select,.typed,.light-typed input,.picker-face{
   .sticker{padding:6px 10px}
 }
 @media (prefers-reduced-motion:reduce){
-  .out.developing .print,.bench:has(.camera.firing) .strip,.flash.firing,.camera.firing .wind::before,.cast-print{animation:none}
+  .out.developing .print,.bench:has(.camera.firing) .strip,.flash.firing,.cast-print{animation:none}
 }

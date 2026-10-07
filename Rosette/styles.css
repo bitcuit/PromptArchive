@@ -723,6 +723,8 @@ select optgroup{font-style:normal;font-weight:600;color:#8a7358}
   background:linear-gradient(#87433b,#5e2525);
   border-color:#4e1b1b;
 }
+/* 출력 단추 하나만 남음 — 옛 두 단추 자리만큼 넓혀 줄 가운데에 둔다 */
+.actions > .big.primary{min-width:min(340px,100%);grid-column:1 / -1}
 
 .keyboard{
   position:relative;
