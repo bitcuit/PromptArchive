@@ -508,6 +508,7 @@ select{
 }
 .big-btn.primary{color:white;background:linear-gradient(var(--accent2),var(--accent));text-shadow:0 1px 0 rgba(0,0,0,.2)}
 .big-btn:active{transform:translateY(2px);border-bottom-width:2px}
+#printBtn{min-width:240px}
 
 .deco-row{
   display:grid;

@@ -1772,8 +1772,8 @@ $("#collection").addEventListener("change",()=>{updatePack();rollSlotsOnly();});
 ["color","accent","other"].forEach(id=>$("#"+id).addEventListener("change",updatePreview));
 ["period","gender","fidelity","detail"].forEach(id=>$("#"+id).addEventListener("change",updatePreview));
 Object.values(inputs).forEach(sel=>$(sel).addEventListener("change",updatePreview));
-$("#shuffleBtn").addEventListener("click",randomize);
-$("#transcribeBtn").addEventListener("click",transcribe);
+/* GENERATE PROMPT — 늘 안 잠긴 줄을 randomize() 로 먼저 섞고 인쇄 (잠근 줄은 그대로, 한 줄만 바꾸려면 그 줄의 🎲) */
+$("#transcribeBtn").addEventListener("click",()=>{randomize();transcribe();});
 /* REPRINT — 2004 와 같은 뜻: 설정(인덱스·잠금)은 그대로 두고 안 잠긴 슬롯만 새로 뽑아 다시 인쇄 */
 $("#reprintBtn").addEventListener("click",()=>{rollSlotsOnly();transcribe();});
 $("#copyBtn").addEventListener("click",copyText);

@@ -977,9 +977,12 @@ updateSettingsLanguage();
 syncEnvironmentControl();
 updatePreviewFromSelections();
 
-$("#printBtn").addEventListener("click",()=>generate());
+// Every shutter release shuffles the unlocked fields first; locked ones stay.
+$("#printBtn").addEventListener("click",()=>{
+  randomizeUnlocked();
+  generate();
+});
 $("#rerollBtn").addEventListener("click",()=>generate());
-$("#shuffleBtn").addEventListener("click",randomizeUnlocked);
 $("#copyBtn").addEventListener("click",copyPrompt);
 $("#splitBtn").addEventListener("click",()=>{
   const on=!splitWanted();

@@ -1,10 +1,15 @@
 {
-  "at": "2026-10-05 00:58",
+  "at": "2026-10-07 21:11",
   "by": "claude-code",
-  "doing": "Perennial 화보 성별과 첫 화면 카드 · 태그 · 검색을 커밋했어요",
-  "where": "index.html, Perennial/app.js outfitCandidates()",
+  "doing": "작업 중 에디션을 ing로 빼고 첫 화면 · README에는 완성본 4개만 남겼어요. 출력 단추는 늘 잠그지 않은 칸을 섞어요",
+  "where": "index.html 카드 숨김 주석, README.md 에디션 표, 2004 · Halation · Rosette app.js 출력 단추",
   "state": "돌아감",
-  "next": "GitHub Desktop으로 올리고 Pages에서 첫 화면 확인",
+  "next": "GitHub Desktop으로 올리고 Pages 첫 화면에 4개만 보이는지 확인",
   "blocked": "",
-  "session": { "id": "2011f0e2-eef2-40d0-86a2-bf0d7df73281", "title": "", "tool": "claude-code" }
+  "test": "브라우저에서 2004 · Halation · Rosette의 출력 단추를 몇 번 눌러 잠그지 않은 칸만 바뀌는지",
+  "session": {
+    "id": "37b5b97d-bfd1-4e26-88ec-97aab1c0dad0",
+    "title": "",
+    "tool": "claude-code"
+  }
 }

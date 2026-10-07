@@ -603,9 +603,12 @@ updateSettingsLanguage();
 syncAnimalControl();
 updatePreviewFromSelections();
 
-$("#printBtn").addEventListener("click",()=>generate());
+// Every PRINT shuffles the unlocked fields first; locked ones stay.
+$("#printBtn").addEventListener("click",()=>{
+  randomizeUnlocked();
+  generate();
+});
 $("#rerollBtn").addEventListener("click",()=>generate());
-$("#shuffleBtn").addEventListener("click",randomizeUnlocked);
 $("#copyBtn").addEventListener("click",copyPrompt);
 $("#saveBtn").addEventListener("click",saveTxt);
 
@@ -628,7 +631,6 @@ $("#quickAdd").addEventListener("click",()=>{
   $("#customAdd").focus();
   $("#customAdd").scrollIntoView({behavior:"smooth",block:"center"});
 });
-$("#quickShuffle").addEventListener("click",randomizeUnlocked);
 $("#quickHelp").addEventListener("click",()=>$("#helpModal").classList.add("open"));
 
 // Receipt tear-off: drag the perforation downward to close the current receipt.
