@@ -1773,9 +1773,23 @@ $("#collection").addEventListener("change",()=>{updatePack();rollSlotsOnly();});
 ["period","gender","fidelity","detail"].forEach(id=>$("#"+id).addEventListener("change",updatePreview));
 Object.values(inputs).forEach(sel=>$(sel).addEventListener("change",updatePreview));
 /* GENERATE PROMPT — 늘 안 잠긴 줄을 randomize() 로 먼저 섞고 인쇄 (잠근 줄은 그대로, 한 줄만 바꾸려면 그 줄의 🎲) */
-$("#transcribeBtn").addEventListener("click",()=>{randomize();transcribe();});
+/* 같은 설정이면 같은 결과 — 출력 함수 안의 무작위를 씨앗으로 고정한다. 새로 뽑을 때만 씨앗을 바꾼다. */
+let rollSeed=(Math.random()*4294967296)>>>0;
+const newSeed=()=>{rollSeed=(Math.random()*4294967296)>>>0;};
+function seeded(fn){
+  const real=Math.random;let a=rollSeed;
+  Math.random=()=>{a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};
+  try{return fn();}finally{Math.random=real;}
+}
+const _transcribe=transcribe;
+transcribe=(...a)=>seeded(()=>_transcribe(...a));
+/* GENERATE — 기본은 지금 줄 그대로. "누를 때마다 새로 뽑기"를 켜면 안 잠긴 줄을 섞고 인쇄. REPRINT 는 늘 새로. */
+const rerollToggle=document.getElementById("rerollToggle");
+try{ rerollToggle.checked=localStorage.getItem("rosette.reroll")==="1"; }catch(e){}
+rerollToggle.addEventListener("change",()=>{ try{localStorage.setItem("rosette.reroll",rerollToggle.checked?"1":"0");}catch(e){} });
+$("#transcribeBtn").addEventListener("click",()=>{ if(rerollToggle.checked){ randomize(); newSeed(); } transcribe(); });
 /* REPRINT — 2004 와 같은 뜻: 설정(인덱스·잠금)은 그대로 두고 안 잠긴 슬롯만 새로 뽑아 다시 인쇄 */
-$("#reprintBtn").addEventListener("click",()=>{rollSlotsOnly();transcribe();});
+$("#reprintBtn").addEventListener("click",()=>{rollSlotsOnly();newSeed();transcribe();});
 $("#copyBtn").addEventListener("click",copyText);
 $("#saveBtn").addEventListener("click",saveText);
 updatePack();applySelectLanguage();updatePreview();

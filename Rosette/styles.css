@@ -1618,3 +1618,15 @@ select optgroup{font-style:normal;font-weight:600;color:#8a7358}
   .key{width:16px;height:16px}
   .key-row{gap:3px}
 }
+
+/* 누를 때마다 새로 뽑기 — 기본 꺼짐(지금 칸 그대로 출력) */
+.reroll-switch{display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;letter-spacing:.02em;color:var(--muted);transition:color .15s;user-select:none}
+.reroll-switch:hover,.reroll-switch:has(input:checked){color:var(--ink)}
+.reroll-switch input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.reroll-track{position:relative;flex:0 0 28px;height:16px;border:1px solid var(--muted);border-radius:8px;transition:border-color .15s,background .15s}
+.reroll-track::after{content:"";position:absolute;top:2px;left:2px;width:10px;height:10px;border-radius:50%;background:var(--muted);transition:transform .15s,background .15s}
+.reroll-switch input:checked + .reroll-track{border-color:var(--burgundy);background:rgba(111,44,44,.12)}
+.reroll-switch input:checked + .reroll-track::after{transform:translateX(12px);background:var(--burgundy)}
+.reroll-switch input:focus-visible + .reroll-track{outline:1px solid var(--burgundy);outline-offset:2px}
+.actions:has(.reroll-switch){flex-direction:column;align-items:center}
+.actions .reroll-switch{grid-column:1 / -1;justify-self:center}

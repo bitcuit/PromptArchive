@@ -603,12 +603,25 @@ updateSettingsLanguage();
 syncAnimalControl();
 updatePreviewFromSelections();
 
-// Every PRINT shuffles the unlocked fields first; locked ones stay.
+/* 같은 설정이면 같은 결과 — 출력 함수 안의 무작위를 씨앗으로 고정한다. 새로 뽑을 때만 씨앗을 바꾼다. */
+let rollSeed=(Math.random()*4294967296)>>>0;
+const newSeed=()=>{rollSeed=(Math.random()*4294967296)>>>0;};
+function seeded(fn){
+  const real=Math.random;let a=rollSeed;
+  Math.random=()=>{a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};
+  try{return fn();}finally{Math.random=real;}
+}
+const _generate=generate;
+generate=(...a)=>seeded(()=>_generate(...a));
+/* PRINT — 기본은 지금 줄 그대로. "누를 때마다 새로 뽑기"를 켜면 잠그지 않은 줄을 섞고 출력. REPRINT 는 같은 줄로 세부만 새로. */
+const rerollToggle=document.getElementById("rerollToggle");
+try{ rerollToggle.checked=localStorage.getItem("pa2004.reroll")==="1"; }catch(e){}
+rerollToggle.addEventListener("change",()=>{ try{localStorage.setItem("pa2004.reroll",rerollToggle.checked?"1":"0");}catch(e){} });
 $("#printBtn").addEventListener("click",()=>{
-  randomizeUnlocked();
+  if(rerollToggle.checked){ randomizeUnlocked(); newSeed(); }
   generate();
 });
-$("#rerollBtn").addEventListener("click",()=>generate());
+$("#rerollBtn").addEventListener("click",()=>{ newSeed(); generate(); });
 $("#copyBtn").addEventListener("click",copyPrompt);
 $("#saveBtn").addEventListener("click",saveTxt);
 
