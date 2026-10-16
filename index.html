@@ -18,7 +18,8 @@
   아이콘 규칙 — 어떤 모양이든 칸 안에서 크기와 여백이 같아 보이게
   - 캔버스 24×24, 사방 2칸은 비운다(그림 영역 20×20). 가장자리에 닿는 그림은 없다.
   - 실루엣에 따라 키라인을 고르고, 그림의 바깥 끝이 그 키라인에 정확히 닿게 그린다(가운데 정렬).
-      가로형 20×16 (x2–21, y4–19) — 출력 기계 · 카메라 · 타자기 · 상자 · 태피
+      가로형 20×16 (x2–21, y4–19) — 출력 기계 · 카메라 · 타자기 · 상자
+      납작형 20×12 (x2–21, y6–17) — 태피처럼 가로로 길고 낮은 것
       세로형 16×20 (x4–19, y2–21) — 로켓 · 반지
       정사각형 18×18 (x3–20, y3–20) — 우표 · 파라솔
     네모는 같은 크기라도 커 보이고 둥글거나 길쭉한 것은 작아 보여서, 정사각형은 줄이고 긴 쪽은 늘린다.
@@ -222,7 +223,7 @@ apply();
 // 에디션 수는 카드 개수로
 document.getElementById('edCount').textContent = String(document.querySelectorAll('.shelf > li').length).padStart(2, '0');
 // 도트 아이콘 — 24×24 칸. 글자 하나가 한 칸, "." 은 빈칸, 나머지는 pal 의 색. 같은 색이 이어지면 한 사각형으로 그린다.
-// 그리는 법: 맨 위 주석의 "아이콘 규칙". shape 는 그 아이콘의 키라인(wide 20×16 · tall 16×20 · square 18×18).
+// 그리는 법: 맨 위 주석의 "아이콘 규칙". shape 는 그 아이콘의 키라인(wide 20×16 · flat 20×12 · tall 16×20 · square 18×18).
 const ICONS = {
   '2004': { shape: 'wide', pal: {"a": "#4f93c8", "b": "#f3fbff", "c": "#cdeafc", "d": "#2a3a52", "e": "#9fd0ef", "f": "#9fdcff", "g": "#ffffff", "h": "#7cc8f2", "i": "#ff8fb6", "j": "#e2638f"},
     rows: [
@@ -521,28 +522,28 @@ const ICONS = {
       '........................',
       '........................',
     ] },
-  'taffy': { shape: 'wide', pal: {"a": "#c98f4a", "b": "#f1cf9c", "c": "#a8652a", "d": "#dcae6e", "e": "#ffe9c2", "f": "#e6a24f", "g": "#fbe7c4", "h": "#9a6aa0", "i": "#6b3f6f"},
+  'taffy': { shape: 'flat', pal: {"a": "#4a2a63", "b": "#9a4a1f", "c": "#8a5bb0", "d": "#3a2147", "e": "#ffc278", "f": "#f29a3f", "g": "#73479a", "h": "#b35a22", "i": "#d47a2a"},
     rows: [
       '........................',
       '........................',
       '........................',
       '........................',
+      '........................',
+      '........................',
       '..a..................a..',
-      '..aa................aa..',
-      '..aba..............aba..',
-      '..abba....cccc....abba..',
-      '..abdba..cefgfc..abdba..',
-      '..adbbb.cefffgfc.bbbda..',
-      '..abbbhicgfffgfchibbba..',
-      '..abdbicffgfffgfcibdba..',
-      '..adbbicffgfffgfcibbda..',
-      '..abbbiicffgfffciibbba..',
-      '..abdbb.cffgfffc.bbdba..',
-      '..adbba..cffgfc..abbda..',
-      '..abba....cccc....abba..',
-      '..aba..............aba..',
-      '..aa................aa..',
+      '..aa....bbbbbbbb....aa..',
+      '..aca..bdeeeeeedb..aca..',
+      '...accabdfddddfdbacca...',
+      '....accbdffffffdbcca....',
+      '..acgccbdfhhhhfdbccgca..',
+      '..acggcbdffffffdbcggca..',
+      '....accbdfhhhffdbcca....',
+      '...accabdffffffdbacca...',
+      '..aca..bdiiiiiidb..aca..',
+      '..aa....bbbbbbbb....aa..',
       '..a..................a..',
+      '........................',
+      '........................',
       '........................',
       '........................',
       '........................',
