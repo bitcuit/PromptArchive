@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PROMPT ARCHIVE TAFFY</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-dice" viewBox="0 0 16 16"><rect x="1.5" y="1.5" width="13" height="13" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="5" cy="5" r="1.3" fill="currentColor"/><circle cx="11" cy="5" r="1.3" fill="currentColor"/><circle cx="8" cy="8" r="1.3" fill="currentColor"/><circle cx="5" cy="11" r="1.3" fill="currentColor"/><circle cx="11" cy="11" r="1.3" fill="currentColor"/></symbol>
+  <symbol id="i-save" viewBox="0 0 16 16"><path d="M2.5 2.5h9l2 2v9h-11z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><rect x="5" y="2.5" width="5" height="3.5" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="4.5" y="9" width="7" height="4.5" fill="none" stroke="currentColor" stroke-width="1.2"/></symbol>
+</svg>
+
+<main class="porch">
+  <!-- 현관 정면: 위 반원 채광창 · 왼쪽 옆창 · 문 한 짝 · 오른쪽 옆창 · 아래 도어매트 -->
+  <section class="frontage">
+
+    <div class="fanlight" aria-live="polite">
+      <div class="fan-glass">
+        <span class="fan-collection" id="collectionPill">MONSTER MASH</span>
+        <span class="fan-title" id="previewEra">Witch</span>
+        <span class="fan-mode" id="previewMode">Party · Classic · Feminine</span>
+        <span class="fan-lines" id="plateLines"></span>
+      </div>
+    </div>
+
+    <div class="entry">
+
+      <!-- 왼쪽 옆창 — 분장 고르기 -->
+      <aside class="sidelight sidelight-left">
+        <header class="nameplate">
+          <div class="brand">
+            <div class="brand-name">Taffy</div>
+            <div class="brand-line"><span>Prompt Archive</span><span>trick-or-treat porch</span></div>
+          </div>
+          <div class="plate-tools">
+            <label class="lang-switch" title="드롭다운 언어 전환">
+              <span class="lang-label">한</span>
+              <input id="langToggle" type="checkbox" aria-label="Switch dropdown language">
+              <span class="lang-track"><span class="lang-thumb"></span></span>
+              <span class="lang-label">EN</span>
+            </label>
+            <div class="preset-tools">
+              <button class="tool" id="presetOpen" type="button" title="프리셋" aria-label="프리셋">★</button>
+              <div class="preset-menu" id="presetMenu" hidden>
+                <div class="preset-head">
+                  <input id="presetName" type="text" placeholder="프리셋 이름" autocomplete="off">
+                  <button class="preset-save-btn" id="presetSaveGo" type="button" title="저장" aria-label="저장"><svg class="ico" aria-hidden="true"><use href="#i-save"/></svg></button>
+                </div>
+                <div class="preset-list" id="presetList"></div>
+              </div>
+            </div>
+            <button class="tool" id="helpBtn" type="button" aria-label="사용법">?</button>
+          </div>
+        </header>
+
+        <div class="pane-list">
+          <div class="field"><label id="labelCollection">COSTUME TYPE</label>
+            <select id="collection">
+              <option value="classic" selected>Classic Costumes</option>
+              <option value="illust">Fantasy Costumes</option>
+              <option value="everyday">Everyday Costumes</option>
+              <option value="cosplay">Character Costumes</option>
+              <option value="cross">Costume Mix</option>
+            </select>
+            <span class="btns">
+              <button class="reroll" data-reroll="collection" type="button" title="이 줄만 다시 뽑기"><svg class="ico" aria-hidden="true"><use href="#i-dice"/></svg></button>
+              <button class="lock" data-lock="collection" type="button" title="값 잠그기">◇</button>
+            </span>
+          </div>
+          <div class="field"><label id="labelPeriod">COSTUME</label>
+            <div class="control">
+              <select id="period"></select>
+              <div class="multi-select" data-multi="period" hidden>
+                <button class="multi-toggle" type="button" aria-expanded="false"><span class="multi-summary"></span></button>
+                <div class="multi-menu" hidden>
+                  <div class="multi-presets" id="periodPresets"></div>
+                  <div class="multi-list" id="periodList"></div>
+                </div>
+              </div>
+              <select id="periodMulti" multiple hidden></select>
+            </div>
+            <span class="btns">
+              <button class="reroll" data-reroll="period" type="button" title="이 줄만 다시 뽑기"><svg class="ico" aria-hidden="true"><use href="#i-dice"/></svg></button>
+              <button class="lock" data-lock="period" type="button" title="값 잠그기">◇</button>
+            </span>
+          </div>
+          <div class="field" id="styleField" hidden><label id="labelStyle">OUTFIT STYLE</label>
+            <select id="style"></select>
+            <span class="btns">
+              <button class="reroll" data-reroll="style" type="button" title="이 줄만 다시 뽑기"><svg class="ico" aria-hidden="true"><use href="#i-dice"/></svg></button>
+              <button class="lock" data-lock="style" type="button" title="값 잠그기">◇</button>
+            </span>
+          </div>
+          <div class="field" id="motifField" hidden><label id="labelMotif">DECORATIVE MOTIF</label>
+            <select id="motif"></select>
+            <span class="btns">
+              <button class="reroll" data-reroll="motif" type="button" title="이 줄만 다시 뽑기"><svg class="ico" aria-hidden="true"><use href="#i-dice"/></svg></button>
+              <button class="lock" data-lock="motif" type="button" title="값 잠그기">◇</button>
+            </span>
+          </div>
+          <div class="field"><label id="labelGender">GENDER</label>
+            <select id="gender">
+              <option value="Feminine">Feminine</option>
+              <option value="Masculine">Masculine</option>
+              <option value="Neutral">Neutral</option>
+            </select>
+            <span class="btns">
+              <button class="reroll" data-reroll="gender" type="button" title="이 줄만 다시 뽑기"><svg class="ico" aria-hidden="true"><use href="#i-dice"/></svg></button>
+              <button class="lock" data-lock="gender" type="button" title="값 잠그기">◇</button>
+            </span>
+          </div>
+          <div class="field"><label id="labelFidelity">FINISH</label>
+            <select id="fidelity">
+              <option value="Party" selected>Party</option>
+              <option value="Editorial">Editorial</option>
+              <option value="RealNight">Real Night</option>
+            </select>
+            <span class="btns">
+              <button class="reroll" data-reroll="fidelity" type="button" title="이 줄만 다시 뽑기"><svg class="ico" aria-hidden="true"><use href="#i-dice"/></svg></button>
+              <button class="lock" data-lock="fidelity" type="button" title="값 잠그기">◇</button>
+            </span>
+          </div>
+          <div class="field"><label id="labelExposure">COVERAGE</label>
+            <select id="exposure">
+              <option value="Covered">Modest</option>
+              <option value="Classic" selected>Standard</option>
+              <option value="Daring">Bold</option>
+            </select>
+            <span class="btns">
+              <button class="reroll" data-reroll="exposure" type="button" title="이 줄만 다시 뽑기"><svg class="ico" aria-hidden="true"><use href="#i-dice"/></svg></button>
+              <button class="lock" data-lock="exposure" type="button" title="값 잠그기">◇</button>
+            </span>
+          </div>
+          <div class="field"><label id="labelDetail">DETAIL</label>
+            <select id="detail">
+              <option value="Simple">Concise</option>
+              <option value="Medium" selected>Standard</option>
+              <option value="Max">Detailed</option>
+              <option value="Random">Random</option>
+            </select>
+            <span class="btns">
+              <button class="reroll" data-reroll="detail" type="button" title="이 줄만 다시 뽑기"><svg class="ico" aria-hidden="true"><use href="#i-dice"/></svg></button>
+              <button class="lock" data-lock="detail" type="button" title="값 잠그기">◇</button>
+            </span>
+          </div>
+          <div class="field"><label id="labelColor">BASE COLOR</label>
+            <select id="color"></select>
+            <span class="btns">
+              <button class="reroll" data-reroll="color" type="button" title="이 줄만 다시 뽑기"><svg class="ico" aria-hidden="true"><use href="#i-dice"/></svg></button>
+              <button class="lock" data-lock="color" type="button" title="값 잠그기">◇</button>
+            </span>
+          </div>
+          <div class="field"><label id="labelAccent">ACCENT COLOR</label>
+            <select id="accent"></select>
+            <span class="btns">
+              <button class="reroll" data-reroll="accent" type="button" title="이 줄만 다시 뽑기"><svg class="ico" aria-hidden="true"><use href="#i-dice"/></svg></button>
+              <button class="lock" data-lock="accent" type="button" title="값 잠그기">◇</button>
+            </span>
+          </div>
+          <div class="field"><label id="labelOther">EXTRA TAGS</label>
+            <input id="other" type="text" placeholder="extra tags, comma separated" autocomplete="off">
+          </div>
+        </div>
+      </aside>
+
+      <!-- 문 — 안쪽은 따뜻한 빛, 문짝의 네 판자 칸이 슬롯 -->
+      <div class="doorway">
+        <div class="hall-light" aria-hidden="true"></div>
+        <div class="door" id="door">
+          <div class="ban-menu" id="banMenu" hidden>
+            <div class="ban-menu-head"><span id="banMenuTitle"></span><button type="button" id="banMenuAll" class="multi-preset"></button></div>
+            <div class="multi-list" id="banMenuList"></div>
+          </div>
+
+          <div class="panel panel-a">
+            <div class="field slot"><label id="labelGarment">OUTFIT</label>
+              <select id="garment"></select>
+              <span class="btns">
+                <button class="reroll" data-reroll="garment" type="button" title="이 칸만 다시 뽑기"><svg class="ico" aria-hidden="true"><use href="#i-dice"/></svg></button>
+                <button class="lock" data-lock="garment" type="button" title="값 잠그기">◇</button>
+                <button class="skip" data-skip="garment" type="button" title="이 슬롯 빼기">−</button>
+                <button class="ban" data-ban="garment" type="button" title="랜덤에서 뺄 항목 고르기">⊘</button>
+              </span>
+            </div>
+            <div class="field slot"><label id="labelStructure">WAIST ACCESSORIES</label>
+              <select id="structure"></select>
+              <span class="btns">
+                <button class="reroll" data-reroll="structure" type="button" title="이 칸만 다시 뽑기"><svg class="ico" aria-hidden="true"><use href="#i-dice"/></svg></button>
+                <button class="lock" data-lock="structure" type="button" title="값 잠그기">◇</button>
+                <button class="skip" data-skip="structure" type="button" title="이 슬롯 빼기">−</button>
+                <button class="ban" data-ban="structure" type="button" title="랜덤에서 뺄 항목 고르기">⊘</button>
+              </span>
+            </div>
+            <div class="field slot"><label id="labelFoundation">LEGWEAR</label>
+              <select id="foundation"></select>
+              <span class="btns">
+                <button class="reroll" data-reroll="foundation" type="button" title="이 칸만 다시 뽑기"><svg class="ico" aria-hidden="true"><use href="#i-dice"/></svg></button>
+                <button class="lock" data-lock="foundation" type="button" title="값 잠그기">◇</button>
+                <button class="skip" data-skip="foundation" type="button" title="이 슬롯 빼기">−</button>
+                <button class="ban" data-ban="foundation" type="button" title="랜덤에서 뺄 항목 고르기">⊘</button>
+              </span>
+            </div>
+          </div>
+
+          <div class="panel panel-b">
+            <div class="field slot"><label id="labelNeckwear">NECKWEAR</label>
+              <select id="neckwear"></select>
+              <span class="btns">
+                <button class="reroll" data-reroll="neckwear" type="button" title="이 칸만 다시 뽑기"><svg class="ico" aria-hidden="true"><use href="#i-dice"/></svg></button>
+                <button class="lock" data-lock="neckwear" type="button" title="값 잠그기">◇</button>
+                <button class="skip" data-skip="neckwear" type="button" title="이 슬롯 빼기">−</button>
+                <button class="ban" data-ban="neckwear" type="button" title="랜덤에서 뺄 항목 고르기">⊘</button>
+              </span>
+            </div>
+            <div class="field slot"><label id="labelOuter">OUTERWEAR</label>
+              <select id="outer"></select>
+              <span class="btns">
+                <button class="reroll" data-reroll="outer" type="button" title="이 칸만 다시 뽑기"><svg class="ico" aria-hidden="true"><use href="#i-dice"/></svg></button>
+                <button class="lock" data-lock="outer" type="button" title="값 잠그기">◇</button>
+                <button class="skip" data-skip="outer" type="button" title="이 슬롯 빼기">−</button>
+                <button class="ban" data-ban="outer" type="button" title="랜덤에서 뺄 항목 고르기">⊘</button>
+              </span>
+            </div>
+            <div class="field slot"><label id="labelFootwear">FOOTWEAR</label>
+              <select id="footwear"></select>
+              <span class="btns">
+                <button class="reroll" data-reroll="footwear" type="button" title="이 칸만 다시 뽑기"><svg class="ico" aria-hidden="true"><use href="#i-dice"/></svg></button>
+                <button class="lock" data-lock="footwear" type="button" title="값 잠그기">◇</button>
+                <button class="skip" data-skip="footwear" type="button" title="이 슬롯 빼기">−</button>
+                <button class="ban" data-ban="footwear" type="button" title="랜덤에서 뺄 항목 고르기">⊘</button>
+              </span>
+            </div>
+          </div>
+
+          <div class="rail" aria-hidden="true">
+            <span class="knob"></span>
+            <span class="letterbox"></span>
+          </div>
+
+          <div class="panel panel-c">
+            <div class="field slot"><label id="labelHeadwear">HEADWEAR</label>
+              <select id="headwear"></select>
+              <span class="btns">
+                <button class="reroll" data-reroll="headwear" type="button" title="이 칸만 다시 뽑기"><svg class="ico" aria-hidden="true"><use href="#i-dice"/></svg></button>
+                <button class="lock" data-lock="headwear" type="button" title="값 잠그기">◇</button>
+                <button class="skip" data-skip="headwear" type="button" title="이 슬롯 빼기">−</button>
+                <button class="ban" data-ban="headwear" type="button" title="랜덤에서 뺄 항목 고르기">⊘</button>
+              </span>
+            </div>
+            <div class="field slot"><label id="labelAccessories">ACCESSORIES</label>
+              <div class="control">
+                <div class="multi-select" data-multi="accessories">
+                  <button class="multi-toggle" type="button" aria-expanded="false"><span class="multi-summary"></span></button>
+                  <div class="multi-menu" hidden>
+                    <div class="multi-modes">
+                      <button class="multi-mode on" data-mode="combine" type="button">＋ 함께 사용</button>
+                      <button class="multi-mode" data-mode="random" type="button"><svg class="ico ico-inline" aria-hidden="true"><use href="#i-dice"/></svg> 랜덤 1개</button>
+                      <button class="multi-none" type="button">없음</button>
+                    </div>
+                    <div class="multi-list" id="accessoriesList"></div>
+                  </div>
+                </div>
+                <select id="accessories" multiple hidden></select>
+              </div>
+              <span class="btns">
+                <button class="reroll" data-reroll="accessories" type="button" title="이 칸만 다시 뽑기"><svg class="ico" aria-hidden="true"><use href="#i-dice"/></svg></button>
+                <button class="lock" data-lock="accessories" type="button" title="값 잠그기">◇</button>
+                <button class="skip" data-skip="accessories" type="button" title="이 슬롯 빼기">−</button>
+                <button class="ban" data-ban="accessories" type="button" title="랜덤에서 뺄 항목 고르기">⊘</button>
+              </span>
+            </div>
+          </div>
+
+          <div class="panel panel-d">
+            <div class="field slot"><label id="labelWeapon">HAND PROPS</label>
+              <select id="weapon"></select>
+              <span class="btns">
+                <button class="reroll" data-reroll="weapon" type="button" title="이 칸만 다시 뽑기"><svg class="ico" aria-hidden="true"><use href="#i-dice"/></svg></button>
+                <button class="lock" data-lock="weapon" type="button" title="값 잠그기">◇</button>
+                <button class="skip" data-skip="weapon" type="button" title="이 슬롯 빼기">−</button>
+                <button class="ban" data-ban="weapon" type="button" title="랜덤에서 뺄 항목 고르기">⊘</button>
+              </span>
+            </div>
+            <div class="field slot"><label id="labelDevice">FACE MAKEUP</label>
+              <select id="device"></select>
+              <span class="btns">
+                <button class="reroll" data-reroll="device" type="button" title="이 칸만 다시 뽑기"><svg class="ico" aria-hidden="true"><use href="#i-dice"/></svg></button>
+                <button class="lock" data-lock="device" type="button" title="값 잠그기">◇</button>
+                <button class="skip" data-skip="device" type="button" title="이 슬롯 빼기">−</button>
+                <button class="ban" data-ban="device" type="button" title="랜덤에서 뺄 항목 고르기">⊘</button>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 오른쪽 옆창 — 검색 · 필터 · 초인종 -->
+      <aside class="sidelight sidelight-right">
+        <div class="house-no" aria-hidden="true">No. 31</div>
+        <div class="bell-box">
+          <button class="bell" id="transcribeBtn" type="button"><span class="bell-word">Ring</span><span class="bell-sub">trick or treat</span></button>
+          <label class="reroll-switch" title="켜면 Ring을 누를 때마다 안 잠긴 칸을 새로 뽑아요. 끄면 지금 칸 그대로 받아요"><input id="rerollToggle" type="checkbox" role="switch"><span class="reroll-track" aria-hidden="true"></span><span>누를 때마다 새로 뽑기</span></label>
+        </div>
+        <div class="slot-search">
+          <input id="slotSearch" type="search" placeholder="항목 검색 — 망토, broom" autocomplete="off" aria-label="항목 검색">
+          <button id="slotSearchClear" type="button" title="검색 지우기" aria-label="검색 지우기">×</button>
+          <div class="search-panel" id="searchPanel" hidden>
+            <div class="search-tabs" id="searchTabs"></div>
+            <div class="search-list" id="searchList"></div>
+          </div>
+        </div>
+        <div class="cat-bar" id="catBar"></div>
+        <div class="ban-list" id="banList" hidden></div>
+        <div class="atmosphere">
+          <label for="eerie" id="labelEerie">호러 장식</label>
+          <select id="eerie"></select>
+          <label class="background-toggle"><input id="backgroundEnabled" type="checkbox"><span id="labelBackgroundEnabled">배경 넣기</span></label>
+          <div class="background-choice" id="backgroundField" hidden>
+            <label for="background" id="labelBackground">배경</label>
+            <select id="background"></select>
+          </div>
+        </div>
+        <div class="status" id="status">READY</div>
+        <section class="treats" aria-label="받은 태피">
+          <div class="treats-head">
+            <span>TREATS <span class="treats-note">— 창을 닫으면 사라져요</span></span>
+            <span class="treats-save">
+              <button type="button" id="treatsTxt" title="받은 목록을 TXT 로 받기">TXT</button>
+              <button type="button" id="treatsMd" title="받은 목록을 MD 로 받기">MD</button>
+              <button type="button" id="treatsNote" title="탭 · 검색 · 합치기가 되는 노트(HTML)로 받기">노트</button>
+            </span>
+          </div>
+          <ol class="treats-list" id="treatsList"></ol>
+          <p class="treats-empty" id="treatsEmpty">Ring 을 누르면 받은 태피가 여기 쌓여요.<br>누르면 다시 뽑지 않고 그대로 열려요.</p>
+        </section>
+
+      </aside>
+    </div>
+
+    <!-- 초인종을 누르면 문간에서 태피 한 알이 화면 가운데로 던져진다 -->
+    <div class="drop" id="resultZone" aria-live="polite">
+      <div class="burst" aria-hidden="true">
+        <span class="spark"></span>
+        <span class="spark"></span>
+        <span class="spark dot"></span>
+        <span class="spark"></span>
+        <span class="spark"></span>
+        <span class="spark dot"></span>
+        <span class="spark"></span>
+        <span class="spark"></span>
+        <span class="spark dot"></span>
+        <span class="spark"></span>
+        <span class="spark"></span>
+        <span class="spark dot"></span>
+        <span class="spark"></span>
+        <span class="spark"></span>
+      </div>
+        <article class="taffy" id="sheet">
+          <span class="twist twist-l" aria-hidden="true"></span>
+          <span class="twist twist-r" aria-hidden="true"></span>
+          <div class="taffy-body">
+            <button class="taffy-close" id="taffyClose" type="button" title="닫기 (Esc)" aria-label="닫기">×</button>
+            <div class="taffy-head">
+              <span class="taffy-title" id="sheetTitle">Witch</span>
+              <span class="taffy-sub" id="sheetSub">마녀</span>
+              <span class="taffy-occasion" id="sheetOccasion">PARTY · CLASSIC</span>
+            </div>
+            <div class="prompt" id="prompt"></div>
+            <div class="taffy-foot">
+              <span class="taffy-meta" id="sheetMeta">FEMININE · DETAIL MEDIUM</span>
+              <span class="taffy-code" id="sheetCode">PA·TFY·I · M-01 · No. 0001</span>
+              <span class="taffy-actions">
+                <button class="wrap-btn" id="copyBtn" type="button">Copy</button>
+                <button class="wrap-btn" id="saveBtn" type="button">Save .txt</button>
+                <button class="wrap-btn" id="reprintBtn" type="button">One more</button>
+              </span>
+            </div>
+          </div>
+          <button class="tear-handle" id="tearHandle" type="button" aria-label="포장지 뜯기">✂ drag to tear</button>
+        </article>
+      </div>
+  </section>
+</main>
+
+<div class="help-modal" id="helpModal">
+  <div class="help-card">
+    <div class="help-top">
+      <div class="help-title">Taffy 사용법</div>
+      <button class="help-close" id="helpClose" type="button" aria-label="닫기">×</button>
+    </div>
+    <div class="help-inner">
+      <p class="help-intro">할로윈 분장 한 벌을 NovelAI 프롬프트로 만드는 현관문.<br>표기는 한 / EN 스위치, 출력은 항상 영문.</p>
+
+      <div class="help-step">
+        <div class="step-no">STEP 01</div>
+        <h4>분장 고르기</h4>
+        <p>왼쪽에서 분장 유형과 분장을 고름.<br>판타지 분장 위쪽의 원형은 의상 스타일과 장식 문양을 따로 조합함.<br>디자인 목록은 원형 · 테마 순서. 예: 마녀 · 리본.<br>분장 조합에서는 ☆로 메인을 고정하고 최대 분장 수를 1~3개로 고름. 서브는 장신구만 보탬.</p>
+      </div>
+
+      <div class="help-step">
+        <div class="step-no">STEP 02</div>
+        <h4>완성도</h4>
+        <p>Party — 가게에서 산 코스튬.<br>Editorial — 화보처럼 공들인 차림.<br>Real Night — 분장이 진짜가 된 밤. 빗자루가 뜨고 호박이 빛남.</p>
+      </div>
+
+      <div class="help-step">
+        <div class="step-no">STEP 03</div>
+        <h4>노출</h4>
+        <p>단정 · 기본 · 과감.<br>같은 옷의 재단이 있으면 노출만 바꿔도 그 옷 그대로 기장 · 품만 바뀜.<br>분장에 그 단계가 없으면 가까운 단계로 내려감 (천 유령은 과감 단계가 없음).</p>
+      </div>
+
+      <div class="help-step">
+        <div class="step-no">STEP 04</div>
+        <h4>칸마다 버튼</h4>
+        <p><svg class="ico ico-inline" aria-hidden="true"><use href="#i-dice"/></svg> 그 칸만 다시 뽑음.<br>◇ 잠그면(◆) Ring을 눌러도 유지됨. 분장을 잠그면 컬렉션도 유지됨.<br>− 슬롯 자체를 뺌.<br>⊘ 랜덤에 안 나올 항목 체크.</p>
+      </div>
+
+      <div class="help-step">
+        <div class="step-no">STEP 05</div>
+        <h4>검색 · 필터</h4>
+        <p>검색 결과를 누르면 바로 선택됨.<br>얼굴 가림(가면 · 눈가리개 · 안대)과 동물 필터는 항목을 숨김.<br>동아시아 설화 랜덤은 직접 선택을 남겨 두고 랜덤 포함 여부만 바꿈.</p>
+      </div>
+
+      <div class="help-step">
+        <div class="step-no">STEP 06</div>
+        <h4>초인종</h4>
+        <p>Ring 을 누르면 지금 칸 그대로 문이 열리고(바로 아래 "누를 때마다 새로 뽑기"를 켜면 안 잠긴 칸을 전부 다시 뽑은 뒤), 태피 한 알이 화면 가운데로 던져짐.<br>남길 칸은 ◇ 로 잠그고, 한 칸만 바꾸려면 그 칸의 <svg class="ico ico-inline" aria-hidden="true"><use href="#i-dice"/></svg>.<br>One more 는 스위치와 상관없이 늘 잠그지 않은 것을 전부(컬렉션 · 분장까지) 새로 뽑아 한 알 더. 같은 분장만 보려면 분장 줄을 ◇ 로 잠금.<br>지나간 태피는 오른쪽 TREATS 목록에서 다시 열거나 복사.<br>포장지는 오른쪽 위 × 로 닫거나, 아래로 끌어 뜯음 (Esc 도 됨).</p>
+      </div>
+
+      <p class="help-note">머리 모양 · 가발 태그는 넣지 않음. 캐릭터 분장(할리퀸 · 조커)과 동화의 앨리스 · 모자 장수만 캐릭터 이름을 씀. 캐릭터 분장과 꿀벌 · 무당벌레처럼 색이 정해진 분장에서는 색을 따로 넣지 않음.</p>
+    </div>
+    <div class="help-actions">
+      <button class="bell-mini" id="helpOk" type="button">OK</button>
+    </div>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="mix.js"></script>
+<script src="note.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
