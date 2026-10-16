@@ -501,3 +501,14 @@ select,.typed,.light-typed input,.picker-face{
 @media (prefers-reduced-motion:reduce){
   .out.developing .print,.bench:has(.camera.firing) .strip,.flash.firing,.cast-print{animation:none}
 }
+
+/* 누를 때마다 새로 뽑기 — 기본 꺼짐(지금 칸 그대로 출력) */
+.reroll-switch{display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-size:11.5px;letter-spacing:.02em;color:var(--c3);transition:color .15s;user-select:none}
+.reroll-switch:hover,.reroll-switch:has(input:checked){color:var(--c5)}
+.reroll-switch input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.reroll-track{position:relative;flex:0 0 28px;height:16px;border:1px solid var(--c3);border-radius:8px;transition:border-color .15s,background .15s}
+.reroll-track::after{content:"";position:absolute;top:2px;left:2px;width:10px;height:10px;border-radius:50%;background:var(--c3);transition:transform .15s,background .15s}
+.reroll-switch input:checked + .reroll-track{border-color:var(--aqua-ink);background:var(--aqua-hi)}
+.reroll-switch input:checked + .reroll-track::after{transform:translateX(12px);background:var(--aqua-ink)}
+.reroll-switch input:focus-visible + .reroll-track{outline:1px solid var(--aqua-ink);outline-offset:2px}
+.top-plate .reroll-switch{margin-bottom:10px}

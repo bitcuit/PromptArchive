@@ -912,7 +912,15 @@
     render();
     pull();
   }
-  $('#shuffleBtn').addEventListener('click', print);
+  /* 엽서 뽑기 — 기본은 지금 칸 그대로. "누를 때마다 새로 뽑기"를 켜면 잠그지 않은 칸을 섞고 뽑기. 다시 뽑기는 늘 새로. */
+  const rerollToggle = $('#rerollToggle');
+  rerollToggle.checked = load('reroll', false) === true;
+  rerollToggle.addEventListener('change', () => save('reroll', rerollToggle.checked));
+  $('#shuffleBtn').addEventListener('click', () => {
+    if (rerollToggle.checked) { print(); return; }
+    render();
+    pull();
+  });
   $('#againBtn').addEventListener('click', print);
 
   el.copy.addEventListener('click', async () => {
