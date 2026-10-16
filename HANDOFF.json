@@ -1,14 +1,14 @@
 {
-  "at": "2026-10-07 21:11",
+  "at": "2026-10-16 13:15",
   "by": "claude-code",
-  "doing": "작업 중 에디션을 ing로 빼고 첫 화면 · README에는 완성본 4개만 남겼어요. 출력 단추는 늘 잠그지 않은 칸을 섞어요",
-  "where": "index.html 카드 숨김 주석, README.md 에디션 표, 2004 · Halation · Rosette app.js 출력 단추",
+  "doing": "Taffy를 첫 화면에 올리고, 첫 화면 카드를 도트 아이콘으로 바꿨어요. 출력 단추는 기본이 지금 칸 그대로예요",
+  "where": "index.html ICONS · Taffy/ · 각 에디션 app.js 출력 단추",
   "state": "돌아감",
-  "next": "GitHub Desktop으로 올리고 Pages 첫 화면에 4개만 보이는지 확인",
+  "next": "GitHub Desktop으로 올리고 Pages에서 Taffy 칸이 열리는지 확인",
   "blocked": "",
-  "test": "브라우저에서 2004 · Halation · Rosette의 출력 단추를 몇 번 눌러 잠그지 않은 칸만 바뀌는지",
+  "test": "Taffy에서 Ring을 눌러 반짝이(0.18초)와 문 닫힘 속도가 괜찮은지",
   "session": {
-    "id": "37b5b97d-bfd1-4e26-88ec-97aab1c0dad0",
+    "id": "54771b08-dd88-4738-a769-406af237a39b",
     "title": "",
     "tool": "claude-code"
   }
