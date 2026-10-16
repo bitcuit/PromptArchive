@@ -58,3 +58,8 @@ Rosette/Claude outputs/
 # Reference notes (local only)
 REFERENCES.md
 쓰는법.md
+
+# Banner drafts and image-generation prompts (local only, any edition)
+banners/
+*.prompt.md
+*.prompts.md
