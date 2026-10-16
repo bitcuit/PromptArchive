@@ -12,6 +12,7 @@ https://bitcuit.github.io/PromptArchive/
 | [Rosette](Rosette/) | 서양 복식사 700 BC–1965 · 판타지 | 골동 타자기 |
 | [Halation](Halation/) | 일상의 한 조각 (장소 · 날씨 · 손에 든 것 · 수수한 옷 · 두 사람) | 은색 필름 카메라 |
 | [Perennial](Perennial/) | 계절 화보 (자연 풍경 · 소품 · 계절 옷) | 엽서 회전 스탠드 |
+| [Taffy](Taffy/) | 할로윈 분장 · 코스프레 | 트릭 오어 트릿 현관문 |
 
 <!-- 숨김(2026-10-07, 사용자): 작업 중(ing/)이거나 정리 중인 에디션 — 경로는 옛 위치 그대로. 완성해서 ing/ 밖으로 꺼내면 표에 다시 넣는다
 | [Chrome](Chrome/) | 사이버펑크 × 마도공학 | 홀로 모니터 |
