@@ -135,6 +135,10 @@ function compatible(it,chosen){
   if(it.secondary && chosen.headwear && /\b(veil|mantilla|helmet|full-face)\b/i.test(chosen.headwear.p||'')) return false;
   if(it.cat==='mask' && /\b(eyes?|eyelids?|eyelashes|eye-corner|tear makeup)\b/i.test(chosen.device?.p||'')) return false;
   if(it.cat==='mask' && (chosen.accessories||[]).some(a=>a.cat==='mask')) return false;
+  /* 입에 문 사탕 — 입을 가리거나 입 모양을 정하는 것(가면 · 송곳니 · 웃음 분장)과 같이 두지 않는다. */
+  const mouthBusy=x=>/\b(mouth|lips?|fangs?|smile|grin|beak|gas mask|muzzle|full-face)\b|:3/i.test(x?.p||'');
+  if(it.cat==='mouth' && [chosen.headwear,chosen.device,...(chosen.accessories||[])].some(mouthBusy)) return false;
+  if(chosen.weapon?.cat==='mouth' && it!==chosen.weapon && mouthBusy(it)) return false;
   if(/\bdetached\b.*\bsleeves?\b/i.test(it.p||'') && /\b(long|full-length|puff|sheer) sleeves?\b/i.test(chosen.garment?.p||'')) return false;
   /* 무기가 둘(양손 무기 + 다른 무기)이 되지 않게 — 액세서리 중 무기 cat 은 weapon 슬롯이 비어 있을 때만 */
   if(it.cat==='weapon' && chosen.weapon && chosen.weapon.p) return false;
@@ -284,7 +288,7 @@ function eerieKind(scene,male=false){
   if(/skeleton|bone/i.test(id+' '+tag)) return 'skeleton';
   return 'general';
 }
-function eerieOptions(scene,male=false){return scene._from==='cosplay'||/^(hq|jk)-/.test(scene.id)?[]:EERIE_BY_KIND[eerieKind(scene,male)];}
+function eerieOptions(scene,male=false){return scene.plain||scene._from==='cosplay'||/^(hq|jk)-/.test(scene.id)?[]:EERIE_BY_KIND[eerieKind(scene,male)];}
 
 /* 고른 아이템 id 로 프롬프트를 만든다.
  * picked : { slot: itemId }  |  accessories 는 배열 허용
@@ -468,11 +472,14 @@ function rollPicks(edition, state, locks={}, previous={}){
   if(!recipe && period.mix){
     const lv=FIDELITY[state.fidelity]??0;
     const reals=allowedPeriods(edition,period.id,lv).filter(p=>!p.mix&&(p.recipes||[]).length);
-    /* 손에 든 것 · 얼굴 분장 · 장소가 잠겨 있으면(한 줄만 다시 뽑을 때) 그 항목의 분장을 앵커로 이어 쓴다. */
+    /* 잠긴 칸이 있으면(한 줄만 다시 뽑을 때 · 잠그고 Ring) 그 항목의 분장을 앵커로 이어 쓴다.
+     * 의상을 먼저 본다 — 고양이 옷을 잠갔는데 나머지 칸이 좀비 · 디스코에서 오면 안 된다. */
     let anchor=reals.find(p=>p.id===state.mainPeriodId)||null;
-    if(!anchor) for(const s of TAIL_SLOTS){
-      const id=locks[s]&&previous[s];
-      if(id&&typeof id==='string'){ anchor=reals.find(p=>(p.slots?.[s]||[]).some(i=>i.id===id)); if(anchor) break; }
+    if(!anchor) for(const s of ['garment',...SLOT_ORDER.filter(s=>s!=='garment'),'accessories']){
+      if(!locks[s]) continue;
+      const ids=[].concat(previous[s]||[]).filter(id=>id&&typeof id==='string'&&!/-none-/.test(id));
+      for(const id of ids){ anchor=reals.find(p=>(p.slots?.[s]||[]).some(i=>i.id===id)); if(anchor) break; }
+      if(anchor) break;
     }
     if(!anchor){
       const fit=reals.filter(p=>exposureAvailable(p,state.exposure,state.gender,lv));
@@ -576,6 +583,8 @@ function rollPicks(edition, state, locks={}, previous={}){
     if(!pool.length && !(recipe && (recipe._scene || Object.prototype.hasOwnProperty.call(recipe,slot)))){
       pool=slotOptionsRoll(edition,slot,state).filter(it=>compatible(it,chosen));
     }
+    /* 얼굴 분장이 꼭 나와야 하는 분장(송곳니 · 해골 …)에는 입에 문 사탕을 뽑지 않는다. */
+    if(slot==='weapon' && needOf('device') && !skips.device) pool=pool.filter(it=>it.cat!=='mouth');
     commit(slot,rand(narrow(slot,pool)));
   }
 
@@ -1298,11 +1307,16 @@ document.querySelectorAll(".lock").forEach(b=>{
     b.textContent=locks[id]?"◆":"◇";
   });
 });
+let savedSkips=[];
+try{savedSkips=JSON.parse(localStorage.getItem("taffy.skips")||"[]");}catch(e){}
 document.querySelectorAll(".skip").forEach(b=>{
   const id=b.dataset.skip;
-  skips[id]=false;
+  /* 뺀 칸(얼굴 분장 등)은 다음에 열어도 빠진 채로 둔다. */
+  skips[id]=savedSkips.includes(id);
+  paintSkip(id);
   b.addEventListener("click",()=>{
     skips[id]=!skips[id];
+    try{localStorage.setItem("taffy.skips",JSON.stringify(Object.keys(skips).filter(k=>skips[k])));}catch(e){}
     if(skips[id]&&locks[id]){                // 제외하면 잠금은 푼다
       locks[id]=false;
       const l=lockBtn(id);
@@ -1737,4 +1751,6 @@ COLLECTIONS.forEach(validateRecipes);
 
 updatePack();
 applySelectLanguage();
-rollSlotsOnly();
+/* 열 때마다 첫 화면도 Ring처럼 유형 · 분장 · 성별 · 색까지 새로 뽑는다. */
+randomize();
+$("#status").textContent="READY";

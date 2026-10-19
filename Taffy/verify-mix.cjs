@@ -79,7 +79,7 @@ const checks = String.raw`
     const noSpider=composeFrom(EDITIONS.classic,as,rollPicks(EDITIONS.classic,as)).prompt;
     assert(noSpider.includes('-1:: spider::') && !/(^|, )spider(?: |,)/.test(noSpider.replace('-1:: spider::','')), 'negative spider tag only');
     catsOff.delete('spider');
-    assert(!EDITIONS.classic.periods.some(p=>['hollywood','aerobics'].includes(p.id)), 'removed retro entries stay out of selectors');
+    assert(!EDITIONS.classic.periods.some(p=>['hollywood','aerobics','disco'].includes(p.id)), 'removed retro entries stay out of selectors');
     assert(!JSON.stringify(COLLECTIONS).toLowerCase().includes('waist pack'), 'generic waist pack removed');
     assert(!/red cross|medical cross|red crescent/i.test(JSON.stringify(COLLECTIONS)), 'protected medical emblems absent');
     const handmadeWitch=EDITIONS.classic.periods.find(p=>p.id==='witch');

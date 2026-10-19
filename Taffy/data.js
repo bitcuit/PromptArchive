@@ -114,6 +114,15 @@ const TF_HELD = [
   ['_bucket', 'Pumpkin candy bucket', '호박 사탕 바구니', 'holding a plastic jack-o\'-lantern candy bucket', 'F1'],
   ['_bag', 'Trick-or-treat bag', '트릭 오어 트릿 봉투', 'holding a trick-or-treat bag full of candy', 'F1'],
   ['_apple', 'Caramel apple', '캐러멜 사과', 'holding a caramel apple on a stick', 'F1'],
+  ['_lolly', 'Swirl lollipop', '소용돌이 롤리팝', 'holding a big swirl lollipop', 'F1'],
+  ['_pumpkinpop', 'Pumpkin lollipop', '호박 롤리팝', 'holding a pumpkin-shaped lollipop', 'F1'],
+  ['_wrapped', 'Wrapped candy', '포장 사탕', 'holding a wrapped candy between the fingers', 'F1'],
+  ['_chocobox', 'Chocolate sticks', '초코 스틱 한 갑', 'holding a box of chocolate-dipped biscuit sticks', 'F1'],
+  /* 입에 문 것 — 손에 든 것과 같은 줄이라 둘이 함께 나오지 않는다. */
+  ['_m-lolly', 'Lollipop in the mouth', '입에 문 롤리팝', 'lollipop in mouth, mouth hold', 'F1 c:mouth'],
+  ['_m-candy', 'Candy in the mouth', '입에 문 사탕', 'round candy in mouth, mouth hold, cheek bulge', 'F1 c:mouth'],
+  ['_m-choco', 'Chocolate stick in the mouth', '입에 문 초코 스틱', 'chocolate-dipped biscuit stick in mouth, mouth hold', 'F1 c:mouth'],
+  ['_m-gummy', 'Gummy worm in the mouth', '입에 문 젤리 지렁이', 'gummy worm dangling from the mouth, mouth hold', 'F1 c:mouth'],
 ];
 
 /* 옵션 문자열을 항목 필드로 */
@@ -148,8 +157,9 @@ function costume(id, label, labelKo, callNo, spec) {
   const AB = { garment: 'g', structure: 'ws', foundation: 'lg', neckwear: 'nk', outer: 'ot', footwear: 'ft', headwear: 'hd', accessories: 'ac', weapon: 'hn', device: 'fc', effect: 'pl' };
   for (const slot of TF_SCHEMA) {
     const rows = (spec.items[slot] || []).slice();
-    if (slot === 'effect') rows.unshift(...TF_PLACES);
-    if (slot === 'weapon') rows.push(...TF_HELD);
+    /* 고증판(plain)에는 할로윈 장소 · 사탕 소품을 붙이지 않는다. */
+    if (slot === 'effect' && !spec.plain) rows.unshift(...TF_PLACES);
+    if (slot === 'weapon' && !spec.plain) rows.push(...TF_HELD);
     const list = [];
     if (slot !== 'garment' && slot !== 'accessories') list.push({ id: `${id}-none-${slot}`, t: 'None', k: '없음', p: '' });
     keyed[slot] = {};
@@ -181,7 +191,7 @@ function costume(id, label, labelKo, callNo, spec) {
     return r;
   });
   const need = spec.need ? Object.fromEntries(Object.entries(spec.need).map(([sl, v]) => [sl, String(v).trim() ? String(v).trim().split(/\s+/).map(k => ref(sl, k)) : []])) : undefined;
-  return { id, label, labelKo, years: '', callNo, need, tag: spec.tag, tagReal: spec.tagReal, tagM: spec.tagM, tagRealM: spec.tagRealM, colors: tfExpandColors(spec.colors), recipes, slots };
+  return { id, label, labelKo, years: '', callNo, need, plain: !!spec.plain, tag: spec.tag, tagReal: spec.tagReal, tagM: spec.tagM, tagRealM: spec.tagRealM, colors: tfExpandColors(spec.colors), recipes, slots };
 }
 
 function collection(id, label, volume, range, colors, periods) {
@@ -2489,6 +2499,7 @@ const retro = collection('retro', 'RETRO PARTY', 'PA·TFY·III', 'decades and le
     tag: 'halloween costume, 1950s pin-up costume', tagReal: '1950s pin-up, halloween night',
     tagM: 'halloween costume, 1950s greaser costume', tagRealM: '1950s greaser, halloween night',
     colors: ['cherry red', 'polka dot red', 'black', 'pastel pink', 'turquoise', 'gingham blue', 'white'],
+    need: { headwear: '' },
     items: {
       garment: [
         ['hm', 'Polka dot dress and petticoat', '물방울 원피스와 페티코트', 'polka dot dress, tulle petticoat underneath', 'f0 F0 gf'],
@@ -2528,6 +2539,7 @@ const retro = collection('retro', 'RETRO PARTY', 'PA·TFY·III', 'decades and le
         ['bandana', 'Bandana headband', '반다나 머리띠', 'polka dot bandana headband', 'gf'],
         ['bow', 'Big hair bow', '큰 리본', 'big hair bow', 'gf'],
         ['sailor', 'Sailor cap', '세일러 모자', 'sailor cap', 'f1'],
+        ['rolled', 'Rolled bandana', '말아 묶은 반다나', 'rolled red bandana tied around the head', 'gm'],
       ],
       accessories: [
         ['sunglasses', 'Cat-eye sunglasses', '캣아이 선글라스', 'cat-eye sunglasses', 'gf'],
@@ -2542,6 +2554,7 @@ const retro = collection('retro', 'RETRO PARTY', 'PA·TFY·III', 'decades and le
       ],
       device: [
         ['beauty', 'Beauty mark', '애교점', 'painted beauty mark', 'gf'],
+        ['red', 'Red lips and winged liner', '빨간 입술과 날개 아이라인', 'red lipstick, winged eyeliner', 'gf'],
       ],
       effect: [
         ['diner', '1950s diner', '50년대 다이너', '1950s diner, checkered floor, jukebox', 'f2'],
@@ -2910,6 +2923,120 @@ const retro = collection('retro', 'RETRO PARTY', 'PA·TFY·III', 'decades and le
       effect: [
         ['columns', 'Marble columns', '대리석 기둥', 'white marble columns, olive trees', 'f2'],
         ['olympus', 'Mountaintop above the clouds', '구름 위 산꼭대기', 'temple above the clouds, golden light', 'f3'],
+      ],
+    },
+  }),
+
+  /* ─── R-12 고대 이집트 · 고증 — 할로윈 없이 신왕국 귀족 차림 그대로 ─── */
+  costume('egypt-hist', 'Ancient Egypt · Historical', '고대 이집트 · 고증', 'R-12', {
+    plain: true,
+    tag: 'ancient egyptian noblewoman, new kingdom egypt, historically accurate', tagReal: 'ancient egyptian noblewoman, new kingdom egypt, historically accurate',
+    tagM: 'ancient egyptian nobleman, new kingdom egypt, historically accurate', tagRealM: 'ancient egyptian nobleman, new kingdom egypt, historically accurate',
+    colors: ['white', 'ivory', 'faded linen', 'gold', 'turquoise', 'terracotta'],
+    need: { neckwear: '' },
+    items: {
+      garment: [
+        ['robe', 'Pleated linen robe', '주름 리넨 로브', 'pleated fine linen robe, wide sleeves, tied under the bust, ankle length', 'x0 gf'],
+        ['sheath', 'Linen sheath dress', '리넨 시스 드레스', 'white linen sheath dress, broad shoulder straps, ankle length', 'x1 gf'],
+        ['sheer', 'Sheer pleated linen over a sheath', '시스 위 비치는 주름 리넨', 'sheer pleated linen robe over a linen sheath dress, ankle length', 'x2 gf'],
+        ['bead', 'Beadwork overdress', '구슬 겉옷', 'faience beadwork overdress on a linen sheath dress, ankle length', 'f2 x12 gf'],
+        ['robe-m', 'Pleated robe over a kilt', '긴 쉔디트 위 주름 로브', 'pleated linen robe with wide sleeves over a long linen kilt', 'x0 gm'],
+        ['kilt', 'Shendyt kilt and tunic', '쉔디트와 리넨 윗옷', 'pleated linen shendyt kilt, sheer linen tunic', 'x1 gm'],
+        ['bare', 'Shendyt kilt', '쉔디트', 'pleated linen shendyt kilt, bare chest', 'x2 gm'],
+      ],
+      structure: [
+        ['sash', 'Linen sash', '리넨 허리띠', 'long linen sash tied at the waist, ends hanging in front'],
+      ],
+      foundation: [],
+      neckwear: [
+        ['wesekh', 'Wesekh broad collar', '우세크 넓은 목깃', 'wesekh broad collar of faience beads', 'an:high'],
+        ['pectoral', 'Scarab pectoral', '스카라베 가슴 장식', 'gold scarab pectoral', 'f2'],
+      ],
+      outer: [],
+      footwear: [
+        ['papyrus', 'Papyrus sandals', '파피루스 샌들', 'woven papyrus sandals'],
+        ['bare', 'Barefoot', '맨발', 'barefoot'],
+      ],
+      headwear: [
+        ['fillet', 'Lotus fillet', '연꽃 머리띠', 'gold fillet with a lotus flower at the forehead', 'gf'],
+        ['cone', 'Scented cone', '향 고깔', 'scented unguent cone on the head', 'f2'],
+        ['nemes', 'Nemes headcloth', '네메스 두건', 'striped nemes headcloth', 'gm'],
+        ['khepresh', 'Blue crown', '청색 관 케프레시', 'blue khepresh crown', 'f2 gm'],
+      ],
+      accessories: [
+        ['armlets', 'Gold armlets', '금 팔찌', 'gold armlets'],
+        ['earrings', 'Gold hoop earrings', '금 귀고리', 'large gold hoop earrings'],
+        ['menat', 'Menat necklace', '메나트 목걸이', 'menat counterpoise necklace', 'gf'],
+      ],
+      weapon: [
+        ['sistrum', 'Sistrum', '시스트럼', 'holding a bronze sistrum', 'gf'],
+        ['lotus', 'Blue lotus', '푸른 연꽃', 'holding a blue lotus flower'],
+        ['mirror', 'Bronze mirror', '청동 손거울', 'holding a bronze hand mirror', 'gf'],
+        ['crook', 'Crook and flail', '홀과 도리깨', 'holding a crook and flail', 'gm'],
+        ['staff', 'Long staff', '긴 지팡이', 'holding a long official staff', 'gm'],
+      ],
+      device: [
+        ['kohl', 'Kohl-lined eyes', '콜로 그린 눈매', 'kohl-lined eyes, green malachite eyeshadow'],
+      ],
+      effect: [
+        ['hall', 'Painted columned hall', '채색 열주 홀', 'columned hall, painted lotus columns'],
+        ['garden', 'Garden pool', '정원 연못', 'garden with a lotus pool and date palms'],
+        ['nile', 'Nile riverbank', '나일 강가', 'nile riverbank, papyrus reeds, daylight'],
+      ],
+    },
+  }),
+
+  /* ─── R-13 고대 그리스 · 고증 — 할로윈 없이 고전기 아테네 차림 그대로 ─── */
+  costume('greek-hist', 'Ancient Greece · Historical', '고대 그리스 · 고증', 'R-13', {
+    plain: true,
+    tag: 'ancient greek woman, classical greece, historically accurate', tagReal: 'ancient greek woman, classical greece, historically accurate',
+    tagM: 'ancient greek man, classical greece, historically accurate', tagRealM: 'ancient greek man, classical greece, historically accurate',
+    colors: ['white', 'ivory', 'faded linen', 'terracotta', 'sky blue', 'olive', 'crimson'],
+    items: {
+      garment: [
+        ['chiton-h', 'Ionic chiton with a himation', '히마티온 두른 이오니아식 키톤', 'linen ionic chiton, sleeves fastened with small buttons along the arms, wool himation wrapped over the body, ankle length', 'x0 gf'],
+        ['chiton', 'Ionic chiton', '이오니아식 키톤', 'fine linen ionic chiton, buttoned sleeves, girdled at the waist, ankle length', 'x1 gf'],
+        ['peplos', 'Doric peplos', '도리아식 페플로스', 'wool doric peplos, overfold, pinned at the shoulders, open side, belted, ankle length', 'x2 gf'],
+        ['himation-m', 'Himation over a chiton', '키톤 위 히마티온', 'long linen chiton, wool himation draped over the left shoulder', 'x0 gm'],
+        ['chlamys', 'Short chiton and chlamys', '짧은 키톤과 클라미스', 'knee-length wool chiton, chlamys cloak pinned at the right shoulder', 'x1 gm'],
+        ['exomis', 'Exomis', '엑소미스', 'exomis tunic fastened on one shoulder, bare right shoulder, knee length', 'x2 gm'],
+      ],
+      structure: [
+        ['zone', 'Girdle cord', '허리 끈', 'cord girdle tied under the bust', 'gf'],
+        ['belt', 'Leather belt', '가죽 허리띠', 'plain leather belt', 'gm'],
+      ],
+      foundation: [],
+      neckwear: [
+        ['beads', 'Gold bead necklace', '금 구슬 목걸이', 'gold bead necklace', 'gf'],
+      ],
+      outer: [],
+      footwear: [
+        ['sandals', 'Leather sandals', '가죽 샌들', 'plain leather sandals'],
+        ['krepides', 'Laced krepides', '끈 장화 크레피데스', 'laced leather krepides boots', 'gm'],
+      ],
+      headwear: [
+        ['sakkos', 'Sakkos head wrap', '사코스 머리 싸개', 'patterned sakkos head wrap', 'gf'],
+        ['stephane', 'Gold stephane', '금 스테파네', 'low gold stephane diadem', 'f2 gf'],
+        ['petasos', 'Petasos hat', '페타소스 모자', 'wide-brimmed petasos hat', 'gm'],
+        ['wreath', 'Olive wreath', '올리브 관', 'olive leaf wreath'],
+      ],
+      accessories: [
+        ['fibulae', 'Gold dress pins', '금 옷핀', 'gold fibulae pins at the shoulders'],
+        ['earrings', 'Gold disc earrings', '금 원반 귀걸이', 'gold disc earrings', 'gf'],
+        ['ring', 'Signet ring', '인장 반지', 'gold signet ring', 'gm'],
+      ],
+      weapon: [
+        ['hydria', 'Water jar', '물항아리 히드리아', 'carrying a painted hydria water jar', 'gf'],
+        ['spindle', 'Distaff and spindle', '실톳대와 가락', 'holding a distaff and spindle', 'gf'],
+        ['scroll', 'Papyrus scroll', '파피루스 두루마리', 'holding a papyrus scroll'],
+        ['kylix', 'Wine cup', '포도주 잔 킬릭스', 'holding a painted kylix wine cup', 'gm'],
+        ['staff', 'Walking staff', '지팡이', 'holding a plain walking staff', 'gm'],
+      ],
+      device: [],
+      effect: [
+        ['stoa', 'Stoa colonnade', '스토아 열주랑', 'stoa colonnade, agora, daylight'],
+        ['court', 'House courtyard', '집 안뜰', 'whitewashed courtyard of a greek house, loom by the wall'],
+        ['temple', 'Painted temple', '채색된 신전', 'marble temple with painted friezes', 'f2'],
       ],
     },
   }),
@@ -8961,7 +9088,7 @@ function bundle(id, label, volume, range, parts) {
 }
 const startsWith = pre => p => p.id.startsWith(pre);
 const classic = bundle('classic', 'CLASSIC COSTUMES', 'PA·TFY·I', 'store-bought party costumes', [
-  [monster, '몬스터 · 괴담', 'Monsters & Legends'], [storybook, '동화 · 생물', 'Fairy Tales & Creatures'], [retro, '시대 · 복고', 'Historical & Retro', p => !['hollywood','aerobics'].includes(p.id)], [uniform, '직업 · 제복', 'Jobs & Uniforms'],
+  [monster, '몬스터 · 괴담', 'Monsters & Legends'], [storybook, '동화 · 생물', 'Fairy Tales & Creatures'], [retro, '시대 · 복고', 'Historical & Retro', p => !['hollywood','aerobics','disco'].includes(p.id)], [uniform, '직업 · 제복', 'Jobs & Uniforms'],
 ]);
 const illustrated = bundle('illust', 'ILLUSTRATED', 'PA·TFY·II', 'illustrated outfits', [
   [eventNight, '창작 디자인', 'Original Designs'],
