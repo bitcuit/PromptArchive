@@ -1133,3 +1133,6 @@ function placeSnaps(){
 }
 placeSnaps();
 addEventListener("resize",placeSnaps);
+/* 열 때마다 첫 화면도 Ring처럼 잠기지 않은 값을 전부 새로 뽑는다. */
+randomizeUnlocked();
+$("#status").textContent="READY · FRAME 01";

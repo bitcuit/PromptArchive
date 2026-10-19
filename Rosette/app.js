@@ -1869,5 +1869,7 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape")closeHelp()});
 
 updatePack();
 applySelectLanguage();
-rollSlotsOnly();
+/* 열 때마다 첫 화면도 Ring처럼 잠기지 않은 값을 전부 새로 뽑는다. */
+randomize();
+$("#status").textContent="READY · SLOT 01";
 $("#resultZone").style.height="0px";

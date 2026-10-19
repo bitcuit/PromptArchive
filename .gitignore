@@ -43,6 +43,7 @@ coverage/
 patch*.py
 sim.js
 HANDOFF.md
+HANDOFF.json
 작업 이어하기.txt
 
 # Editions still in progress (not published; moved out of ing/ when finished)

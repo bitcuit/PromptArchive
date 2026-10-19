@@ -720,3 +720,6 @@ modal.addEventListener("click",e=>{if(e.target===modal) modal.classList.remove("
 document.addEventListener("keydown",e=>{if(e.key==="Escape") modal.classList.remove("open")});
 
 updateHeroPreview("headset");
+/* 열 때마다 첫 화면도 Ring처럼 잠기지 않은 값을 전부 새로 뽑는다. */
+randomizeUnlocked();
+$("#status").textContent="READY · SLOT 01";
