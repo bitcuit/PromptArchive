@@ -158,7 +158,9 @@
     render();
   }
 
+  // 노트 HTML 은 혼자 열리는 파일 — 글꼴은 <link> 없이 웹폰트 주소에 바로 연결한다(본문만 붙여넣어도 따라오게)
   const CSS = `
+@font-face{font-family:"Pretendard Variable";src:url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard/dist/web/variable/woff2/PretendardVariable.woff2") format("woff2-variations"),url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard/dist/web/variable/woff2/PretendardVariable.woff2") format("woff2");font-weight:45 920;font-style:normal;font-display:swap}
 :root{--bg:#f6f4f1;--card:#fff;--ink:#1f1b19;--dim:#776f69;--line:#e3ded8;--accent:#6e2529;--chip:#efe9e3}
 @media (prefers-color-scheme:dark){:root{--bg:#17131a;--card:#211b24;--ink:#ece1d0;--dim:#a69888;--line:#3a3040;--accent:#d9a05a;--chip:#2c2430}}
 *{box-sizing:border-box}html,body{margin:0}body{background:var(--bg);color:var(--ink);font:14px/1.6 "Pretendard Variable","Pretendard","Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif}
