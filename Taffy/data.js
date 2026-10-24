@@ -883,8 +883,8 @@ const monster = collection('monster', 'MONSTER MASH', 'PA·TFY·I', 'classic mon
         ['pt-off', 'Tattered off-shoulder wedding dress', '해진 오프숄더 웨딩드레스', 'ghost bride costume, tattered wedding dress, off-shoulder', 'f1 F1 x1 gf n:low v:ghostbride-gb'],
         ['pt-mini', 'Tattered mini wedding dress', '해진 미니 웨딩드레스', 'ghost bride costume, tattered mini wedding dress, corset bodice', 'f1 F1 x2 gf n:low v:ghostbride-gb'],
         ['pt-m', 'Tattered tailcoat', '해진 연미복', 'ghost groom costume, tattered tailcoat', 'f1 F1 gm'],
-        ['ed-lace', 'Faded lace wedding gown', '바랜 레이스 웨딩드레스', 'faded lace wedding gown, frayed layered hem', 'f2 x0 gf v:ghostbride-gbe'],
-        ['ed-silk', 'Sheer-sleeved silk wedding gown', '시스루 소매 실크 웨딩드레스', 'tattered silk wedding gown, sheer sleeves', 'f2 x1 gf v:ghostbride-gbe'],
+        ['ed-lace', 'Faded lace wedding gown with a frayed hem', '밑단 해진 바랜 레이스 웨딩드레스', 'faded lace wedding gown, frayed layered hem', 'f2 x0 gf v:ghostbride-gbe'],
+        ['ed-silk', 'Tattered sheer-sleeved silk wedding gown', '해진 시스루 소매 실크 웨딩드레스', 'tattered silk wedding gown, sheer sleeves', 'f2 x1 gf v:ghostbride-gbe'],
         ['ed-slip', 'Torn silk wedding slip', '찢어진 실크 웨딩 슬립', 'torn silk wedding slip dress, sheer lace', 'f2 x2 gf n:low v:ghostbride-gbe'],
         ['ed-m', 'Faded tailcoat and waistcoat', '바랜 연미복과 조끼', 'faded tailcoat, dusty waistcoat', 'f2 gm'],
       ],
@@ -900,7 +900,7 @@ const monster = collection('monster', 'MONSTER MASH', 'PA·TFY·I', 'classic mon
         ['cravat', 'Dusty cravat', '먼지 앉은 크라바트', 'dusty cravat', 'gm an:low'],
       ],
       outer: [
-        ['shawl', 'Lace shawl', '레이스 숄', 'tattered lace shawl', 'f1 gf'],
+        ['shawl', 'Tattered lace shawl', '해진 레이스 숄', 'tattered lace shawl', 'f1 gf'],
       ],
       footwear: [
         ['heels', 'Old satin heels', '낡은 새틴 힐', 'old satin heels', 'gf'],

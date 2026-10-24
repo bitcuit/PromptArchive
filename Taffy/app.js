@@ -242,7 +242,7 @@ function blockedPeriod(p){return (p.id==='plague'&&catsOff.has('mask'))||(p.id==
 const EERIE_BY_KIND={
   witch:[['candle','촛농 자국','small wax drips on the robe hem'],['shadow','그을린 소매 끝','faint soot along the sleeve cuffs']],
   devil:[['rose','시든 장미 장식','wilted rose pinned to the costume'],['ash','재 묻은 소매','a trace of ash on the sleeve cuffs']],
-  ghost:[['fade','바랜 옷자락','faded edges on the costume hem'],['dust','오래된 먼지','fine dust along the gauze hem']],
+  ghost:[['fade','바랜 옷자락','faded edges on the costume hem'],['dust','오래된 먼지','fine dust along the gauze hem'],['fray','해진 밑단','frayed tattered hem on the costume']],
   angel:[['feather','낡은 깃털 장식','a few weathered feathers on the costume wings'],['wax','촛농 묻은 밑단','small wax drips on the costume hem']],
   deity:[['laurel','마른 월계관 장식','dried laurel leaves on the costume circlet'],['rune','희미한 자수','faded sigil embroidery at the costume hem']],
   knight:[['rust','바랜 갑주 가장자리','tarnished edges on the costume armor'],['rose','갑주에 감긴 장미 덩굴','artificial rose vines curling around the costume armor']],
@@ -255,13 +255,13 @@ const EERIE_BY_KIND={
   vampire:[['rose','시든 장미 브로치','wilted rose brooch on the costume'],['velvet','바랜 벨벳 가장자리','faded velvet trim at the costume hem']],
   pumpkin:[['vine','호박 덩굴 장식','artificial pumpkin vines curling around the costume waist'],['leaf','마른 잎 장식','dried leaves at the costume hem']],
   skeleton:[['dust','뼈 무늬에 먼지','faint dust on the costume bone print'],['crack','금 간 뼈 장식','cracked bone-shaped costume buttons']],
-  nurse:[['stain','소매의 작은 피 얼룩','small bloodstain on the costume sleeve cuff'],['age','바랜 앞치마','faded apron edges on the costume']],
+  nurse:[['stain','소매의 작은 피 얼룩','small bloodstain on the costume sleeve cuff'],['age','바랜 앞치마','faded apron edges on the costume'],['fray','해진 소매 끝','frayed sleeve cuffs on the costume']],
   nun:[['stain','수도복 소매의 피 얼룩','small bloodstain on the habit sleeve cuff'],['rose','베일에 감긴 장미 덩굴','artificial rose vines curling along the habit veil']],
   zombie:[['stain','옷자락의 피 얼룩','small bloodstain on the costume hem'],['dust','먼지 쌓인 옷','dust and frayed edges on the costume']],
   redhood:[['stain','후드 소매의 작은 피 얼룩','small faux bloodstain on the red hoodie cuff'],['leaf','후드에 붙은 낙엽','dry autumn leaves caught on the hoodie']],
   alice:[['rose','앞치마의 검은 장미 자수','black rose embroidery on the apron'],['stain','앞치마 끝의 작은 피 얼룩','small faux bloodstain on the apron hem']],
   royal:[['rose','시든 장미 코르사주','wilted rose corsage pinned to the costume'],['ribbon','해진 왕실 리본','frayed royal ribbon trim along the costume hem'],['stain','옷자락의 작은 피 얼룩','small faux bloodstain on the costume hem']],
-  general:[['ribbon','바랜 리본 장식','faded ribbon at the costume hem'],['dust','옷자락의 옅은 먼지','faint dust along the costume hem']],
+  general:[['ribbon','바랜 리본 장식','faded ribbon at the costume hem'],['dust','옷자락의 옅은 먼지','faint dust along the costume hem'],['fray','해진 밑단','frayed tattered hem on the costume']],
 };
 function eerieKind(scene,male=false){
   const id=scene.id||'', tag=scene.tag||'';
