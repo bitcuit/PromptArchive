@@ -125,6 +125,122 @@ const TF_HELD = [
   ['_m-gummy', 'Gummy worm in the mouth', '입에 문 젤리 지렁이', 'gummy worm dangling from the mouth, mouth hold', 'F1 c:mouth'],
 ];
 
+/* 화관 · 엔젤링 — 어울리는 분장의 머리 장식에 더한다.
+ * 뿔 · 후광 · 간호사 모자 · 면사포처럼 그 분장을 알아보게 하는 머리 장식은 빠지면 안 되므로 묶어서 쓴다.
+ * 여섯째 칸 true: 분장의 need 가 머리 장식을 지정해 둔 경우 그 목록에도 더한다(이것도 알아볼 표시라서). */
+const TF_ROSE = 'red rose flower crown', TF_BLACKROSE = 'black rose flower crown', TF_WHITEROSE = 'white rose flower crown';
+const TF_THORN = 'crown of thorny vines', TF_BABY = 'baby\'s breath flower crown', TF_FLOWER = 'flower crown';
+const TF_SLIP = 'halo tilted and slipping down to one side of the head';
+const TF_CROWNS = {
+  /* 천사 */
+  angel: [
+    ['slip', 'Slipping halo', '흘러내린 엔젤링', `gold ${TF_SLIP}`, '', true],
+    ['halo-rose', 'Halo and white rose crown', '헤일로와 흰 장미 화관', `gold halo headband, ${TF_WHITEROSE}`, 'f1', true],
+    ['halo-flower', 'Halo and flower crown', '헤일로와 화관', `gold halo headband, ${TF_FLOWER}`, '', true],
+  ],
+  'an-white': [
+    ['slip', 'Slipping halo', '흘러내린 엔젤링', TF_SLIP],
+    ['halo-baby', 'Halo and baby\'s breath crown', '후광과 안개꽃 화관', `halo, ${TF_BABY}`, 'f1'],
+    ['halo-flower', 'Halo and flower crown', '후광과 화관', `halo, ${TF_FLOWER}`],
+  ],
+  'an-idol': [
+    ['slip', 'Slipping heart halo', '흘러내린 하트 엔젤링', `heart-shaped ${TF_SLIP}`],
+    ['halo-flower', 'Heart halo and flower crown', '하트 후광과 화관', `heart-shaped halo, ${TF_FLOWER}`],
+  ],
+  'an-fallen': [
+    ['slip', 'Cracked slipping halo', '금 간 채 흘러내린 엔젤링', `cracked ${TF_SLIP}`],
+    ['thorn', 'Thorn vine crown', '가시 덩굴 화관', TF_THORN],
+    ['blackrose', 'Black rose crown', '흑장미 화관', TF_BLACKROSE],
+  ],
+  /* 악마 · 서큐버스 — 뿔과 함께 */
+  devil: [
+    ['horns-rose', 'Horns and rose crown', '뿔 머리띠와 장미 화관', `fake devil horns on a headband, ${TF_ROSE}`],
+    ['horns-thorn', 'Horns and thorn vine crown', '뿔 머리띠와 가시 덩굴 화관', `fake devil horns on a headband, ${TF_THORN}`],
+    ['horns-black', 'Horns and black rose crown', '뿔 머리띠와 흑장미 화관', `fake devil horns on a headband, ${TF_BLACKROSE}`, 'f1'],
+  ],
+  imp: [['horns-rose', 'Curled horns and rose crown', '말린 뿔과 장미 화관', `curled fake horns on a headband, ${TF_ROSE}`]],
+  's-classic': [
+    ['horns-rose', 'Horns and rose crown', '뿔 머리띠와 장미 화관', `curled fake horns on a headband, ${TF_ROSE}`],
+    ['horns-black', 'Horns and black rose crown', '뿔 머리띠와 흑장미 화관', `curled fake horns on a headband, ${TF_BLACKROSE}`],
+  ],
+  's-pink': [['horns-rose', 'Pink horns and rose crown', '분홍 뿔과 분홍 장미 화관', 'pink fake horn clips, pink rose flower crown']],
+  /* 신부 — 면사포와 함께 */
+  bride: [
+    ['veil-rose', 'Veil and white rose crown', '면사포와 흰 장미 화관', `white wedding veil, ${TF_WHITEROSE}`, '', true],
+    ['veil-thorn', 'Veil and thorn vine crown', '면사포와 가시 덩굴 화관', `white wedding veil, ${TF_THORN}`, '', true],
+    ['veil-flower', 'Veil and flower crown', '면사포와 화관', `white wedding veil, ${TF_FLOWER}`, '', true],
+  ],
+  ghostbride: [
+    ['veil-rose', 'Tattered veil and white rose crown', '해진 면사포와 흰 장미 화관', `tattered wedding veil, ${TF_WHITEROSE}`, 'gf'],
+    ['veil-thorn', 'Tattered veil and thorn vine crown', '해진 면사포와 가시 덩굴 화관', `tattered wedding veil, ${TF_THORN}`, 'gf'],
+    ['veil-baby', 'Tattered veil and baby\'s breath crown', '해진 면사포와 안개꽃 화관', `tattered wedding veil, ${TF_BABY}`, 'gf'],
+    ['veil-flower', 'Tattered veil and flower crown', '해진 면사포와 화관', `tattered wedding veil, ${TF_FLOWER}`, 'gf'],
+  ],
+  'f-bride': [
+    ['veil-thorn', 'Tattered veil and thorn vine crown', '해진 베일과 가시 덩굴 화관', `tattered veil, ${TF_THORN}`, 'gf'],
+    ['veil-flower', 'Tattered veil and flower crown', '해진 베일과 화관', `tattered veil, ${TF_FLOWER}`, 'gf'],
+  ],
+  /* 수녀 · 넋 — 베일과 함께 */
+  hauntednun: [
+    ['veil-thorn', 'Veil and thorn vine crown', '베일과 가시 덩굴 화관', `gothic nun veil, ${TF_THORN}`, 'gf'],
+    ['veil-rose', 'Veil and white rose crown', '베일과 흰 장미 화관', `gothic nun veil, ${TF_WHITEROSE}`, 'gf'],
+    ['veil-flower', 'Veil and flower crown', '베일과 화관', `gothic nun veil, ${TF_FLOWER}`, 'gf'],
+  ],
+  'my-banshee': [['veil-black', 'Veil and black rose crown', '베일과 흑장미 화관', `long trailing veil, ${TF_BLACKROSE}`]],
+  /* 간호사 — 모자와 함께 */
+  nurse: [
+    ['cap-rose', 'Nurse cap and rose crown', '간호사 모자와 장미 화관', `nurse cap, ${TF_ROSE}`, 'gf'],
+    ['cap-thorn', 'Nurse cap and thorn vine crown', '간호사 모자와 가시 덩굴 화관', `nurse cap, ${TF_THORN}`, 'gf'],
+    ['cap-flower', 'Nurse cap and flower crown', '간호사 모자와 화관', `nurse cap, ${TF_FLOWER}`, 'gf'],
+  ],
+  zombienurse: [
+    ['cap-thorn', 'Nurse cap and thorn vine crown', '간호사 모자와 가시 덩굴 화관', `nurse cap, ${TF_THORN}`, 'gf'],
+    ['cap-black', 'Nurse cap and black rose crown', '간호사 모자와 흑장미 화관', `nurse cap, ${TF_BLACKROSE}`, 'gf'],
+  ],
+  /* 백조 · 흑조 */
+  'sw-white': [
+    ['whiterose', 'White rose crown', '흰 장미 화관', TF_WHITEROSE],
+    ['baby', 'Baby\'s breath crown', '안개꽃 화관', TF_BABY],
+    ['flower', 'Flower crown', '화관', TF_FLOWER],
+  ],
+  'sw-black': [
+    ['blackrose', 'Black rose crown', '흑장미 화관', TF_BLACKROSE],
+    ['thorn', 'Thorn vine crown', '가시 덩굴 화관', TF_THORN],
+  ],
+  /* 뱀파이어 · 마녀 · 그 밖 */
+  vampire: [
+    ['blackrose', 'Black rose crown', '흑장미 화관', TF_BLACKROSE],
+    ['rosecrown', 'Rose crown', '장미 화관', TF_ROSE],
+  ],
+  frillvamp: [['blackrose', 'Black rose crown', '흑장미 화관', TF_BLACKROSE]],
+  'v-white': [
+    ['whiterose', 'White rose crown', '흰 장미 화관', TF_WHITEROSE],
+    ['flower', 'Flower crown', '화관', TF_FLOWER],
+  ],
+  'w-rose': [['thorn', 'Thorn vine crown', '가시 덩굴 화관', TF_THORN]],
+  'w-dark': [['blackrose', 'Black rose crown', '흑장미 화관', TF_BLACKROSE]],
+  alice: [
+    ['rose', 'Rose crown', '장미 화관', TF_ROSE],
+    ['flower', 'Flower crown', '화관', TF_FLOWER],
+  ],
+  greek: [['flower', 'Flower crown', '화관', TF_FLOWER, 'gf']],
+  'greek-hist': [['laurel', 'Laurel wreath', '월계관', 'green laurel wreath']],
+  'fy-moon': [
+    ['flower', 'Flower crown', '화관', TF_FLOWER],
+    ['silverleaf', 'Silver leaf crown', '은빛 잎 관', 'delicate silver leaf crown'],
+  ],
+  'fy-pixie': [['flowercrown', 'Flower crown', '화관', TF_FLOWER]],
+  'sr-siren': [['flower', 'Flower crown', '화관', TF_FLOWER]],
+  fairy: [
+    ['rose', 'Rose crown', '장미 화관', TF_ROSE],
+    ['baby', 'Baby\'s breath crown', '안개꽃 화관', TF_BABY],
+  ],
+  'fy-forest': [
+    ['thorn', 'Thorn vine crown', '가시 덩굴 화관', TF_THORN],
+    ['ivy', 'Ivy leaf crown', '담쟁이 잎 관', 'ivy leaf crown'],
+  ],
+};
+
 /* 옵션 문자열을 항목 필드로 */
 function tfOpts(s) {
   const o = {};
@@ -160,6 +276,7 @@ function costume(id, label, labelKo, callNo, spec) {
     /* 고증판(plain)에는 할로윈 장소 · 사탕 소품을 붙이지 않는다. */
     if (slot === 'effect' && !spec.plain) rows.unshift(...TF_PLACES);
     if (slot === 'weapon' && !spec.plain) rows.push(...TF_HELD);
+    if (slot === 'headwear' && TF_CROWNS[id]) rows.push(...TF_CROWNS[id].map(r => r.slice(0, 5)));
     const list = [];
     if (slot !== 'garment' && slot !== 'accessories') list.push({ id: `${id}-none-${slot}`, t: 'None', k: '없음', p: '' });
     keyed[slot] = {};
@@ -191,6 +308,7 @@ function costume(id, label, labelKo, callNo, spec) {
     return r;
   });
   const need = spec.need ? Object.fromEntries(Object.entries(spec.need).map(([sl, v]) => [sl, String(v).trim() ? String(v).trim().split(/\s+/).map(k => ref(sl, k)) : []])) : undefined;
+  if (need?.headwear?.length) for (const r of TF_CROWNS[id] || []) if (r[5]) need.headwear.push(ref('headwear', r[0]));
   return { id, label, labelKo, years: '', callNo, need, plain: !!spec.plain, tag: spec.tag, tagReal: spec.tagReal, tagM: spec.tagM, tagRealM: spec.tagRealM, colors: tfExpandColors(spec.colors), recipes, slots };
 }
 
