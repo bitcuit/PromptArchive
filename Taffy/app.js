@@ -877,7 +877,30 @@ const skips={};
 /* 항목 검색어 — 852개가 되어 드롭다운에서 찾기 어려워졌다. */
 let slotQuery="";
 
+/* 분장 조합의 칸 목록 범위 — 'fit' 은 의상이 속한 분장의 항목(같은 문구 포함)만, 'all' 은 모든 분장.
+ * 드롭다운과 칸 🎲 가 같은 범위를 쓴다. Ring · One more 는 이 설정과 상관없이 늘 어울리는 것만 뽑는다.
+ * 의상(범위를 정하는 칸)과 장신구(서브 분장의 장신구가 섞이는 칸)는 좁히지 않는다. */
+let mixScope='fit';
+try{ if(localStorage.getItem("taffy.mixScope")==="all") mixScope='all'; }catch(e){}
+function fitOptions(ed,slot,st,list){
+  if(ed.id!=='cross'||mixScope==='all'||slot==='garment'||slot==='accessories') return list;
+  const g=slotOptions(ed,'garment',st).find(o=>o.id===$("#garment").value);
+  const home=ed.periods.find(p=>p.id===g?.periodId);
+  if(!home) return list;
+  const homeP=new Set((home.slots?.[slot]||[]).map(i=>i.p).filter(Boolean));
+  const cur=$("#"+slot).value;
+  /* 지금 골라 둔 항목은 범위 밖이어도 남긴다 — 목록을 줄였다고 값이 몰래 바뀌지 않게 */
+  return list.filter(it=>!it.p||it.periodId===home.id||homeP.has(it.p)||it.id===cur);
+}
+function renderMixScope(){
+  const box=$("#mixScope");
+  box.hidden=$("#collection").value!=='cross';
+  box.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.scope===mixScope)));
+}
+/* 의상이 바뀌면 '어울리는 것만' 목록도 그 분장으로 다시 채운다 */
+function refreshFit(){ if($("#collection").value==='cross'&&mixScope==='fit') populateSlots(); }
 function populateSlots(){
+  renderMixScope();
   const st=readState(),ed=st.edition;
   const schema=schemaFor(ed,st.gender);
   const over=ed.slotLabels?ed.slotLabels[selectLang]:null;
@@ -886,7 +909,7 @@ function populateSlots(){
     const f=fieldOf(slot),active=slot==='accessories'||schema.includes(slot);
     f.style.display=active?"":"none";
     if(!active){$("#"+slot).innerHTML="";return}
-    let list=slotOptions(ed,slot,st);
+    let list=fitOptions(ed,slot,st,slotOptions(ed,slot,st));
     /* 데이터의 'None' 항목은 UI 공통 None 으로 대체한다 (고대 시대에 몇 개 남아 있음). */
     list=list.filter(it=>it.t!=='None');
     /* 같은 라벨이 여럿이면(시대 합침) 시대 이름을 붙여 구분한다 — '슈미즈 · 18C Rococo'. */
@@ -1050,6 +1073,8 @@ function randomIndexField(id){
   const el=$("#"+id);el.selectedIndex=Math.floor(Math.random()*el.options.length);
 }
 function applyPicks(picks,only=null){
+  /* 의상을 먼저 넣고 '어울리는 것만' 목록을 새 분장으로 바꾼 뒤 나머지 칸을 넣는다 — 옛 목록에 없어 비는 일이 없게 */
+  if(!only&&picks.garment&&!skips.garment&&!locks.garment&&$("#garment").value!==picks.garment){$("#garment").value=picks.garment;refreshFit();}
   ALL_SLOTS.forEach(s=>{
     if(only&&s!==only)return;
     if(skips[s]||(locks[s]&&!only))return;
@@ -1061,6 +1086,7 @@ function applyPicks(picks,only=null){
     /* 롤이 비었거나(slotChance) 드롭다운에 없는 값이면 None. 이전 값을 남기지 않는다. */
     if(s!=='garment'&&has(''))el.value='';
   });
+  refreshFit();
 }
 function currentPrev(){const prev={};ALL_SLOTS.forEach(s=>prev[s]=s==='accessories'?getMulti('accessories'):$("#"+s).value);return prev;}
 /* 드롭다운의 '랜덤'(색 · 포인트 색 · 기척 · 배경)을 한 번 뽑은 값. 다시 뽑기 전까지 그대로 써서
@@ -1110,8 +1136,21 @@ function rerollField(id){
     updatePreview();return;
   }
   if(!ALL_SLOTS.includes(id)||skips[id])return;
-  const lk={};ALL_SLOTS.forEach(s=>lk[s]=s!==id);
   const st=readState();
+  /* 칸 하나만 다시 뽑을 때는 드롭다운과 같은 범위(분장 조합의 '어울리는 것만 / 전체')에서 지금과 다른 하나.
+   * 없음은 뽑지 않는다. 의상 · 장신구는 원래 방식. */
+  if(id!=='garment'&&id!=='accessories'){
+    const chosen={};
+    ALL_SLOTS.forEach(s=>{if(s===id||s==='accessories'||skips[s])return;const it=slotOptions(st.edition,s,st).find(o=>o.id===$("#"+s).value);if(it)chosen[s]=it;});
+    chosen.accessories=slotOptions(st.edition,'accessories',st).filter(o=>getMulti('accessories').includes(o.id));
+    const cur=$("#"+id).value;
+    const pool=fitOptions(st.edition,id,st,slotOptionsRoll(st.edition,id,st)).filter(it=>it.p&&it.id!==cur&&compatible(it,chosen));
+    if(pool.length) $("#"+id).value=rand(pool).id;
+    updatePreview();
+    $("#status").textContent=pool.length?"REROLLED · "+slotDisplayName(id).toUpperCase():"NO OTHER ITEM";
+    return;
+  }
+  const lk={};ALL_SLOTS.forEach(s=>lk[s]=s!==id);
   const picks=rollPicks(st.edition,st,lk,currentPrev());
   applyPicks(picks,id);
   updatePreview();
@@ -1156,7 +1195,7 @@ function recut(){
     lk[s]=!!it&&!(it.avoidNeck&&sib.neckline&&it.avoidNeck.includes(sib.neckline));
   });
   const picks=rollPicks(st.edition,st,lk,prev);
-  $("#garment").value=sib.id;
+  $("#garment").value=sib.id;refreshFit();
   ALL_SLOTS.forEach(s=>{
     if(s==='garment'||skips[s])return;
     if(s==='accessories'){
@@ -1692,6 +1731,13 @@ $("#transcribeBtn").addEventListener("click",()=>{
 });
 /* ONE MORE — 링과 같다. 잠그지 않은 것은 컬렉션 · 분장까지 전부 새로 뽑아 한 알 더. 같은 분장을 계속 보려면 분장 줄을 잠근다. */
 $("#reprintBtn").addEventListener("click",()=>{randomize();transcribe();});
+$("#garment").addEventListener("change",()=>{refreshFit();updatePreview();});
+$("#mixScope").addEventListener("click",e=>{
+  const b=e.target.closest("button[data-scope]");if(!b||b.dataset.scope===mixScope)return;
+  mixScope=b.dataset.scope;
+  try{localStorage.setItem("taffy.mixScope",mixScope);}catch(e){}
+  populateSlots();updatePreview();
+});
 $("#copyBtn").addEventListener("click",copyText);
 $("#saveBtn").addEventListener("click",saveText);
 updatePack();applySelectLanguage();updatePreview();

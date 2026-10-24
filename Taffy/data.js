@@ -8997,6 +8997,9 @@ const variant = collection('variant', 'TYPE VARIANTS', 'PA·TFY·VIII', 'one arc
       ],
       foundation: [
         ['torn', 'Torn tights', '찢긴 타이츠', 'torn tights', 'gf'],
+        ['legwarmers', 'Shaggy fur leg warmers', '복슬한 털 레그워머', 'shaggy faux fur leg warmers', ''],
+        ['thigh', 'Black thigh-high socks', '검은 니삭스', 'black thigh-high socks', 'gf'],
+        ['straps', 'Leather straps around the thighs', '허벅지에 감은 가죽 끈', 'leather straps wrapped around the thighs', 'x12 gf'],
       ],
       neckwear: [
         ['collar', 'Studded collar', '징 목걸이', 'studded collar', ''],
