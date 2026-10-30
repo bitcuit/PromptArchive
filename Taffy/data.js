@@ -104,9 +104,16 @@ const TF_PLACES = [
   ['_studio', 'Studio backdrop', '스튜디오 배경', 'studio backdrop, orange and purple gel lighting', 'f2'],
   ['_leaves', 'Autumn woods', '낙엽 진 숲길', 'autumn woods, falling leaves, golden hour', 'f2'],
   ['_candle', 'Candlelit hall', '촛불 켠 홀', 'candlelit hall, tall candelabras', 'f2'],
-  ['_moon', 'Full moon rooftops', '보름달 지붕 위', 'rooftops under a full moon', 'f3'],
+  ['_moon', 'Full moon rooftops', '보름달 지붕 위', 'rooftops under a full moon, bats flying overhead', 'f3'],
   ['_lanterns', 'Floating jack-o\'-lanterns', '떠다니는 호박 등불', 'jack-o\'-lanterns floating in the night air, glowing faces', 'f3'],
-  ['_mist', 'Misty graveyard', '안개 낀 묘지', 'misty graveyard at midnight, crooked headstones', 'f3'],
+  ['_home', 'Living room decorated for halloween', '할로윈으로 꾸민 거실', 'living room decorated for halloween, fake cobwebs on the shelves, paper bats on the wall, carved pumpkins on the table', 'F2'],
+  ['_downtown', 'Halloween night downtown', '할로윈 밤 번화가', 'crowded downtown street on halloween night, people in costumes, neon signs, orange string lights overhead', 'F2'],
+  ['_shops', 'Decorated shop street', '할로윈 장식 상점가', 'shop street decorated for halloween, pumpkins and fake cobwebs in the windows, warm shop lights', 'F2'],
+  ['_ruins', 'Moonlit ruins', '달빛 비친 폐허', 'crumbling stone ruins under the moon, ivy on broken walls, crows perched on the stones', 'f1'],
+  ['_manor', 'Abandoned mansion hall', '버려진 저택 홀', 'abandoned mansion hall, thick cobwebs, dusty chandelier, torn curtains', 'f1'],
+  ['_batsky', 'Bats across the full moon', '보름달을 가로지르는 박쥐 떼', 'swarm of bats flying across a huge full moon, night sky', 'f2'],
+  ['_crows', 'Crows over a dead tree', '마른 나무 위 까마귀 떼', 'crows circling over a bare dead tree, grey dusk sky', 'f2'],
+  ['_mist', 'Misty graveyard', '안개 낀 묘지', 'misty graveyard at midnight, crooked headstones, crows perched on the stones', 'f3'],
 ];
 
 /* 모든 분장이 손에 들 수 있는 것 — 트릭 오어 트릿의 물건. 파티 코스튬까지만. */
