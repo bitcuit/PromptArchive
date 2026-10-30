@@ -548,6 +548,39 @@ option{background:#211a24;color:var(--bone)}
 .bell-mini{border:1px solid var(--amber);border-radius:3px;background:transparent;color:var(--amber-soft);font-weight:500;letter-spacing:.1em;padding:7px 26px}
 .bell-mini:hover{background:rgba(217,160,90,.1)}
 
+/* ───────── 진열장 — 원형 하나가 카드 한 장 ───────── */
+.plate-side{display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;align-self:stretch;gap:10px}
+.shelf-open{height:32px;display:inline-flex;align-items:center;gap:7px;padding:0 13px;border:1px solid var(--line);border-radius:3px;background:var(--field);color:var(--bone);font-size:13px;font-weight:500;transition:border-color .15s,color .15s}
+.shelf-open .ico{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.1;color:var(--amber)}
+.shelf-open:hover{border-color:var(--amber);color:var(--amber-soft)}
+.shelf-modal{position:fixed;inset:0;z-index:100;background:rgba(12,8,14,.78);display:none;place-items:center;padding:16px}
+.shelf-modal.open{display:grid}
+.shelf-card{width:min(1280px,100%);height:calc(100vh - 32px);display:flex;flex-direction:column;background:var(--glass);border:1px solid var(--line);border-radius:4px;box-shadow:0 30px 60px rgba(0,0,0,.5);overflow:hidden}
+.shelf-top{display:flex;align-items:center;gap:14px;padding:12px 14px 12px 20px;border-bottom:1px solid var(--line);background:#211a26}
+.shelf-title{font-family:var(--serif);font-weight:500;font-size:22px;white-space:nowrap}
+.shelf-nav{display:flex;flex-wrap:wrap;gap:4px;flex:1;min-width:0}
+.shelf-nav button{border:1px solid var(--line-soft);border-radius:3px;background:transparent;color:var(--bone-dim);font-size:11.5px;padding:3px 8px;white-space:nowrap}
+.shelf-nav button:hover{color:var(--bone);border-color:var(--line)}
+.shelf-body{flex:1;overflow:auto;padding:4px 20px 20px}
+.shelf-sec{font-size:10.5px;font-weight:600;letter-spacing:.16em;color:var(--amber);margin:16px 0 8px}
+.shelf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+.shelf-item{border:1px solid var(--line-soft);border-radius:4px;background:var(--field);padding:9px 10px 10px;display:flex;flex-direction:column;gap:5px}
+.shelf-item.current{border-color:var(--amber);background:rgba(217,160,90,.08)}
+.shelf-pick{all:unset;cursor:pointer;display:flex;flex-direction:column;gap:3px}
+.shelf-pick:focus-visible{outline:1px solid var(--amber);outline-offset:3px}
+.shelf-name{font-size:14.5px;font-weight:600;color:var(--bone);display:flex;align-items:baseline;gap:6px}
+.shelf-pick:hover .shelf-name{color:var(--amber-soft)}
+.shelf-count{font-size:11px;font-weight:500;color:var(--bone-dim)}
+.shelf-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.shelf-sign{font-size:12px;color:var(--bone-dim);line-height:1.45;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.shelf-vars{position:relative;display:flex;flex-wrap:nowrap;gap:3px;overflow:hidden;margin-top:auto}
+.shelf-vars.all{flex-wrap:wrap}
+.shelf-vars button{flex:none}
+.shelf-vars .more{color:var(--amber-soft)}
+.shelf-vars button{border:1px solid var(--line-soft);border-radius:3px;background:transparent;color:var(--bone-dim);font-size:11.5px;padding:2px 6px}
+.shelf-vars button:hover{color:var(--bone);border-color:var(--line)}
+.shelf-vars button.on{color:var(--amber-soft);border-color:var(--amber)}
+
 /* ───────── 좁은 화면 — 옆창 · 문 · 옆창을 세로로 쌓는다 ───────── */
 @media (max-width:1500px){
   .frontage{width:100%}
@@ -573,6 +606,9 @@ option{background:#211a24;color:var(--bone)}
   .twist-l{left:-36px}
   .twist-r{right:-36px}
   .help-inner{grid-template-columns:1fr}
+  .shelf-nav{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+  .shelf-top{padding:10px 10px 10px 14px;gap:10px}
+  .shelf-body{padding:4px 12px 16px}
   .treats-list{max-height:320px}
 }
 @media (prefers-reduced-motion:reduce){

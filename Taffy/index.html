@@ -40,6 +40,7 @@
             <div class="brand-name">Taffy</div>
             <div class="brand-line"><span>Prompt Archive</span><span>trick-or-treat porch</span></div>
           </div>
+          <div class="plate-side">
           <div class="plate-tools">
             <label class="lang-switch" title="드롭다운 언어 전환">
               <span class="lang-label">한</span>
@@ -58,6 +59,8 @@
               </div>
             </div>
             <button class="tool" id="helpBtn" type="button" aria-label="사용법">?</button>
+          </div>
+          <button class="shelf-open" id="shelfBtn" type="button" title="분장을 카드로 보며 고르기"><svg class="ico" viewBox="0 0 12 12" aria-hidden="true"><rect x="0.5" y="0.5" width="4.5" height="4.5" rx="1"/><rect x="7" y="0.5" width="4.5" height="4.5" rx="1"/><rect x="0.5" y="7" width="4.5" height="4.5" rx="1"/><rect x="7" y="7" width="4.5" height="4.5" rx="1"/></svg><span id="shelfBtnText">진열장</span></button>
           </div>
         </header>
 
@@ -393,6 +396,17 @@
       </div>
   </section>
 </main>
+
+<div class="shelf-modal" id="shelfModal" role="dialog" aria-modal="true" aria-labelledby="shelfTitle">
+  <div class="shelf-card">
+    <div class="shelf-top">
+      <div class="shelf-title" id="shelfTitle">진열장</div>
+      <nav class="shelf-nav" id="shelfNav"></nav>
+      <button class="help-close" id="shelfClose" type="button" aria-label="닫기">×</button>
+    </div>
+    <div class="shelf-body" id="shelfBody"></div>
+  </div>
+</div>
 
 <div class="help-modal" id="helpModal">
   <div class="help-card">

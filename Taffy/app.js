@@ -948,6 +948,7 @@ function applySelectLanguage(){
   const l=selectI18n.labels[selectLang];
   $("#collectionPill").textContent=selectI18n.staticOptions.collection[selectLang][currentPack().id];
   $("#labelCollection").textContent=l.collection;
+  $("#shelfBtnText").textContent=selectLang==='ko'?'진열장':'Showcase';
   $("#labelPeriod").textContent=l.period;
   $("#labelStyle").textContent=l.style;
   $("#labelMotif").textContent=l.motif;
@@ -1122,7 +1123,8 @@ function randomize(){
   if(collectionChanged) randomIndexField("collection");
   if(locks.period&&!holdIndex&&!mainPinned){
     if(lockFamily===null)lockFamily=familyOfLock();
-    const m=lockFamily&&rand(familyMembers(lockFamily));
+    /* 분장 유형도 잠겨 있으면 그 유형 안의 갈래만 */
+    const m=lockFamily&&rand(familyMembers(lockFamily).filter(x=>!locks.collection||x.k===$("#collection").value));
     if(m){if($("#collection").value!==m.k){$("#collection").value=m.k;updatePack();}$("#period").value=m.p.label;}
   }
   ["period","gender","fidelity","exposure"].forEach(id=>{ if(locks[id]||holdIndex||(id==='period'&&mainPinned))return; randomIndexField(id); });
@@ -1815,6 +1817,105 @@ document.addEventListener("keydown",e=>{
   if(e.key==="Escape"&&$("#resultZone").classList.contains("open")) finishTear();
 });
 $("#sheet").addEventListener("click",e=>{e.stopPropagation();});
+
+/* ---------------- 진열장 — 원형(갈래) 하나를 카드 한 장으로. 카드 = 대표 분장, 아래 칩 = 갈래 하나 ---------------- */
+const shelf=$("#shelfModal");
+const shelfName=p=>{const n=genderName(p);return selectLang==='ko'?(n.ko||n.en):n.en;};
+function shelfSign(p){
+  /* 그 분장을 알아보게 하는 것 — need 로 묶인 항목부터, 모자라면 머리 장식 · 손 소품 · 장신구 */
+  const out=[],all=Object.values(p.slots).flat(),name=it=>selectLang==='ko'?it.k:it.t;
+  for(const ids of Object.values(p.need||{})){const it=ids.map(id=>all.find(x=>x.id===id)).find(x=>x&&x.p);if(it&&!out.includes(name(it)))out.push(name(it));}
+  for(const sl of ['headwear','weapon','accessories']){
+    if(out.length>=3)break;
+    const it=(p.slots[sl]||[]).find(x=>x.p&&!x.id.includes('-_')&&!out.includes(name(x)));
+    if(it)out.push(name(it));
+  }
+  return out.slice(0,3).join(' · ');
+}
+function shelfPick(k,p){
+  if($("#collection").value!==k){$("#collection").value=k;$("#collection").dispatchEvent(new Event("change"));}
+  $("#period").value=p.label;$("#period").dispatchEvent(new Event("change"));
+  updatePreview();closeShelf();
+}
+function shelfGroups(){
+  const seen=new Set(),secs=[];
+  for(const k of ['classic','illust','everyday','cosplay'])for(const p of periodList(EDITIONS[k])){
+    const fam=famOf(p);if(seen.has(fam))continue;seen.add(fam);
+    const fm=familyMembers(fam),ms=fm.length?fm:[{k,p}];
+    const root=ms.find(m=>famRoot(m.p))||ms[0];
+    const sec=(selectLang==='ko'?root.p.groupKo:root.p.groupEn)||selectI18n.staticOptions.collection[selectLang][root.k];
+    let s=secs.find(x=>x.name===sec);if(!s)secs.push(s={name:sec,cards:[]});
+    s.cards.push({root,ms});
+  }
+  /* 카드 한 장뿐인 묶음은 그 분장 유형 이름의 묶음으로 모은다 — 목차 칩이 한 장짜리로 늘어나지 않게 */
+  const out=[];
+  for(const s of secs){
+    const name=s.cards.length>1&&s.cards[0].root.k!=='cosplay'?s.name:selectI18n.staticOptions.collection[selectLang][s.cards[0].root.k];
+    let t=out.find(x=>x.name===name);if(!t)out.push(t={name,cards:[]});
+    t.cards.push(...s.cards);
+  }
+  /* 갈래 칩이 있는 카드를 앞에 — 같은 줄의 카드 높이가 같아지게(칩 없는 카드에 빈 띠가 생기지 않게) */
+  for(const t of out) t.cards.sort((a,b)=>(b.ms.length>1)-(a.ms.length>1));
+  return out;
+}
+function renderShelf(){
+  const cur=currentPeriod(),curK=$("#collection").value,isCur=m=>m.p===cur&&m.k===curK;
+  $("#shelfNav").innerHTML='';$("#shelfBody").innerHTML='';
+  for(const s of shelfGroups()){
+    const h=document.createElement("div");h.className="shelf-sec";h.textContent=s.name;
+    const nb=document.createElement("button");nb.type="button";nb.textContent=s.name;
+    nb.addEventListener("click",()=>h.scrollIntoView({block:'start'}));$("#shelfNav").appendChild(nb);
+    const grid=document.createElement("div");grid.className="shelf-grid";
+    for(const {root,ms} of s.cards){
+      const card=document.createElement("div");card.className="shelf-item"+(ms.some(isCur)?" current":"");
+      const pick=document.createElement("button");pick.type="button";pick.className="shelf-pick";
+      const nm=document.createElement("span");nm.className="shelf-name";nm.textContent=ms.length>1?shelfName(root.p).split(' · ')[0]:shelfName(root.p);
+      if(ms.length>1){const c=document.createElement("span");c.className="shelf-count";c.textContent=ms.length;nm.appendChild(c);}
+      pick.appendChild(nm);
+      const sign=shelfSign(root.p);
+      if(sign){const sg=document.createElement("span");sg.className="shelf-sign";sg.textContent=sign;sg.title=sign;pick.appendChild(sg);}
+      pick.addEventListener("click",()=>shelfPick(root.k,root.p));
+      card.appendChild(pick);
+      if(ms.length>1){
+        const vs=document.createElement("div");vs.className="shelf-vars";
+        for(const m of ms){
+          const b=document.createElement("button");b.type="button";const n=shelfName(m.p);
+          b.textContent=n.includes(' · ')?n.split(' · ').slice(1).join(' · '):(m===root?(selectLang==='ko'?'기본':'Base'):n);
+          if(isCur(m))b.className="on";
+          b.addEventListener("click",()=>shelfPick(m.k,m.p));vs.appendChild(b);
+        }
+        card.appendChild(vs);
+      }
+      grid.appendChild(card);
+    }
+    $("#shelfBody").append(h,grid);
+  }
+}
+/* 칩은 한 줄만 — 넘치는 칩은 숨기고 +N 으로. 누르면 그 카드만 펼친다(카드 높이를 맞춰 줄 맞춤을 지킨다) */
+function fitShelfChips(){
+  for(const vs of shelf.querySelectorAll('.shelf-vars')){
+    const bs=[...vs.children],W=vs.clientWidth;let hidden=0;
+    for(const b of bs){if(b.offsetLeft+b.offsetWidth>W-34){b.hidden=true;hidden++;}}
+    if(!hidden)continue;
+    while(true){const last=bs.filter(b=>!b.hidden).pop();const right=last?last.offsetLeft+last.offsetWidth:0;if(!last||right<=W-38)break;last.hidden=true;hidden++;}
+    const more=document.createElement('button');more.type='button';more.className='more';more.textContent='+'+hidden;
+    more.addEventListener('click',()=>{bs.forEach(b=>b.hidden=false);more.remove();vs.classList.add('all');});
+    vs.appendChild(more);
+  }
+}
+function openShelf(){
+  $("#shelfTitle").textContent=selectLang==='ko'?'진열장':'Showcase';
+  renderShelf();shelf.classList.add("open");fitShelfChips();
+  const c=shelf.querySelector(".shelf-item.current");if(c)c.scrollIntoView({block:'center'});
+}
+function closeShelf(){shelf.classList.remove("open");}
+$("#shelfBtn").addEventListener("click",openShelf);
+$("#shelfClose").addEventListener("click",closeShelf);
+shelf.addEventListener("click",e=>{if(e.target===shelf)closeShelf()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&shelf.classList.contains("open"))closeShelf()});
+/* 창 폭이 바뀌면 칩 한 줄을 다시 맞춘다 */
+let shelfResize=0;
+window.addEventListener("resize",()=>{if(!shelf.classList.contains("open"))return;clearTimeout(shelfResize);shelfResize=setTimeout(()=>{renderShelf();fitShelfChips();},150);});
 
 const modal=$("#helpModal");
 const openHelp=()=>modal.classList.add("open");
