@@ -79,7 +79,7 @@ const checks = String.raw`
     const noSpider=composeFrom(EDITIONS.classic,as,rollPicks(EDITIONS.classic,as)).prompt;
     assert(noSpider.includes('-1:: spider::') && !/(^|, )spider(?: |,)/.test(noSpider.replace('-1:: spider::','')), 'negative spider tag only');
     catsOff.delete('spider');
-    assert(!EDITIONS.classic.periods.some(p=>['hollywood','aerobics','disco'].includes(p.id)), 'removed retro entries stay out of selectors');
+    assert(!EDITIONS.classic.periods.some(p=>['aerobics','disco'].includes(p.id)), 'removed retro entries stay out of selectors');
     assert(!JSON.stringify(COLLECTIONS).toLowerCase().includes('waist pack'), 'generic waist pack removed');
     assert(!/red cross|medical cross|red crescent/i.test(JSON.stringify(COLLECTIONS)), 'protected medical emblems absent');
     const handmadeWitch=EDITIONS.classic.periods.find(p=>p.id==='witch');
@@ -104,6 +104,25 @@ const checks = String.raw`
     const ss={periodId:skeleton.id,fidelity:'Party',gender:'feminine',exposure:2,detail:'Medium'};
     assert(!slotOptions(EDITIONS.classic,'garment',ss).some(it=>it.cat==='bodysuit'), 'bodysuit hidden');
     catsOff.delete('bodypaint');catsOff.delete('bodysuit');
+    assert(catsOff.has('skintone') && !catsOff.has('facepaint'), 'skin tone off, face paint on by default');
+    const paintRun=(test)=>{let hits=0;
+      for(const e of [EDITIONS.classic,EDITIONS.illust,EDITIONS.everyday,EDITIONS.cosplay]) for(const p of e.periods){
+        if(p.mix) continue;
+        for(const gender of ['feminine','masculine']) for(let i=0;i<4;i++){
+          const st={periodId:p.id,style:p.mixStyles?.[0]||'',fidelity:'Editorial',gender,exposure:1,detail:'Medium'};
+          const made=composeFrom(e,st,rollPicks(e,st)).prompt.split(',').map(c=>c.trim());
+          hits+=made.filter(test).length;
+        }
+      }
+      return hits;};
+    assert(paintRun(skinClause)===0, 'no skin tone with chip off');
+    catsOff.delete('skintone');
+    assert(paintRun(skinClause)>0, 'skin tone returns with chip on');
+    catsOff.add('facepaint');
+    assert(paintRun(faceClause)===0, 'no face paint with chip off');
+    const fr=EDITIONS.classic.periods.flatMap(p=>p.slots?.device||[]).find(it=>/^green face paint, painted stitches/.test(it.p));
+    catsOff.delete('facepaint');catsOff.add('skintone');
+    assert(!!fr && !paintGone(fr.p) && !paintOff('painted stitches on the forehead') && paintOff('green face paint'), 'mixed item keeps stitches');
     const ns={periodId:nun.id,fidelity:'Party',gender:'feminine',exposure:1,detail:'Medium',eerie:'stain',backgroundEnabled:false};
     const np=rollPicks(ed,ns);
     assert(composeFrom(ed,ns,np).prompt.includes('small bloodstain on the habit sleeve cuff'), 'selected horror detail');
@@ -243,8 +262,17 @@ const checks = String.raw`
     assert(locks.period,'costume lock button on');
     for(let i=0;i<20;i++){
       randomize();
-      assert($('#collection').value==='illust' && currentPeriod().id==='mx-witch', 'locked costume survives Ring '+i);
+      assert($('#collection').value!=='cross' && famOf(currentPeriod())==='Witch', 'locked costume family survives Ring '+i);
     }
+    const famSeen=new Set();for(let i=0;i<80;i++){randomize();famSeen.add(currentPeriod().id);}
+    assert(famSeen.size>=8, 'locked root rolls across the witch family: '+[...famSeen].join(','));
+    $('.lock[data-lock="period"]').click();
+    $('#collection').value='illust'; updatePack(); $('#period').value='Witch · Star'; $('#period').dispatchEvent(new Event('change'));
+    $('.lock[data-lock="period"]').click();
+    for(let i=0;i<10;i++){randomize();assert(currentPeriod().id==='w-star','locked variant stays exact '+i);}
+    $('.lock[data-lock="period"]').click();
+    $('#collection').value='illust'; updatePack(); $('#period').value='Witch'; fillMixFields(); fillColors(); populateSlots();
+    $('.lock[data-lock="period"]').click();
     $('.lock[data-lock="period"]').click();
     $('#collection').value='illust'; updatePack();$('#period').value='Witch';fillMixFields();fillColors();
     $('#color').value='black';locks.color=true;

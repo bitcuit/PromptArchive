@@ -27,7 +27,7 @@
 //         슬롯을 적으면 그 key 만, '-슬롯' 은 그것만 빼고 전부, 안 적으면 그 분장의 전부. 'none' 은 그 칸 비움.
 //
 // 이 에디션의 선: 몸은 바꾸지 않는다. 뿔은 머리띠고 꼬리는 달아 놓은 천이다 — 진짜 몸은 Bestiary 의 것이다.
-// 피 · 상처 같은 슬래셔 분장은 넣지 않는다. 노출 단계도 옷의 형태(미니 · 코르셋 · 트임)까지만 쓴다.
+// 피는 슬래셔 악당의 옷 · 소품 · 뺨에 튄 가짜 피까지만 쓴다. 상처 · 신체 훼손은 넣지 않는다. 노출 단계도 옷의 형태(미니 · 코르셋 · 트임)까지만 쓴다.
 // 망사 · 체인 · 그물(fishnet · mesh · chain · net)은 쓰지 않는다 — 어울리지 않는 차림에 끼어들고, 모델이 웃옷까지 번지게 그린다.
 
 /* 색 이름 — 드롭다운 한글 표기. 프롬프트에는 영어가 들어간다. */
@@ -122,7 +122,6 @@ const TF_HELD = [
   ['_m-lolly', 'Lollipop in the mouth', '입에 문 롤리팝', 'lollipop in mouth, mouth hold', 'F1 c:mouth'],
   ['_m-candy', 'Candy in the mouth', '입에 문 사탕', 'round candy in mouth, mouth hold, cheek bulge', 'F1 c:mouth'],
   ['_m-choco', 'Chocolate stick in the mouth', '입에 문 초코 스틱', 'chocolate-dipped biscuit stick in mouth, mouth hold', 'F1 c:mouth'],
-  ['_m-gummy', 'Gummy worm in the mouth', '입에 문 젤리 지렁이', 'gummy worm dangling from the mouth, mouth hold', 'F1 c:mouth'],
 ];
 
 /* 화관 · 엔젤링 — 어울리는 분장의 머리 장식에 더한다.
@@ -266,6 +265,15 @@ function tfOpts(s) {
   return o;
 }
 
+/* 하트 · 심장 보석 — 어두운 분장들이 같이 쓰는 장신구. 둘째 장신구로만, 낮은 확률로 나온다. */
+const TF_HEARTS = [
+  ['heart-liquid', 'Heart gem with red liquid inside', '붉은 액체가 흐르는 하트 보석', 'heart-shaped glass pendant, dark red liquid swirling inside', 'f1 sec'],
+  ['heart-anatomy', 'Anatomical heart gem', '심장 모양 보석', 'anatomical heart-shaped ruby pendant', 'f1 sec'],
+  ['heart-brooch', 'Anatomical heart brooch', '심장 모양 브로치', 'anatomical heart-shaped garnet brooch', 'f1 sec'],
+  ['heart-drip', 'Heart gem dripping red', '붉은 방울이 맺힌 하트 보석', 'heart-shaped ruby pendant, a glowing red drop dripping from it', 'f3 sec'],
+];
+const TF_HEART_IDS = new Set(['witch', 'w-dark', 'w-rose', 'vampire', 'frillvamp', 'v-punk', 'v-lounge', 'bride', 'ghostbride', 'f-bride', 'reaper', 'devil', 'redqueen', 'foggent', 'phantom', 'windup']);
+
 /* 분장 하나를 엔진이 읽는 period 로 펼친다. */
 function costume(id, label, labelKo, callNo, spec) {
   const slots = {};
@@ -277,6 +285,7 @@ function costume(id, label, labelKo, callNo, spec) {
     if (slot === 'effect' && !spec.plain) rows.unshift(...TF_PLACES);
     if (slot === 'weapon' && !spec.plain) rows.push(...TF_HELD);
     if (slot === 'headwear' && TF_CROWNS[id]) rows.push(...TF_CROWNS[id].map(r => r.slice(0, 5)));
+    if (slot === 'accessories' && TF_HEART_IDS.has(id)) rows.push(...TF_HEARTS);
     const list = [];
     if (slot !== 'garment' && slot !== 'accessories') list.push({ id: `${id}-none-${slot}`, t: 'None', k: '없음', p: '' });
     keyed[slot] = {};
@@ -397,6 +406,7 @@ const monster = collection('monster', 'MONSTER MASH', 'PA·TFY·I', 'classic mon
         ['gloves', 'Lace fingerless gloves', '레이스 손가락 없는 장갑', 'lace fingerless gloves'],
         ['opera', 'Long satin gloves', '긴 새틴 장갑', 'long satin gloves', 'f2 x12'],
         ['cat', 'Black cat companion', '곁에 있는 검은 고양이', 'a real black cat sitting beside the witch', 'f1 c:animal'],
+        ['crow', 'Crow on the shoulder', '어깨 위 까마귀', 'a black crow perched on the shoulder', 'f1 c:animal'],
         ['sigils', 'Floating sigils', '떠다니는 문양', 'glowing sigils floating around the hands', 'f3'],
       ],
       weapon: [
@@ -1394,6 +1404,216 @@ const monster = collection('monster', 'MONSTER MASH', 'PA·TFY·I', 'classic mon
     },
   }),
 
+  /* ─── M-16 슬래셔 악당 — 특정 영화 인물이 아니라 그 갈래의 차림. 피는 옷 · 소품에 튄 가짜 피까지, 상처는 없음 ─── */
+  costume('slasher', 'Slasher Villain', '슬래셔 악당', 'M-16', {
+    tag: 'halloween costume, slasher villain costume', tagReal: 'slasher villain, halloween night',
+    colors: ['grey', 'khaki', 'brown', 'olive', 'charcoal', 'dusty grey', 'faded linen'],
+    need: { weapon: 'chainsaw cleaver machete hook' },
+    items: {
+      garment: [
+        ['hm-coverall', 'Old work coveralls', '헌 작업복', 'old work coveralls, dirt smudged', 'f0 F0'],
+        ['pt-coverall', 'Mechanic coveralls', '정비공 작업복', 'slasher costume, mechanic coveralls, rolled sleeves', 'f1 F1 x0 v:slasher-co'],
+        ['pt-apron', 'Shirt dress and butcher apron', '셔츠 원피스와 정육점 앞치마', 'slasher costume, button shirt dress, long butcher apron', 'f1 F1 x1 gf v:slasher-co'],
+        ['pt-short', 'Cropped coveralls', '짧은 작업복', 'slasher costume, short coveralls, rolled sleeves, unzipped collar', 'f1 F1 x2 gf v:slasher-co'],
+        ['pt-m', 'Work shirt and butcher apron', '작업 셔츠와 정육점 앞치마', 'slasher costume, work shirt, long butcher apron, trousers', 'f1 F1 x1 gm'],
+        ['pt-m2', 'Sleeveless work shirt and apron', '민소매 작업 셔츠와 앞치마', 'slasher costume, sleeveless work shirt, butcher apron, work trousers', 'f1 F1 x2 gm'],
+        ['ed-jacket', 'Worn jumpsuit and field jacket', '낡은 점프수트와 야전 상의', 'worn utility jumpsuit, faded field jacket', 'f2 x0 v:slasher-coe'],
+        ['ed-dress', 'Faded house dress and leather apron', '바랜 원피스와 가죽 앞치마', 'faded vintage house dress, heavy leather apron', 'f2 x1 gf v:slasher-coe'],
+        ['ed-corset', 'Leather apron over a slip dress', '슬립 원피스 위 가죽 앞치마', 'heavy leather apron over a short slip dress', 'f2 x2 gf n:low v:slasher-coe'],
+        ['ed-m', 'Heavy leather apron and work shirt', '두꺼운 가죽 앞치마와 작업 셔츠', 'heavy leather apron, stained work shirt, suspenders', 'f2 x12 gm'],
+      ],
+      structure: [
+        ['belt', 'Tool belt', '공구 벨트', 'worn tool belt'],
+        ['susp', 'Suspenders', '멜빵', 'suspenders', 'f1'],
+      ],
+      foundation: [
+        ['socks', 'Work socks', '작업 양말', 'grey work socks', 'x01'],
+        ['ladder', 'Laddered tights', '올 나간 타이츠', 'laddered tights', 'x12 gf'],
+      ],
+      neckwear: [
+        ['rag', 'Knotted rag', '목에 묶은 천 조각', 'dirty rag knotted around the neck', 'an:low'],
+      ],
+      outer: [
+        ['jacket', 'Faded work jacket', '바랜 작업 재킷', 'faded work jacket', 'f1'],
+        ['raincoat', 'Yellow fisherman raincoat', '노란 어부 비옷', 'yellow fisherman raincoat', 'f1'],
+      ],
+      footwear: [
+        ['work', 'Worn work boots', '낡은 작업화', 'worn work boots'],
+        ['rubber', 'Rubber boots', '고무장화', 'muddy rubber boots'],
+      ],
+      headwear: [
+        ['cap', 'Faded work cap', '바랜 작업모', 'faded work cap', 'F1'],
+        ['hood', 'Dark hood', '어두운 후드', 'dark hood pulled low'],
+      ],
+      accessories: [
+        ['gloves', 'Work gloves', '작업 장갑', 'dirty work gloves'],
+        ['rubber', 'Long rubber gloves', '긴 고무장갑', 'long black rubber gloves', 'f1'],
+        ['splat', 'Fake blood on the clothes', '옷에 튄 가짜 피', 'fake blood splatter on the clothes', 'f1'],
+        ['chain', 'Keys on a ring', '열쇠 꾸러미', 'ring of old keys at the belt', 'f1'],
+        ['fog', 'Fog curling at the ankles', '발목에 감기는 안개', 'low fog curling around the ankles', 'f3'],
+      ],
+      weapon: [
+        ['chainsaw', 'Toy chainsaw', '장난감 전기톱', 'holding a prop chainsaw'],
+        ['cleaver', 'Prop meat cleaver', '소품 고기 칼', 'holding a prop meat cleaver', 'f1'],
+        ['machete', 'Prop machete', '소품 마체테', 'holding a prop machete', 'f1'],
+        ['hook', 'Prop hook', '소품 갈고리', 'holding a prop iron hook', 'f1'],
+        ['dragged', 'Chainsaw dragged along', '끌고 가는 전기톱', 'dragging a chainsaw along the ground', 'f3'],
+      ],
+      device: [
+        ['hockey', 'Hockey mask', '하키 마스크', 'white hockey mask', 'f1 c:mask'],
+        ['sack', 'Burlap sack mask', '자루 가면', 'burlap sack mask, stitched eye holes', 'f1 c:mask'],
+        ['blank', 'Blank white mask', '무표정 흰 가면', 'blank white expressionless mask', 'f1 c:mask'],
+        ['splat', 'Fake blood splatter on the cheek', '뺨에 튄 가짜 피', 'fake blood splatter on the cheek'],
+        ['shadow', 'Dark eye smudge', '눈가의 어두운 번짐', 'smudged dark eye makeup'],
+        ['glow', 'Eyes glinting behind the mask', '가면 뒤에서 번뜩이는 눈', 'white mask, eyes glinting in the dark', 'f3 c:mask'],
+      ],
+      effect: [
+        ['barn', 'Old barn', '낡은 헛간', 'old barn at night, hanging lightbulb', 'f2'],
+        ['camp', 'Summer camp cabin', '여름 캠프 오두막', 'empty summer camp cabin, misty lake', 'f3'],
+        ['road', 'Dark country road', '어두운 시골길', 'dark country road, flickering streetlight', 'f3'],
+      ],
+    },
+    looks: [
+      ['mask', 'w3', { device: 'hockey sack blank glow' }],
+      ['face', 'w1', { device: 'splat shadow none' }],
+    ],
+  }),
+
+  /* ─── M-17 안개 속 신사 — 빅토리아풍 밤거리의 수수께끼 인물. 이름 있는 인물은 쓰지 않는다 ─── */
+  costume('foggent', 'Fog Gentleman', '안개 속 신사', 'M-17', {
+    tag: 'halloween costume, victorian mystery lady costume', tagReal: 'victorian mystery lady, halloween night, fog',
+    tagM: 'halloween costume, victorian gentleman costume', tagRealM: 'victorian gentleman, halloween night, fog',
+    colors: ['black', 'charcoal', 'burgundy', 'grey', 'wine'],
+    need: { headwear: 'tophat mini veil', weapon: 'cane razor umbrella lamp' },
+    items: {
+      garment: [
+        ['hm', 'Black coat and dark trousers', '검은 코트와 어두운 바지', 'black coat, dark trousers, white shirt', 'f0 F0'],
+        ['pt-dress', 'Bustle dress, high collar', '하이넥 버슬 드레스', 'victorian costume, high collar bustle dress, long skirt', 'f1 F1 x0 gf n:high v:foggent-fg'],
+        ['pt-vest', 'Waistcoat and bustle skirt', '조끼와 버슬 스커트', 'victorian costume, fitted waistcoat, ruffled blouse, bustle skirt', 'f1 F1 x1 gf v:foggent-fg'],
+        ['pt-short', 'Tailcoat and short bustle skirt', '연미복과 짧은 버슬 스커트', 'victorian costume, cropped tailcoat, corset, short bustle skirt', 'f1 F1 x2 gf v:foggent-fg'],
+        ['pt-m', 'Tailcoat and waistcoat', '연미복과 조끼', 'victorian gentleman costume, black tailcoat, waistcoat, high collar shirt', 'f1 F1 x01 gm n:high'],
+        ['pt-m2', 'Waistcoat, shirt open', '풀어 헤친 셔츠와 조끼', 'victorian gentleman costume, waistcoat, shirt open at the collar', 'f1 F1 x2 gm n:low'],
+        ['ed-gown', 'Velvet mourning gown', '벨벳 상복 드레스', 'velvet victorian mourning gown, high lace collar', 'f2 x0 gf n:high v:foggent-fge'],
+        ['ed-coat', 'Coat dress with a corset waist', '코르셋 허리 코트 드레스', 'long victorian coat dress, corset waist, lace cuffs', 'f2 x1 gf v:foggent-fge'],
+        ['ed-slit', 'Corset and slit bustle skirt', '코르셋과 트임 버슬 스커트', 'velvet corset, high slit bustle skirt, lace gloves', 'f2 x2 gf n:low v:foggent-fge'],
+        ['ed-m', 'Velvet frock coat and cravat', '벨벳 프록코트와 크라바트', 'velvet frock coat, brocade waistcoat, cravat', 'f2 x01 gm'],
+        ['ed-m2', 'Frock coat over an open shirt', '열린 셔츠 위 프록코트', 'long frock coat, ruffled shirt open at the collar', 'f2 x2 gm n:low'],
+      ],
+      structure: [
+        ['watch', 'Pocket watch chain', '회중시계 줄', 'pocket watch chain across the waistcoat'],
+        ['corset', 'Velvet corset belt', '벨벳 코르셋 벨트', 'velvet corset belt', 'gf'],
+      ],
+      foundation: [
+        ['tights', 'Black tights', '검은 타이츠', 'black tights', 'gf'],
+        ['lace', 'Lace stockings', '레이스 스타킹', 'black lace stockings', 'x12 gf'],
+      ],
+      neckwear: [
+        ['cravat', 'Silk cravat', '실크 크라바트', 'silk cravat', 'an:low'],
+        ['cameo', 'Cameo choker', '카메오 초커', 'black ribbon choker, cameo', 'gf'],
+      ],
+      outer: [
+        ['inverness', 'Caped overcoat', '케이프 달린 외투', 'long caped overcoat', 'f1'],
+        ['cloak', 'Long black cloak', '긴 검은 망토', 'long black cloak', 'f2'],
+      ],
+      footwear: [
+        ['oxford', 'Polished shoes', '광낸 구두', 'polished black shoes'],
+        ['boots', 'Lace-up boots', '끈 부츠', 'victorian lace-up boots'],
+      ],
+      headwear: [
+        ['tophat', 'Top hat', '실크해트', 'black top hat'],
+        ['mini', 'Mini top hat with a veil', '베일 단 미니 실크해트', 'mini top hat with a veil', 'f1 gf'],
+        ['veil', 'Veiled hat', '베일 모자', 'small hat with a black lace veil', 'f1 gf'],
+      ],
+      accessories: [
+        ['gloves', 'Leather gloves', '가죽 장갑', 'black leather gloves'],
+        ['monocle', 'Monocle', '외알 안경', 'monocle', 'f1'],
+        ['rose', 'Red rose boutonniere', '빨간 장미 꽃장식', 'red rose boutonniere', 'f1'],
+        ['fog', 'Fog at the hem', '옷자락의 안개', 'thick fog curling around the coat hem', 'f3'],
+      ],
+      weapon: [
+        ['cane', 'Silver-topped cane', '은 손잡이 지팡이', 'holding a silver-topped cane'],
+        ['razor', 'Prop straight razor', '소품 접이식 면도칼', 'holding a prop straight razor', 'f1'],
+        ['umbrella', 'Black umbrella', '검은 우산', 'holding a closed black umbrella', 'f1'],
+        ['lamp', 'Gas lamp', '가스 랜턴', 'holding a small gas lamp', 'f2'],
+      ],
+      device: [
+        ['shadow', 'Shadowed eyes', '그늘진 눈가', 'smudged dark eye makeup'],
+        ['mask', 'Half mask', '반가면', 'black half mask', 'f1'],
+        ['glow', 'Eyes glowing in the fog', '안개 속 빛나는 눈', 'eyes glowing red in the fog', 'f3'],
+      ],
+      effect: [
+        ['street', 'Foggy gas-lit street', '안개 낀 가스등 거리', 'foggy cobblestone street, gas lamps', 'f2'],
+        ['bridge', 'River bridge at night', '밤의 강 다리', 'old stone bridge over a dark river, fog', 'f3'],
+      ],
+    },
+  }),
+
+  /* ─── M-18 오페라 하우스 유령 — 반가면 · 망토 · 극장. 작품 · 인물 이름은 쓰지 않는다 ─── */
+  costume('phantom', 'Opera House Phantom', '오페라 하우스 유령', 'M-18', {
+    tag: 'halloween costume, masked opera diva costume', tagReal: 'masked opera diva, halloween night, old opera house',
+    tagM: 'halloween costume, masked opera phantom costume', tagRealM: 'masked opera phantom, halloween night, old opera house',
+    colors: ['black', 'white', 'crimson', 'gold', 'wine'],
+    need: { device: 'half half-gold half-lace', outer: 'cape cape-long' },
+    items: {
+      garment: [
+        ['hm', 'Black suit and white shirt', '검은 정장과 흰 셔츠', 'black suit, white shirt', 'f0 F0'],
+        ['pt-gown', 'Off-shoulder ball gown', '오프숄더 무도회 드레스', 'opera costume, off-shoulder ball gown, full skirt', 'f1 F1 x1 gf n:low v:phantom-pt'],
+        ['pt-high', 'High-neck lace ball gown', '하이넥 레이스 무도회 드레스', 'opera costume, high-neck lace ball gown, full skirt', 'f1 F1 x0 gf n:high v:phantom-pt'],
+        ['pt-short', 'Corset and short ruffled skirt', '코르셋과 짧은 프릴 스커트', 'opera costume, satin corset, short ruffled skirt', 'f1 F1 x2 gf n:low v:phantom-pt'],
+        ['pt-m', 'Tailcoat and white tie', '연미복과 흰 나비넥타이', 'opera costume, black tailcoat, white waistcoat, white tie', 'f1 F1 x01 gm n:high'],
+        ['pt-m2', 'Tailcoat over an open shirt', '열린 셔츠 위 연미복', 'opera costume, black tailcoat, white shirt open at the collar', 'f1 F1 x2 gm n:low'],
+        ['ed-gown', 'Beaded masquerade gown', '구슬 장식 가면무도회 드레스', 'beaded masquerade ball gown, long train', 'f2 x0 gf n:high v:phantom-ed'],
+        ['ed-slit', 'Velvet gown, high slit', '높은 트임 벨벳 드레스', 'velvet opera gown, high slit, sweetheart neckline', 'f2 x2 gf n:low v:phantom-ed'],
+        ['ed-m', 'Velvet tailcoat and brocade waistcoat', '벨벳 연미복과 브로케이드 조끼', 'velvet tailcoat, brocade waistcoat, white cravat', 'f2 x01 gm'],
+      ],
+      structure: [
+        ['corset', 'Satin corset belt', '새틴 코르셋 벨트', 'satin corset belt', 'gf'],
+        ['sash', 'Red waist sash', '붉은 허리 띠', 'red satin waist sash', 'f1'],
+      ],
+      foundation: [
+        ['tights', 'Black tights', '검은 타이츠', 'black tights', 'gf'],
+        ['lace', 'Lace stockings', '레이스 스타킹', 'black lace stockings', 'x12 gf'],
+      ],
+      neckwear: [
+        ['choker', 'Black ribbon choker', '검은 리본 초커', 'black ribbon choker', 'gf'],
+        ['pearls', 'Pearl choker', '진주 초커', 'pearl choker', 'gf an:high'],
+        ['cravat', 'White cravat', '흰 크라바트', 'white silk cravat', 'gm an:low'],
+      ],
+      outer: [
+        ['cape', 'Black cape, red lining', '안이 붉은 검은 망토', 'black cape with red satin lining'],
+        ['cape-long', 'Floor-length opera cape', '바닥까지 끌리는 오페라 망토', 'floor-length black opera cape, red lining', 'f1'],
+      ],
+      footwear: [
+        ['pumps', 'Satin pumps', '새틴 펌프스', 'black satin pumps', 'gf'],
+        ['patent', 'Patent leather shoes', '에나멜 구두', 'black patent leather shoes', 'gm'],
+      ],
+      headwear: [
+        ['fedora', 'Black fedora', '검은 페도라', 'black fedora', 'f1 gm'],
+        ['feather', 'Feather hair piece', '깃털 머리 장식', 'black feather hair piece', 'f1 gf'],
+        ['tiara', 'Small jeweled tiara', '작은 보석 티아라', 'small jeweled tiara', 'f2 gf'],
+      ],
+      accessories: [
+        ['gloves', 'White gloves', '흰 장갑', 'white gloves'],
+        ['opera', 'Long satin gloves', '긴 새틴 장갑', 'long black satin gloves', 'gf'],
+      ],
+      weapon: [
+        ['rose', 'Red rose', '빨간 장미 한 송이', 'holding a single red rose tied with a black ribbon'],
+        ['candle', 'Candelabra', '촛대', 'holding a lit candelabra', 'f1'],
+        ['music', 'Music box', '오르골', 'holding an old music box', 'f2'],
+      ],
+      device: [
+        ['half', 'White half mask', '흰 반가면', 'white half-face mask covering one side of the face'],
+        ['half-gold', 'Gold-trimmed half mask', '금테 반가면', 'white half-face mask with gold trim', 'f1'],
+        ['half-lace', 'Black lace half mask', '검은 레이스 반가면', 'black lace half-face mask', 'f1'],
+      ],
+      effect: [
+        ['box', 'Opera box seats', '오페라 극장 박스석', 'gilded opera house box seats, red velvet curtains', 'f2'],
+        ['stage', 'Stage under the chandelier', '샹들리에 아래 무대', 'empty opera stage under a huge crystal chandelier', 'f2'],
+        ['lake', 'Candlelit underground lake', '촛불 켠 지하 호수', 'underground lake lit by hundreds of candles, mist', 'f3'],
+      ],
+    },
+  }),
+
 ]);
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -2023,10 +2243,12 @@ const storybook = collection('storybook', 'STORYBOOK', 'PA·TFY·II', 'tales and
         ['eyes', 'Wolf eyes in the dark', '어둠 속 늑대 눈', 'pair of wolf eyes glowing in the dark behind', 'f3'],
       ],
       weapon: [
-        ['basket', 'Basket of bread and apples', '빵과 사과 바구니', 'holding a basket of bread and apples', 'gf'],
+        ['basket', 'Basket of bread and apples', '빵과 사과 바구니', 'holding a basket of bread and apples'],
         ['bouquet', 'Wildflowers', '들꽃 다발', 'holding a bouquet of wildflowers', 'gf'],
-        ['axe', 'Axe', '도끼', 'holding an axe over the shoulder', 'f1 gm'],
+        ['axe', 'Axe', '도끼', 'holding an axe over the shoulder', 'f1'],
         ['lantern', 'Lantern', '랜턴', 'holding a lantern', 'f2'],
+        ['candy', 'Basket of candy', '사탕 바구니', 'holding a wicker basket full of wrapped candy', ''],
+        ['rifle', 'Prop hunting rifle', '소품 사냥총', 'holding a prop hunting rifle over the shoulder', 'f2'],
       ],
       device: [
         ['freckles', 'Painted freckles', '그린 주근깨', 'painted freckles'],
@@ -2164,6 +2386,7 @@ const storybook = collection('storybook', 'STORYBOOK', 'PA·TFY·II', 'tales and
         ['hoops', 'Gold hoop earrings', '금 링 귀걸이', 'gold hoop earrings'],
         ['parrot', 'Parrot on the shoulder', '어깨 위 앵무새', 'parrot perched on the shoulder', 'f1 c:animal'],
         ['compass', 'Compass on a cord', '끈 달린 나침반', 'brass compass on a leather cord', 'f1'],
+        ['hook', 'Prop hook hand', '소품 갈고리 손', 'prop pirate hook hand', 'f1'],
         ['coins', 'Ghostly glowing coins', '유령빛으로 빛나는 금화', 'cursed gold coins glowing faintly', 'f3'],
       ],
       weapon: [
@@ -2405,6 +2628,71 @@ const storybook = collection('storybook', 'STORYBOOK', 'PA·TFY·II', 'tales and
     },
   }),
 
+
+  /* ─── S-17 태엽 무희 — 오르골 · 태엽 장난감. 남성 차림은 태엽 병정 ─── */
+  costume('windup', 'Wind-up Dancer', '태엽 무희', 'S-17', {
+    tag: 'halloween costume, wind-up doll costume, music box ballerina costume', tagReal: 'wind-up doll, halloween night',
+    tagM: 'halloween costume, wind-up toy soldier costume', tagRealM: 'wind-up toy soldier, halloween night',
+    colors: ['dusty rose', 'ivory', 'powder blue', 'red', 'navy', 'gold'],
+    need: { accessories: 'key' },
+    items: {
+      garment: [
+        ['hm', 'Leotard and tulle skirt', '레오타드와 튤 치마', 'leotard, tulle skirt, cardboard wind-up key', 'f0 F0 gf'],
+        ['pt-long', 'Long-sleeved ballet dress', '긴소매 발레 원피스', 'music box ballerina costume, long-sleeved ballet dress, long tulle skirt', 'f1 F1 x0 gf v:windup-wd'],
+        ['pt-tutu', 'Tutu dress', '튀튀 원피스', 'music box ballerina costume, tutu dress, puff sleeves', 'f1 F1 x1 gf v:windup-wd'],
+        ['pt-short', 'Leotard and short tutu', '레오타드와 짧은 튀튀', 'music box ballerina costume, sleeveless leotard, short stiff tutu', 'f1 F1 x2 gf v:windup-wd'],
+        ['pt-m', 'Toy soldier jacket', '장난감 병정 재킷', 'toy soldier costume, red double-breasted jacket, white trousers', 'f1 F1 x01 gm'],
+        ['pt-m2', 'Open toy soldier jacket', '풀어 입은 병정 재킷', 'toy soldier costume, open military jacket, white trousers', 'f1 F1 x2 gm'],
+        ['ed-dress', 'Porcelain-doll ballet gown', '도자기 인형 발레 드레스', 'porcelain doll ballet gown, layered tulle, satin bodice, cracked glaze pattern', 'f2 x0 gf v:windup-wde'],
+        ['ed-tutu', 'Satin bodice and platter tutu', '새틴 보디스와 접시 튀튀', 'satin bodice, platter tutu, gold trim', 'f2 x1 gf v:windup-wde'],
+        ['ed-short', 'Corset bodice and short tutu', '코르셋 보디스와 짧은 튀튀', 'satin corset bodice, short layered tutu, gold trim', 'f2 x2 gf v:windup-wde'],
+        ['ed-m', 'Brass-button soldier coat', '황동 단추 병정 코트', 'toy soldier coat, brass buttons, gold braid, white breeches', 'f2 x012 gm'],
+      ],
+      structure: [
+        ['sash', 'Satin sash', '새틴 띠', 'satin sash with a bow', 'gf'],
+        ['belt', 'White crossbelt', '흰 십자 벨트', 'white crossbelt', 'gm'],
+      ],
+      foundation: [
+        ['tights', 'Ballet tights', '발레 타이츠', 'pink ballet tights', 'gf'],
+        ['white', 'White stockings', '흰 스타킹', 'white stockings', 'gf'],
+      ],
+      neckwear: [
+        ['ribbon', 'Ribbon choker', '리본 초커', 'satin ribbon choker', 'gf'],
+        ['collar', 'High gold collar', '금빛 깃', 'high gold-trimmed collar', 'gm'],
+      ],
+      outer: [
+        ['shrug', 'Lace shrug', '레이스 볼레로', 'short lace shrug', 'f1 gf'],
+      ],
+      footwear: [
+        ['pointe', 'Pointe shoes', '토슈즈', 'pointe shoes, ribbons laced up the ankle', 'gf'],
+        ['boots', 'Black boots', '검은 부츠', 'shiny black boots', 'gm'],
+      ],
+      headwear: [
+        ['tiara', 'Small tiara', '작은 티아라', 'small tiara', 'gf'],
+        ['bun', 'Bun ribbon', '쪽머리 리본', 'satin ribbon tied around a bun', 'gf'],
+        ['shako', 'Tall soldier hat', '높은 병정 모자', 'tall toy soldier shako hat', 'gm'],
+      ],
+      accessories: [
+        ['key', 'Wind-up key on the back', '등에 단 태엽 열쇠', 'large wind-up key on the back'],
+        ['joints', 'Painted doll joints', '그린 인형 관절', 'doll joint lines painted on the elbows and knees', 'f1'],
+        ['spin', 'Turning slowly on one toe', '한 발로 천천히 도는 몸', 'spinning slowly on one toe like a music box figure', 'f3 gf'],
+      ],
+      weapon: [
+        ['box', 'Music box', '오르골', 'holding an open music box'],
+        ['drum', 'Toy drum', '장난감 북', 'holding a toy drum', 'gm'],
+        ['rifle', 'Toy wooden rifle', '장난감 나무 총', 'holding a toy wooden rifle', 'f1 gm'],
+      ],
+      device: [
+        ['blush', 'Round blush circles', '동그란 볼 분장', 'round painted doll blush on the cheeks'],
+        ['crack', 'Painted porcelain cracks', '그린 도자기 금', 'painted porcelain crack lines on the cheek', 'f1'],
+        ['glass', 'Glassy doll eyes', '유리알 같은 눈', 'glassy doll eyes', 'f3'],
+      ],
+      effect: [
+        ['box', 'Inside a giant music box', '커다란 오르골 안', 'standing on a giant music box stage, mirrored lid', 'f2'],
+        ['shop', 'Toy shop after closing', '문 닫은 장난감 가게', 'old toy shop after closing, shelves of dolls, moonlight', 'f3'],
+      ],
+    },
+  }),
 ]);
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -2548,66 +2836,70 @@ const retro = collection('retro', 'RETRO PARTY', 'PA·TFY·III', 'decades and le
     },
   }),
 
-  /* ─── R-03 올드 할리우드 ─── */
-  costume('hollywood', 'Old Hollywood', '올드 할리우드', 'R-03', {
-    tag: 'halloween costume, old hollywood glamour costume', tagReal: 'old hollywood star, halloween night',
-    tagM: 'halloween costume, old hollywood leading man costume', tagRealM: 'old hollywood leading man, halloween night',
-    colors: ['champagne', 'ivory', 'black', 'silver', 'red', 'gold'],
+  /* ─── R-03 흑백 영화 유령 스타 — 옛 은막 스타가 흑백 화면에서 걸어 나온 차림. 회색조는 옷에 싣는다(피부색 분장은 필터로 꺼질 수 있다) ─── */
+  costume('hollywood', 'Silver Screen Ghost', '흑백 영화 유령 스타', 'R-03', {
+    tag: 'halloween costume, black and white film ghost star costume, entire outfit in shades of grey', tagReal: 'ghost of an old film star, halloween night, monochrome grey outfit',
+    tagM: 'halloween costume, black and white film ghost leading man costume, entire outfit in shades of grey', tagRealM: 'ghost of an old film leading man, halloween night, monochrome grey outfit',
+    colors: ['silver', 'grey', 'charcoal', 'ivory', 'black'],
+    need: { accessories: 'web grain dust' },
     items: {
       garment: [
-        ['hm', 'Satin nightgown as a gown', '드레스처럼 입은 새틴 잠옷', 'long satin nightgown worn as an evening dress', 'f0 F0 gf'],
-        ['hm-m', 'Thrifted tuxedo', '헌 턱시도', 'thrifted tuxedo, bow tie', 'f0 F0 gm'],
-        ['pt-gown', 'Long satin gown', '긴 새틴 드레스', 'old hollywood costume, long satin gown, long sleeves', 'f1 F1 x0 gf'],
-        ['pt-halter', 'Halter gown', '홀터넥 드레스', 'old hollywood costume, white halter dress, pleated skirt', 'f1 F1 x1 gf n:own'],
-        ['pt-sheath', 'Sequin sheath gown', '스팽글 시스 드레스', 'old hollywood costume, sequin sheath gown, plunging neckline', 'f1 F1 x2 gf n:low'],
-        ['pt-m', 'White dinner jacket', '흰 디너 재킷', 'old hollywood costume, white dinner jacket, black trousers', 'f1 F1 gm'],
-        ['ed-velvet', 'Velvet column gown', '벨벳 컬럼 드레스', 'velvet column gown, long sleeves, high neck', 'f2 x0 gf n:high'],
-        ['ed-bias', 'Bias-cut satin gown', '바이어스 새틴 드레스', 'bias cut satin gown, cowl back', 'f2 x1 gf'],
-        ['ed-mermaid', 'Strapless mermaid gown', '스트랩리스 머메이드 드레스', 'strapless sequin mermaid gown', 'f2 x2 gf n:low'],
-        ['ed-m', 'Tuxedo', '턱시도', 'tuxedo, satin lapels', 'f2 gm'],
+        ['hm', 'Grey satin nightgown as a gown', '드레스처럼 입은 회색 새틴 잠옷', 'long grey satin nightgown worn as an evening dress', 'f0 F0 gf'],
+        ['hm-m', 'Grey thrifted tuxedo', '회색 헌 턱시도', 'thrifted grey tuxedo, bow tie', 'f0 F0 gm'],
+        ['pt-gown', 'Long satin gown', '긴 새틴 드레스', 'silver screen ghost costume, long grey satin gown, long sleeves', 'f1 F1 x0 gf'],
+        ['pt-halter', 'Halter gown', '홀터넥 드레스', 'silver screen ghost costume, pale grey halter dress, pleated skirt', 'f1 F1 x1 gf n:own'],
+        ['pt-sheath', 'Sequin sheath gown', '스팽글 시스 드레스', 'silver screen ghost costume, silver sequin sheath gown, plunging neckline', 'f1 F1 x2 gf n:low'],
+        ['pt-m', 'Dinner jacket', '디너 재킷', 'silver screen ghost costume, pale grey dinner jacket, charcoal trousers', 'f1 F1 gm'],
+        ['ed-velvet', 'Velvet column gown', '벨벳 컬럼 드레스', 'charcoal velvet column gown, long sleeves, high neck, frayed hem', 'f2 x0 gf n:high'],
+        ['ed-bias', 'Bias-cut satin gown', '바이어스 새틴 드레스', 'bias cut grey satin gown, cowl back, faded and torn train', 'f2 x1 gf'],
+        ['ed-mermaid', 'Strapless mermaid gown', '스트랩리스 머메이드 드레스', 'strapless silver sequin mermaid gown, tattered hem', 'f2 x2 gf n:low'],
+        ['ed-m', 'Faded tuxedo', '빛바랜 턱시도', 'faded grey tuxedo, satin lapels, frayed cuffs', 'f2 gm'],
       ],
       structure: [
-        ['belt', 'Rhinestone belt', '라인스톤 벨트', 'rhinestone belt', 'f1 gf'],
-        ['cummer', 'Cummerbund', '커머번드', 'cummerbund', 'gm'],
+        ['belt', 'Rhinestone belt', '라인스톤 벨트', 'tarnished rhinestone belt', 'f1 gf'],
+        ['cummer', 'Cummerbund', '커머번드', 'grey cummerbund', 'gm'],
       ],
       foundation: [
-        ['sheer', 'Sheer stockings', '살색 스타킹', 'sheer stockings', 'gf'],
+        ['sheer', 'Grey stockings', '회색 스타킹', 'sheer grey stockings', 'gf'],
       ],
       neckwear: [
-        ['diamond', 'Diamond necklace', '다이아몬드 목걸이', 'diamond necklace', 'gf an:high'],
-        ['pearls', 'Pearl strand', '진주 목걸이', 'pearl strand', 'gf an:high'],
+        ['pearls', 'Faded pearl strand', '빛바랜 진주 목걸이', 'faded pearl strand', 'gf an:high'],
+        ['diamond', 'Dull diamond necklace', '빛 잃은 다이아몬드 목걸이', 'dull grey diamond necklace', 'f1 gf an:high'],
         ['bow', 'Black bow tie', '검은 보타이', 'black bow tie', 'gm'],
       ],
       outer: [
-        ['stole', 'Faux fur stole', '인조 털 스톨', 'white faux fur stole', 'gf'],
-        ['cape', 'Satin opera cape', '새틴 오페라 망토', 'satin opera cape', 'f2'],
+        ['stole', 'Grey fur stole', '회색 털 스톨', 'matted grey faux fur stole', 'gf'],
+        ['coat', 'Long grey overcoat', '긴 회색 외투', 'long grey overcoat', 'gm'],
       ],
       footwear: [
-        ['pumps', 'Satin pumps', '새틴 펌프스', 'satin pumps', 'gf'],
-        ['patent', 'Patent leather shoes', '에나멜 구두', 'patent leather shoes', 'gm'],
+        ['pumps', 'Grey satin pumps', '회색 새틴 펌프스', 'grey satin pumps', 'gf'],
+        ['patent', 'Black patent shoes', '검은 에나멜 구두', 'black patent leather shoes', 'gm'],
       ],
       headwear: [
-        ['clip', 'Rhinestone hair clip', '라인스톤 머리핀', 'rhinestone hair clip', 'gf'],
-        ['turban', 'Jeweled turban', '보석 터번', 'jeweled satin turban', 'f2 gf'],
+        ['waves', 'Finger-wave hair', '핑거 웨이브 머리', 'finger-wave hairstyle, silver hair clip', 'gf'],
+        ['fedora', 'Grey fedora', '회색 페도라', 'grey fedora', 'gm'],
+        ['veil', 'Cobweb veil', '거미줄 베일', 'small hat with a cobweb veil', 'f1 gf'],
       ],
       accessories: [
-        ['opera', 'Opera gloves', '오페라 장갑', 'opera gloves', 'gf'],
-        ['clutch', 'Beaded clutch', '구슬 클러치', 'beaded clutch', 'gf'],
-        ['earrings', 'Chandelier earrings', '샹들리에 귀걸이', 'chandelier earrings', 'f1 gf'],
-        ['cuff', 'Cufflinks', '커프스단추', 'gold cufflinks', 'gm'],
-        ['flash', 'Flashbulbs popping', '터지는 플래시', 'flashbulbs popping all around', 'f3'],
+        ['web', 'Cobwebs on the costume', '옷에 걸린 거미줄', 'cobwebs clinging to the costume'],
+        ['grain', 'Film grain and scratches', '필름 입자와 긁힘', 'film grain and scratch lines over the whole figure', 'f1'],
+        ['dust', 'Dust on the shoulders', '어깨에 쌓인 먼지', 'grey dust settled on the shoulders', ''],
+        ['gloves', 'Grey opera gloves', '회색 오페라 장갑', 'long grey opera gloves', 'gf'],
+        ['flicker', 'Flickering like old film', '옛 필름처럼 깜빡임', 'figure flickering like an old film projection', 'f3'],
       ],
       weapon: [
-        ['holder', 'Cigarette holder', '담뱃대', 'holding a long cigarette holder', 'gf'],
-        ['martini', 'Martini glass', '마티니 잔', 'holding a martini glass', 'f1'],
-        ['award', 'Golden statuette', '금빛 트로피', 'holding a golden statuette', 'f2'],
+        ['reel', 'Film reel', '필름 릴', 'holding an old film reel, film strip trailing', ''],
+        ['clapper', 'Clapperboard', '슬레이트', 'holding a black and white clapperboard', 'f1'],
+        ['award', 'Cobwebbed statuette', '거미줄 쳐진 트로피', 'holding a grey statuette covered in cobwebs', 'f2'],
+        ['mic', 'Old ribbon microphone', '옛날 리본 마이크', 'holding an old ribbon microphone on a stand', 'f2'],
       ],
       device: [
         ['beauty', 'Beauty mark', '애교점', 'painted beauty mark', 'gf'],
+        ['grey', 'Grey skin makeup', '회색 피부 분장', 'grey skin makeup, black lips, monochrome face', 'f1'],
       ],
       effect: [
-        ['carpet', 'Red carpet premiere', '레드카펫 시사회', 'red carpet premiere, searchlights', 'f2'],
-        ['screen', 'Black and white film', '흑백 영화 장면', 'black and white film scene, soft glow', 'f3'],
+        ['screen', 'Empty cinema, flickering screen', '빈 극장의 깜빡이는 스크린', 'empty old cinema, flickering projector light, dusty seats', 'f2'],
+        ['set', 'Abandoned film set', '버려진 촬영장', 'abandoned film set, old spotlights, cobwebs', 'f3'],
       ],
     },
   }),
@@ -3204,6 +3496,7 @@ const retro = collection('retro', 'RETRO PARTY', 'PA·TFY·III', 'decades and le
       accessories: [
         ['watch', 'Pocket watch', '회중시계', 'pocket watch'],
         ['gears', 'Gear brooch', '톱니 브로치', 'gear brooch'],
+        ['key', 'Brass wind-up key on the back', '등에 단 황동 태엽 열쇠', 'brass wind-up key on the back', 'f1'],
         ['gauntlet', 'Brass gauntlet', '황동 건틀릿', 'brass gauntlet on one arm', 'f2'],
         ['steam', 'Steam venting', '뿜어 나오는 증기', 'puffs of steam venting from the gauntlet', 'f3'],
       ],
@@ -3534,6 +3827,134 @@ const uniform = collection('uniform', 'UNIFORM PLAY', 'PA·TFY·IV', 'dress-up j
       effect: [
         ['tent', 'Big top', '서커스 천막', 'circus big top, spotlights, sawdust ring', 'f2'],
         ['night', 'Abandoned circus at night', '밤의 버려진 서커스', 'abandoned circus tent at night, string lights flickering', 'f3'],
+      ],
+    },
+  }),
+
+  /* ─── U-06 섬뜩한 광대 — 이름 없는 공포 광대. 필터 칩 '광대'로 끈다 ─── */
+  costume('creepyclown', 'Creepy Clown', '섬뜩한 광대', 'U-06', {
+    tag: 'halloween costume, creepy clown costume', tagReal: 'creepy clown, halloween night',
+    colors: ['red', 'white', 'black', 'mustard', 'teal', 'faded linen'],
+    need: { device: '' },
+    items: {
+      garment: [
+        ['hm', 'Baggy clown suit', '헐렁한 광대 옷', 'baggy clown suit, big pompom buttons', 'f0 F0'],
+        ['pt-suit', 'Striped clown jumpsuit', '줄무늬 광대 점프수트', 'creepy clown costume, striped baggy jumpsuit, pompom buttons', 'f1 F1 x0'],
+        ['pt-dress', 'Ruffled clown dress', '러플 광대 원피스', 'creepy clown costume, ruffled dress, pompom buttons, knee length', 'f1 F1 x1 gf'],
+        ['pt-mini', 'Clown romper', '광대 롬퍼', 'creepy clown costume, short ruffled romper, pompom buttons', 'f1 F1 x2 gf'],
+        ['pt-m', 'Patched clown suit', '덧댄 광대 정장', 'creepy clown costume, patched baggy suit, oversized bow tie', 'f1 F1 x12 gm'],
+        ['ed-vintage', 'Faded vintage clown suit', '바랜 옛 광대 옷', 'faded vintage clown suit, layered ruffles, diamond patches', 'f2 x0'],
+        ['ed-dress', 'Faded circus dress', '바랜 서커스 원피스', 'faded vintage circus dress, layered ruffles, diamond patches', 'f2 x1 gf'],
+        ['ed-corset', 'Striped corset and tulle skirt', '줄무늬 코르셋과 튤 치마', 'striped corset, short ragged tulle skirt, ruffled cuffs', 'f2 x2 gf'],
+        ['ed-m', 'Ragged clown tailcoat', '해진 광대 연미복', 'ragged striped clown tailcoat, baggy trousers', 'f2 x12 gm'],
+      ],
+      structure: [
+        ['susp', 'Suspenders', '멜빵', 'suspenders'],
+      ],
+      foundation: [
+        ['striped', 'Striped stockings', '줄무늬 스타킹', 'striped stockings', 'gf'],
+        ['socks', 'Mismatched socks', '짝짝이 양말', 'mismatched striped socks', 'x01'],
+      ],
+      neckwear: [
+        ['ruff', 'Ruffled collar', '주름 깃', 'big ruffled clown collar'],
+        ['bow', 'Oversized bow tie', '커다란 나비넥타이', 'oversized bow tie', 'an:low'],
+      ],
+      outer: [
+        ['coat', 'Patched long coat', '덧댄 긴 코트', 'patched long coat', 'f1'],
+      ],
+      footwear: [
+        ['big', 'Oversized clown shoes', '큰 광대 신발', 'oversized clown shoes'],
+        ['boots', 'Scuffed boots', '닳은 부츠', 'scuffed boots', 'f1'],
+      ],
+      headwear: [
+        ['hat', 'Tiny tilted hat', '작게 기울인 모자', 'tiny tilted top hat'],
+        ['cone', 'Pompom cone hat', '방울 고깔모자', 'cone hat with pompoms'],
+      ],
+      accessories: [
+        ['nose', 'Red nose', '빨간 코', 'red clown nose'],
+        ['gloves', 'White gloves', '흰 장갑', 'white gloves'],
+        ['flower', 'Squirting lapel flower', '물 뿜는 옷깃 꽃', 'squirting flower on the lapel', 'f1'],
+        ['dust', 'Faded sequins', '바랜 스팽글', 'faded sequins on the costume'],
+        ['glow', 'Balloon glowing in the dark', '어둠 속 빛나는 풍선', 'balloon glowing faintly in the dark', 'f3'],
+      ],
+      weapon: [
+        ['balloon', 'Red balloon', '빨간 풍선', 'holding a single red balloon'],
+        ['horn', 'Bicycle horn', '빵빵 나팔', 'holding a bicycle horn', 'f1'],
+        ['box', 'Jack-in-the-box', '깜짝 상자', 'holding a jack-in-the-box', 'f1'],
+        ['mallet', 'Giant toy mallet', '커다란 장난감 망치', 'holding a giant toy mallet', 'f1'],
+      ],
+      device: [
+        ['paint', 'White clown face paint', '흰 광대 얼굴 분장', 'white clown face paint, painted red smile'],
+        ['smear', 'Smeared clown paint', '번진 광대 분장', 'smeared clown face paint, dark eyes'],
+        ['tear', 'Painted tears', '그린 눈물', 'clown face paint, painted black tears'],
+        ['mask', 'Grinning clown mask', '웃는 광대 가면', 'grinning clown mask', 'f1 c:mask'],
+      ],
+      effect: [
+        ['funhouse', 'Funhouse mirrors', '거울의 집', 'funhouse hall of mirrors', 'f2'],
+        ['tent', 'Empty circus tent', '텅 빈 서커스 천막', 'empty circus tent at night, single spotlight', 'f3'],
+      ],
+    },
+  }),
+
+  /* ─── U-07 무대 마술사 ─── */
+  costume('magician', 'Stage Magician', '무대 마술사', 'U-07', {
+    tag: 'halloween costume, stage magician costume', tagReal: 'stage magician, halloween night',
+    colors: ['black', 'burgundy', 'royal blue', 'gold', 'wine'],
+    need: { weapon: 'wand cards rabbit dove hat' },
+    items: {
+      garment: [
+        ['hm', 'Black suit and paper bow tie', '검은 정장과 종이 나비넥타이', 'black suit, paper bow tie', 'f0 F0'],
+        ['pt-coat', 'Tailcoat and trousers', '연미복과 바지', 'stage magician costume, black tailcoat, white shirt, trousers', 'f1 F1 x0 v:magician-mg'],
+        ['pt-dress', 'Tailcoat dress', '연미복 원피스', 'stage magician costume, tailcoat dress, knee length', 'f1 F1 x1 gf v:magician-mg'],
+        ['pt-short', 'Tailcoat and sequin leotard', '연미복과 스팽글 레오타드', 'stage magician costume, cropped tailcoat, sequin leotard', 'f1 F1 x2 gf v:magician-mg'],
+        ['pt-m2', 'Waistcoat and rolled sleeves', '조끼와 걷은 소매', 'stage magician costume, waistcoat, white shirt, rolled sleeves', 'f1 F1 x12 gm'],
+        ['ed-coat', 'Velvet tailcoat with a starry lining', '별무늬 안감 벨벳 연미복', 'velvet tailcoat, starry lining, white shirt', 'f2 x0 v:magician-mge'],
+        ['ed-dress', 'Sequin gown with a tailcoat', '연미복 걸친 스팽글 드레스', 'long sequin gown, cropped velvet tailcoat', 'f2 x1 gf v:magician-mge'],
+        ['ed-short', 'Sequin corset and tailcoat', '스팽글 코르셋과 연미복', 'sequin corset, short skirt, velvet tailcoat', 'f2 x2 gf v:magician-mge'],
+        ['ed-m2', 'Velvet tailcoat, shirt open', '벨벳 연미복과 열린 셔츠', 'velvet tailcoat, ruffled shirt open at the collar', 'f2 x12 gm'],
+      ],
+      structure: [
+        ['vest', 'Satin waistcoat', '새틴 조끼', 'satin waistcoat'],
+        ['cummer', 'Cummerbund', '커머번드', 'satin cummerbund', 'gm'],
+      ],
+      foundation: [
+        ['tights', 'Sheer tights', '얇은 타이츠', 'sheer tights', 'gf'],
+      ],
+      neckwear: [
+        ['bow', 'Bow tie', '보타이', 'black bow tie'],
+        ['star', 'Star pendant', '별 펜던트', 'star pendant', 'f1'],
+      ],
+      outer: [
+        ['cape', 'Satin-lined cape', '새틴 안감 망토', 'black cape, red satin lining', 'f1'],
+      ],
+      footwear: [
+        ['shoes', 'Patent shoes', '에나멜 구두', 'patent leather shoes'],
+        ['heels', 'Patent heels', '에나멜 힐', 'patent heels', 'gf'],
+      ],
+      headwear: [
+        ['tophat', 'Top hat', '실크해트', 'top hat'],
+        ['mini', 'Mini top hat', '미니 실크해트', 'tilted mini top hat', 'gf'],
+      ],
+      accessories: [
+        ['gloves', 'White gloves', '흰 장갑', 'white gloves'],
+        ['monocle', 'Monocle', '외알 안경', 'monocle', 'f1'],
+        ['float', 'Cards floating around', '공중에 뜬 카드', 'playing cards floating in the air around', 'f3'],
+      ],
+      weapon: [
+        ['wand', 'Magic wand', '마술봉', 'holding a black and white magic wand'],
+        ['cards', 'Fanned playing cards', '부채처럼 편 카드', 'holding fanned playing cards'],
+        ['rabbit', 'Rabbit from a top hat', '모자 속 토끼', 'holding a top hat with a white rabbit peeking out', 'f1 c:animal'],
+        ['dove', 'White dove', '흰 비둘기', 'white dove perched on the hand', 'f1 c:animal'],
+        ['hat', 'Upturned top hat', '뒤집어 든 실크해트', 'holding an upturned top hat', 'f1'],
+      ],
+      device: [
+        ['mustache', 'Drawn-on mustache', '그린 콧수염', 'drawn-on curled mustache', 'F1'],
+        ['star', 'Star under the eye', '눈 밑 별', 'small star painted under the eye'],
+        ['mask', 'Domino mask', '눈가면', 'black domino mask', 'f1'],
+      ],
+      effect: [
+        ['stage', 'Theater stage', '극장 무대', 'old theater stage, red curtains, footlights', 'f2'],
+        ['smoke', 'Puff of purple smoke', '보랏빛 연기', 'stage with a puff of purple smoke', 'f3'],
       ],
     },
   }),
@@ -4215,6 +4636,7 @@ const eventNight = collection('event', 'EVENT NIGHT', 'PA·TFY·VI', 'illustrate
       accessories: [
         ['pins', 'Big safety pins', '큰 옷핀', 'oversized safety pins'],
         ['yarn', 'Yarn bows', '털실 리본', 'yarn bows'],
+        ['key', 'Wind-up key on the back', '등에 단 태엽 열쇠', 'large wind-up key on the back', 'f1'],
         ['strings', 'Puppet strings from above', '위에서 내려온 인형 줄', 'puppet strings descending from above', 'f3'],
       ],
       weapon: [
@@ -4684,6 +5106,8 @@ const everyday = collection('everyday', 'HALLOWEEN EVERYDAY', 'PA·TFY·VII', 'e
         ['horns', 'Devil horn hair clips', '악마 뿔 머리핀', 'small devil horn hair clips'],
         ['witch', 'Mini witch hat clip', '미니 마녀 모자 핀', 'mini witch hat hair clip'],
         ['bats', 'Bat hair clips', '박쥐 머리핀', 'bat hair ornament'],
+        ['pumpkin', 'Pumpkin hair clip', '호박 머리핀', 'small jack-o-lantern hair clip', ''],
+        ['ghostclip', 'Ghost hair clip', '유령 머리핀', 'small ghost hair clip', ''],
       ],
       accessories: [
         ['tote', 'Pumpkin tote bag', '호박 에코백', 'tote bag with a pumpkin print'],
@@ -4752,6 +5176,9 @@ const everyday = collection('everyday', 'HALLOWEEN EVERYDAY', 'PA·TFY·VII', 'e
         ['ears', 'Cat ears headband', '고양이 귀 머리띠', 'fake cat ears, headband'],
         ['horns', 'Devil horn headband', '악마 뿔 머리띠', 'devil horn headband'],
         ['bats', 'Bat hair clips', '박쥐 머리핀', 'bat hair ornament'],
+        ['pumpkin', 'Pumpkin hair clip', '호박 머리핀', 'small jack-o-lantern hair clip', ''],
+        ['ghostclip', 'Ghost hair clip', '유령 머리핀', 'small ghost hair clip', ''],
+        ['batribbon', 'Hair ribbon with a bat charm', '박쥐 장식 머리 리본', 'black hair ribbon with a small bat charm', ''],
       ],
       accessories: [
         ['bag', 'School bag with a ghost charm', '유령 키링 단 책가방', 'school bag with a ghost charm'],
@@ -4822,6 +5249,9 @@ const everyday = collection('everyday', 'HALLOWEEN EVERYDAY', 'PA·TFY·VII', 'e
         ['horns', 'Glitter devil horns', '반짝이 악마 뿔', 'glitter devil horn headband'],
         ['ears', 'Cat ears', '고양이 귀', 'cat ear headband'],
         ['veil', 'Small black veil', '작은 검은 베일', 'small black birdcage veil', 'f1 gf'],
+        ['witchclip', 'Mini witch hat clip', '미니 마녀 모자 핀', 'mini witch hat hair clip', ''],
+        ['batwing', 'Bat wing headband', '박쥐 날개 머리띠', 'headband with small bat wings', ''],
+        ['skull', 'Skull hair clip', '해골 머리핀', 'small skull hair clip', ''],
       ],
       accessories: [
         ['earrings', 'Bat earrings', '박쥐 귀걸이', 'bat earrings'],
@@ -4883,6 +5313,9 @@ const everyday = collection('everyday', 'HALLOWEEN EVERYDAY', 'PA·TFY·VII', 'e
         ['horns', 'Small devil horn clips', '작은 악마 뿔 핀', 'small devil horn hair clips', ''],
         ['ears', 'Cat ears headband', '고양이 귀 머리띠', 'fake cat ears, headband', ''],
         ['witch', 'Mini witch hat clip', '미니 마녀 모자 핀', 'mini witch hat hair clip', ''],
+        ['batclip', 'Bat hair clips', '박쥐 머리핀', 'bat hair ornament', ''],
+        ['pumpkin', 'Pumpkin hair clip', '호박 머리핀', 'small jack-o-lantern hair clip', ''],
+        ['ghostclip', 'Ghost hair clip', '유령 머리핀', 'small ghost hair clip', ''],
       ],
       accessories: [
         ['glasses', 'Glasses', '안경', 'glasses', ''],
@@ -4939,6 +5372,9 @@ const everyday = collection('everyday', 'HALLOWEEN EVERYDAY', 'PA·TFY·VII', 'e
         ['band', 'Devil horn sports headband', '악마 뿔 헤어밴드', 'sports headband with small devil horns', ''],
         ['cap', 'Cat-ear cap', '고양이 귀 캡', 'baseball cap with cat ears', ''],
         ['clip', 'Bat hair clip', '박쥐 집게핀', 'bat hair clip', ''],
+        ['pbeanie', 'Jack-o-lantern patch beanie', '호박 패치 비니', 'orange knit beanie with a jack-o-lantern patch', ''],
+        ['ghostclip', 'Ghost hair clip', '유령 머리핀', 'small ghost hair clip', ''],
+        ['witchclip', 'Mini witch hat clip', '미니 마녀 모자 핀', 'mini witch hat hair clip', ''],
       ],
       accessories: [
         ['earbuds', 'Wireless earbuds', '무선 이어폰', 'wireless earbuds', ''],
@@ -4997,6 +5433,9 @@ const everyday = collection('everyday', 'HALLOWEEN EVERYDAY', 'PA·TFY·VII', 'e
         ['cap', 'Cat-ear cafe cap', '고양이 귀 카페 모자', 'cafe cap with cat ears', ''],
         ['witch', 'Mini witch hat clip', '미니 마녀 모자 핀', 'mini witch hat hair clip', ''],
         ['horns', 'Devil horn headband', '악마 뿔 머리띠', 'devil horn headband', ''],
+        ['batwing', 'Bat wing headband', '박쥐 날개 머리띠', 'headband with small bat wings', ''],
+        ['pumpkin', 'Pumpkin hair clip', '호박 머리핀', 'small jack-o-lantern hair clip', ''],
+        ['bandana', 'Bat print bandana', '박쥐 무늬 반다나', 'black bandana with a bat print', ''],
       ],
       accessories: [
         ['tag', 'Pumpkin name tag', '호박 명찰', 'pumpkin-shaped name tag', ''],
@@ -5053,6 +5492,9 @@ const everyday = collection('everyday', 'HALLOWEEN EVERYDAY', 'PA·TFY·VII', 'e
         ['mask', 'Bat sleep mask on the forehead', '이마에 올린 박쥐 수면안대', 'bat sleep mask pushed up on the forehead', ''],
         ['ears', 'Cat ears headband', '고양이 귀 머리띠', 'fake cat ears, headband', ''],
         ['nightcap', 'Striped nightcap', '줄무늬 수면 모자', 'striped nightcap', ''],
+        ['witchcap', 'Witch-hat nightcap', '마녀 모자 모양 수면 모자', 'pointed witch hat shaped nightcap', ''],
+        ['pumpkin', 'Pumpkin hair clip', '호박 머리핀', 'small jack-o-lantern hair clip', ''],
+        ['batwing', 'Bat wing headband', '박쥐 날개 머리띠', 'headband with small bat wings', ''],
       ],
       accessories: [
         ['plush', 'Ghost plush', '유령 인형', 'ghost plush under the arm', ''],
@@ -5115,6 +5557,10 @@ const everyday = collection('everyday', 'HALLOWEEN EVERYDAY', 'PA·TFY·VII', 'e
       headwear: [
         ['beret', 'Beret with a bat pin', '박쥐 핀 베레모', 'black beret with a bat pin', ''],
         ['ears', 'Cat ears', '고양이 귀', 'cat ear headband', ''],
+        ['witchclip', 'Mini witch hat clip', '미니 마녀 모자 핀', 'mini witch hat hair clip', ''],
+        ['hornclip', 'Small devil horn clips', '작은 악마 뿔 핀', 'small devil horn hair clips', ''],
+        ['ghostclip', 'Ghost hair clip', '유령 머리핀', 'small ghost hair clip', ''],
+        ['pumpkin', 'Pumpkin hair clip', '호박 머리핀', 'small jack-o-lantern hair clip', ''],
       ],
       accessories: [
         ['bag', 'Pumpkin handbag', '호박 모양 가방', 'small pumpkin-shaped handbag', ''],
@@ -5701,6 +6147,7 @@ const variant = collection('variant', 'TYPE VARIANTS', 'PA·TFY·VIII', 'one arc
       weapon: [
         ['basket', 'Wicker basket', '바구니', 'holding a wicker basket', 'F1'],
         ['crossbow', 'Crossbow', '석궁', 'holding a crossbow', 'f1'],
+        ['shotgun', 'Prop double-barrel shotgun', '소품 쌍열 엽총', 'holding a prop double-barrel shotgun', 'f1'],
         ['axe', 'Woodcutter axe over the shoulder', '어깨에 멘 도끼', 'woodcutter axe over the shoulder', 'f2'],
         ['lantern', 'Lantern', '등불', 'holding a lantern', ''],
       ],
@@ -5764,6 +6211,8 @@ const variant = collection('variant', 'TYPE VARIANTS', 'PA·TFY·VIII', 'one arc
         ['basket', 'Basket with a red cloth', '빨간 천 덮은 바구니', 'holding a wicker basket covered with a red cloth', ''],
         ['rose', 'Red rose', '빨간 장미', 'holding a red rose', ''],
         ['apple', 'Red apple', '빨간 사과', 'holding a red apple', ''],
+        ['axe', 'Hand axe', '손도끼', 'holding a hand axe low at the side', 'f1'],
+        ['candy', 'Red candy apple', '빨간 사탕 사과', 'holding a glossy red candy apple on a stick', ''],
       ],
       device: [
         ['dark', 'Dark eye makeup', '짙은 눈 분장', 'dark eye makeup', ''],
@@ -9209,7 +9658,7 @@ function bundle(id, label, volume, range, parts) {
 }
 const startsWith = pre => p => p.id.startsWith(pre);
 const classic = bundle('classic', 'CLASSIC COSTUMES', 'PA·TFY·I', 'store-bought party costumes', [
-  [monster, '몬스터 · 괴담', 'Monsters & Legends'], [storybook, '동화 · 생물', 'Fairy Tales & Creatures'], [retro, '시대 · 복고', 'Historical & Retro', p => !['hollywood','aerobics','disco'].includes(p.id)], [uniform, '직업 · 제복', 'Jobs & Uniforms'],
+  [monster, '몬스터 · 괴담', 'Monsters & Legends'], [storybook, '동화 · 생물', 'Fairy Tales & Creatures'], [retro, '시대 · 복고', 'Historical & Retro', p => !['aerobics','disco'].includes(p.id)], [uniform, '직업 · 제복', 'Jobs & Uniforms'],
 ]);
 const illustrated = bundle('illust', 'ILLUSTRATED', 'PA·TFY·II', 'illustrated outfits', [
   [eventNight, '창작 디자인', 'Original Designs'],
@@ -9233,6 +9682,8 @@ for (const p of cosplay.periods) { const hq = p.id.startsWith('hq-'); p.groupKo 
 const GENDER_NAMES = {
   witch: { m: ['Warlock', '마법사'] }, ribbonwitch: { m: ['Ribbon Warlock', '리본 마법사'] },
   bride: { m: ["Monster's Groom", '괴물의 신랑'] }, ghostbride: { m: ['Ghost Groom', '유령 신랑'] },
+  foggent: { f: ['Fog Lady', '안개 속 숙녀'] }, windup: { m: ['Wind-up Soldier', '태엽 병정'] },
+  phantom: { f: ['Masked Prima Donna', '가면의 프리마돈나'] },
   mermaid: { m: ['Merman', '인어'] }, redhood: { m: ['Woodsman', '나무꾼'] }, princess: { m: ['Prince', '왕자'] },
   flapper: { m: ['1920s Gentleman', '1920년대 신사'] }, gogo: { m: ['60s Mod', '60년대 모즈'] },
   pinup: { f: ['Pin-up', '핀업'], m: ['Greaser', '그리저'] }, cowgirl: { f: ['Cowgirl', '카우걸'], m: ['Cowboy', '카우보이'] },
@@ -9253,6 +9704,13 @@ for (const c of [classic, illustrated, everyday, cosplay]) for (const p of c.per
   if (n.m) { p.labelM = n.m[0]; p.labelKoM = n.m[1]; }
   if (n.f) { p.labelF = n.f[0]; p.labelKoF = n.f[1]; }
 }
+
+/* 원형 갈래 — 상위 분장(마녀)을 ◇로 잠그면 Ring이 같은 갈래(마녀 · 견습 · 별 …, 리본 마녀)에서 돌아가며 뽑는다.
+ * 기본은 영어 이름의 ' · ' 앞부분. 이름이 다른 같은 원형은 여기 적는다 — [갈래, 상위 분장이면 1]. */
+const TF_FAMILY_OF = {
+  ghost: ['Ghost', 1], frank: ['Frankenstein', 1], cat: ['Cat', 1], redhood: ['Red Hood', 1], maid: ['Maid', 1], bunny: ['Bunny Girl', 1],
+  ribbonwitch: ['Witch'], frillvamp: ['Vampire'], imp: ['Devil'], halloweenmaid: ['Maid'], cathood: ['Cat'], wolfhood: ['Werewolf'], bride: ['Frankenstein'],
+};
 
 /* 화면 이름. label은 저장한 프리셋의 선택값이므로 그대로 두고 표시 이름만 다듬는다.
  * 테마 디자인은 '원형 · 테마', 성별 짝은 '이름 / 이름'으로 적는다. */

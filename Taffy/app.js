@@ -217,6 +217,7 @@ function slotOptions(edition, slot, state){
       if(it.strict && edition.id === 'cross') continue;
       if(it.cat && typeof catsOff!=='undefined' && catsOff.has(it.cat)) continue;
       if(catsOff.has('spider') && spiderVisual(it.p)) continue;
+      if(paintGone(it.p)) continue;
       if(seen.has(it.id)) continue;
       if(foreign && (!it.p || seenPrompt.has(it.p))) continue;
       seen.add(it.id); if(it.p) seenPrompt.add(it.p);
@@ -236,7 +237,12 @@ function detailTags(d){
   return [];
 }
 function spiderVisual(prompt){return /\bspiders?\b/i.test(String(prompt||'').replace(/spider[ -]?webs?/gi,''));}
-function blockedPeriod(p){return (p.id==='plague'&&catsOff.has('mask'))||(p.id==='spider'&&catsOff.has('spider'));}
+/* 피부색 · 페이스페인팅 — 항목에 cat 이 없고 문구로 가른다. 한 항목에 둘이 섞이면(초록 얼굴 + 꿰맨 자국) 절 단위로 뺀다. 옷에 그린 그림은 해당 없음 */
+function skinClause(c){return /\b(pale|white|grey|gray|green|greenish|bluish|ashen)\b[^,]*\b(face paint|face makeup|skin makeup|skin|makeup)\b/i.test(c)||/\b(pale|blue|ghostly)\b[^,]*\bglow on the (face|skin)\b/i.test(c);}
+function faceClause(c){return !skinClause(c)&&!/^(dark|smudged) eye makeup$/i.test(c)&&(/\bface paint\b|cheek paint|\bmakeup\b|beauty mark|\bdrawn-on\b|\bdrawn (under|on the cheek)|\bshapes? over the eyes\b/i.test(c)||/\bpainted?\b[^,]*\b(cheeks?|face|forehead|eyes?|nose|temple|cheekbones?|lashes|freckles|whiskers|stitches|smile|grin|dots|circles)\b/i.test(c)||/\b(smile|grin)\b[^,]*\bpainted\b/i.test(c));}
+function paintOff(c){return (catsOff.has('skintone')&&skinClause(c))||(catsOff.has('facepaint')&&faceClause(c));}
+function paintGone(p){const cs=String(p||'').split(',').map(x=>x.trim()).filter(Boolean);return cs.length>0&&cs.every(paintOff);}
+function blockedPeriod(p){return (p.id==='plague'&&catsOff.has('mask'))||(p.id==='spider'&&catsOff.has('spider'))||(p.id==='creepyclown'&&catsOff.has('clown'));}
 
 /* 원형의 의상에만 붙는 작은 불길함. 피·상처·신체 변형은 쓰지 않는다. */
 const EERIE_BY_KIND={
@@ -261,6 +267,7 @@ const EERIE_BY_KIND={
   redhood:[['stain','후드 소매의 작은 피 얼룩','small faux bloodstain on the red hoodie cuff'],['leaf','후드에 붙은 낙엽','dry autumn leaves caught on the hoodie']],
   alice:[['rose','앞치마의 검은 장미 자수','black rose embroidery on the apron'],['stain','앞치마 끝의 작은 피 얼룩','small faux bloodstain on the apron hem']],
   royal:[['rose','시든 장미 코르사주','wilted rose corsage pinned to the costume'],['ribbon','해진 왕실 리본','frayed royal ribbon trim along the costume hem'],['stain','옷자락의 작은 피 얼룩','small faux bloodstain on the costume hem']],
+  slasher:[['splat','앞치마에 튄 가짜 피','fake blood splatter on the costume apron'],['rust','녹슨 얼룩','rust stains along the costume hem']],
   general:[['ribbon','바랜 리본 장식','faded ribbon at the costume hem'],['dust','옷자락의 옅은 먼지','faint dust along the costume hem'],['fray','해진 밑단','frayed tattered hem on the costume']],
 };
 function eerieKind(scene,male=false){
@@ -270,6 +277,7 @@ function eerieKind(scene,male=false){
   if(id==='rh-street') return 'redhood';
   if(id==='alice') return 'alice';
   if(id==='princess') return 'royal';
+  if(id==='slasher') return 'slasher';
   if(/zombie/i.test(id+' '+tag) && !/nurse/i.test(id+' '+tag)) return 'zombie';
   if(/nurse|doctor/i.test(id+' '+tag)) return 'nurse';
   if(/^mx-/.test(id)) return ({'mx-witch':'witch','mx-devil':'devil','mx-ghost':'ghost','mx-angel':'angel','mx-deity':'deity','mx-knight':'knight','mx-doll':'doll','mx-yuki':'snow','mx-oni':'oni','mx-gumiho':'fox'})[id]||'general';
@@ -380,6 +388,7 @@ function composeFrom(edition, state, picked){
       const c=clause.trim();
       if(!c) continue;
       if(catsOff.has('spider') && spiderVisual(c)) continue;
+      if(paintOff(c)) continue;
       const k=c.toLowerCase();
       if(seenTok.has(k)) continue;
       seenTok.add(k); dedup.push(c);
@@ -698,12 +707,15 @@ function saveBans(){ try{localStorage.setItem("taffy.bans",JSON.stringify([...ba
 const CATS=[
   {id:'mask',ko:'얼굴 가림',en:'Face Coverings'},{id:'animal',ko:'동물 동반',en:'Animal Companions'},
   {id:'bodypaint',ko:'바디페인팅',en:'Body Paint'},{id:'bodysuit',ko:'밀착 전신 수트',en:'Fitted Bodysuits'},
-  {id:'spider',ko:'거미',en:'Spiders'},
+  {id:'skintone',ko:'피부색 분장',en:'Skin Tone Paint'},{id:'facepaint',ko:'페이스페인팅',en:'Face Paint'},
+  {id:'spider',ko:'거미',en:'Spiders'},{id:'clown',ko:'광대',en:'Clowns'},
 ];
-const CAT_ORDER=['','animal','mask','bodypaint','bodysuit','spider'];
+const CAT_ORDER=['','animal','mask','bodypaint','bodysuit','spider','clown'];
 const FILTER_CAT=id=>CATS.some(c=>c.id===id)?id:'';
 const catsOff=new Set();
 try{ (JSON.parse(localStorage.getItem("taffy.catsOff")||"[]")).forEach(c=>catsOff.add(c)); }catch(e){}
+/* 피부색 분장은 기본 꺼짐 — 칩이 생기기 전 저장값에도 한 번 꺼서 넣는다 */
+try{ if(!localStorage.getItem("taffy.skinDefault")){catsOff.add('skintone');localStorage.setItem("taffy.skinDefault","1");localStorage.setItem("taffy.catsOff",JSON.stringify([...catsOff]));} }catch(e){catsOff.add('skintone');}
 function saveCats(){ try{localStorage.setItem("taffy.catsOff",JSON.stringify([...catsOff]));}catch(e){} }
 let eastRandom=false;
 try{eastRandom=localStorage.getItem("taffy.eastRandom")==='true';}catch(e){}
@@ -1092,6 +1104,13 @@ function currentPrev(){const prev={};ALL_SLOTS.forEach(s=>prev[s]=s==='accessori
 /* 드롭다운의 '랜덤'(색 · 포인트 색 · 기척 · 배경)을 한 번 뽑은 값. 다시 뽑기 전까지 그대로 써서
  * Ring을 그대로 누르면 같은 태피가 나온다. randomize()가 비운다. */
 let rollMemo={};
+/* 상위 분장(마녀 · 뱀파이어 …)을 잠그면 그 갈래 전체에서 뽑는다. 갈래 안의 한 분장(마녀 · 별)을 잠그면 그것만.
+ * null 은 '다시 계산' — 잠금을 누르거나 분장 · 유형을 손으로 바꾸면 비운다. */
+let lockFamily=null;
+function famOf(p){const o=TF_FAMILY_OF[p.id];return o?o[0]:p.label.split(' · ')[0];}
+function famRoot(p){const o=TF_FAMILY_OF[p.id];return o?!!o[1]:!p.label.includes(' · ');}
+function familyMembers(key){const out=[];for(const k of ['classic','illust','everyday','cosplay'])for(const p of periodList(EDITIONS[k]))if(famOf(p)===key&&(eastRandom||!p.east))out.push({k,p});return out;}
+function familyOfLock(){const p=currentPeriod();if($("#collection").value==='cross'||!p||!famRoot(p))return '';return familyMembers(famOf(p)).length>1?famOf(p):'';}
 function randomize(){
   rollMemo={};
   detailRoll=rand(["Simple","Medium","Medium","Max"]);
@@ -1100,6 +1119,11 @@ function randomize(){
   const mainPinned=!!mainCostume&&$("#collection").value==='cross';
   const collectionChanged=!locks.collection&&!locks.period&&!mainPinned&&!holdIndex;
   if(collectionChanged) randomIndexField("collection");
+  if(locks.period&&!holdIndex&&!mainPinned){
+    if(lockFamily===null)lockFamily=familyOfLock();
+    const m=lockFamily&&rand(familyMembers(lockFamily));
+    if(m){if($("#collection").value!==m.k){$("#collection").value=m.k;updatePack();}$("#period").value=m.p.label;}
+  }
   ["period","gender","fidelity","exposure"].forEach(id=>{ if(locks[id]||holdIndex||(id==='period'&&mainPinned))return; randomIndexField(id); });
   fillMixFields();fillAtmosphereFields();
   if(!locks.style&&!holdIndex) randomIndexField("style");
@@ -1126,6 +1150,7 @@ function rollSlotsOnly(){
 /* 🎲 — 그 줄만 다시 뽑는다. 의상 슬롯은 나머지를 전부 잠근 채 롤을 돌려 그 슬롯만 취한다. */
 function rerollField(id){
   if(INDEX_FIELDS.includes(id)){
+    if(id==="collection"||id==="period")lockFamily=null;
     if(id==="detail") detailRoll=rand(["Simple","Medium","Medium","Max"]);
     if(id==="exposure"){randomIndexField(id);recut();return;}
     randomIndexField(id);
@@ -1342,6 +1367,7 @@ document.querySelectorAll(".lock").forEach(b=>{
   b.addEventListener("click",()=>{
     if(skips[id])return;                     // 제외된 슬롯은 잠글 수 없다
     locks[id]=!locks[id];
+    if(id==='period')lockFamily=null;
     b.classList.toggle("locked",locks[id]);
     b.textContent=locks[id]?"◆":"◇";
   });
@@ -1502,7 +1528,7 @@ function renderCatBar(){
     const b=document.createElement("button");b.type="button";b.className="cat-chip"+(catsOff.has(c.id)?" off":"");
     b.textContent=(catsOff.has(c.id)?"✕ ":"✓ ")+(selectLang==='ko'?c.ko:c.en);
     b.title=selectLang==='ko'?"끄면 드롭다운과 랜덤에서 사라집니다":"Off = hidden from lists and shuffle";
-    b.addEventListener("click",()=>{if(catsOff.has(c.id))catsOff.delete(c.id);else catsOff.add(c.id);saveCats();renderCatBar();if(c.id==='mask'||c.id==='spider')updatePack();else populateSlots();rollSlotsOnly();if(slotQuery)renderSearchPanel(slotQuery);updatePreview();});
+    b.addEventListener("click",()=>{if(catsOff.has(c.id))catsOff.delete(c.id);else catsOff.add(c.id);saveCats();renderCatBar();if(c.id==='mask'||c.id==='spider'||c.id==='clown')updatePack();else populateSlots();rollSlotsOnly();if(slotQuery)renderSearchPanel(slotQuery);updatePreview();});
     el.appendChild(b);
   }
   const east=document.createElement("button");east.type="button";east.className="cat-chip"+(eastRandom?"":" off");
@@ -1518,7 +1544,7 @@ function snapshot(){
   const o={collection:$("#collection").value,period:$("#period").value,periods:fantasyChecked(),gender:$("#gender").value,fidelity:$("#fidelity").value,exposure:$("#exposure").value,
     style:$("#style").value,motif:$("#motif").value,eastRandom,eerie:$('#eerie').value,backgroundEnabled:$('#backgroundEnabled').checked,background:$('#background').value,
     detail:$("#detail").value,color:$("#color").value,accent:$("#accent").value,other:$("#other").value,
-    slots:{},locks:{...locks},skips:{...skips},bans:[...bans],catsOff:[...catsOff],accMode:multiMode.accessories,coherent:coherentMix,mainCostume,crossMax};
+    slots:{},locks:{...locks},skips:{...skips},bans:[...bans],catsOff:[...catsOff],skinChip:true,accMode:multiMode.accessories,coherent:coherentMix,mainCostume,crossMax};
   ALL_SLOTS.forEach(s=>o.slots[s]=s==='accessories'?getMulti('accessories'):$("#"+s).value);
   return o;
 }
@@ -1531,7 +1557,7 @@ function restore(o){
   $('#backgroundEnabled').checked=!!o.backgroundEnabled;fillAtmosphereFields();if(o.eerie)$('#eerie').value=o.eerie;if(o.background)$('#background').value=o.background;
   fillColors();$("#color").value=o.color||"";$("#accent").value=o.accent||"none";$("#other").value=o.other||"";
   bans.clear();(o.bans||[]).forEach(id=>bans.add(id));saveBans();
-  catsOff.clear();(o.catsOff||[]).forEach(c=>catsOff.add(c));saveCats();
+  catsOff.clear();(o.catsOff||[]).forEach(c=>catsOff.add(c));if(!o.skinChip)catsOff.add('skintone');saveCats();
   if(o.eastRandom!==undefined){eastRandom=!!o.eastRandom;saveEastRandom();}renderCatBar();updatePack();
   multiMode.accessories=o.accMode||'combine';if(o.coherent!==undefined)coherentMix=o.coherent;
   mainCostume=o.collection==='cross'&&(o.periods||[]).includes(o.mainCostume)?o.mainCostume:'';
@@ -1651,7 +1677,7 @@ function searchElsewhere(q){
       if(!ALL_SLOTS.includes(slot)) continue;
       for(const it of items){
         if(it.t==='None'||!searchHit(it,lq)) continue;
-        if((it.cat&&catsOff.has(it.cat))||(catsOff.has('spider')&&spiderVisual(it.p))||(it.fx!==undefined&&it.fx<lv)) continue;
+        if((it.cat&&catsOff.has(it.cat))||(catsOff.has('spider')&&spiderVisual(it.p))||paintGone(it.p)||(it.fx!==undefined&&it.fx<lv)) continue;
         if(!genderOk(it,st.gender)) continue;
         out.push({per,slot,it,needLv:Math.max(lv,it.f||0)});
       }
@@ -1707,6 +1733,7 @@ document.addEventListener("click",()=>{ $("#searchPanel").hidden=true; });
 /* 조건이 바뀌면 결과도 다시 */
 ["collection","period","style","gender","fidelity","exposure"].forEach(id=>$("#"+id).addEventListener("change",()=>{if(slotQuery)renderSearchPanel(slotQuery)}));
 $("#collection").addEventListener("change",()=>{updatePack();rollSlotsOnly();});
+["collection","period"].forEach(id=>$("#"+id).addEventListener("change",()=>{lockFamily=null;}));
 $('#backgroundEnabled').addEventListener('change',()=>{fillAtmosphereFields();updatePreview();});
 ['eerie','background'].forEach(id=>$('#'+id).addEventListener('change',updatePreview));
 ["color","accent","other"].forEach(id=>$("#"+id).addEventListener("change",updatePreview));
