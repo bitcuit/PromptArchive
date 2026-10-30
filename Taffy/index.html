@@ -314,7 +314,10 @@
         <div class="house-no" aria-hidden="true">No. 31</div>
         <div class="bell-box">
           <button class="bell" id="transcribeBtn" type="button"><span class="bell-word">Ring</span><span class="bell-sub">trick or treat</span></button>
-          <label class="reroll-switch" title="켜면 Ring을 누를 때마다 안 잠긴 칸을 새로 뽑아요. 끄면 지금 칸 그대로 받아요"><input id="rerollToggle" type="checkbox" role="switch"><span class="reroll-track" aria-hidden="true"></span><span>누를 때마다 새로 뽑기</span></label>
+          <div class="bell-opts">
+  <label class="reroll-switch" title="켜면 Ring을 누를 때마다 안 잠긴 칸을 새로 뽑아요. 끄면 지금 칸 그대로 받아요"><input id="rerollToggle" type="checkbox" role="switch"><span class="reroll-track" aria-hidden="true"></span><span>누를 때마다 새로 뽑기</span></label>
+            <button class="unlock-all" id="unlockAll" type="button" title="잠근 칸을 모두 풀기" disabled>◇ 잠금 풀기 <span id="lockCount">0</span></button>
+          </div>
         </div>
         <div class="slot-search">
           <input id="slotSearch" type="search" placeholder="항목 검색 — 망토, broom" autocomplete="off" aria-label="항목 검색">
@@ -402,6 +405,7 @@
     <div class="shelf-top">
       <div class="shelf-title" id="shelfTitle">진열장</div>
       <nav class="shelf-nav" id="shelfNav"></nav>
+      <label class="reroll-switch shelf-lock" title="켜면 진열장에서 고른 분장을 분장 줄에 잠가요"><input id="shelfLock" type="checkbox" role="switch"><span class="reroll-track" aria-hidden="true"></span><span id="shelfLockText">고르면 잠금</span></label>
       <button class="help-close" id="shelfClose" type="button" aria-label="닫기">×</button>
     </div>
     <div class="shelf-body" id="shelfBody"></div>

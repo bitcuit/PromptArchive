@@ -344,6 +344,11 @@ option{background:#211a24;color:var(--bone)}
 .reroll-switch{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;letter-spacing:.02em;color:var(--bone-dim);transition:color .15s}
 .reroll-switch:hover,.reroll-switch:has(input:checked){color:var(--bone)}
 .reroll-switch input{position:absolute;opacity:0;width:1px;height:1px}
+.bell-opts{display:flex;align-items:center;gap:16px}
+.unlock-all{border:0;background:transparent;padding:0;color:var(--bone-dim);font-size:12px;letter-spacing:.02em;white-space:nowrap;transition:color .15s}
+.unlock-all:hover:not(:disabled){color:var(--amber-soft)}
+.unlock-all:disabled{opacity:.4;cursor:default}
+.shelf-lock{flex:none;white-space:nowrap}
 .reroll-track{position:relative;flex:0 0 28px;height:16px;border:1px solid var(--line);border-radius:8px;transition:border-color .15s,background .15s}
 .reroll-track::after{content:"";position:absolute;top:2px;left:2px;width:10px;height:10px;border-radius:50%;background:var(--bone-dim);transition:transform .15s,background .15s}
 .reroll-switch input:checked + .reroll-track{border-color:var(--amber);background:rgba(217,160,90,.16)}

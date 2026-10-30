@@ -1364,6 +1364,18 @@ function paintSkip(slot){
   $("#"+slot).disabled=on;
   const mt=f.querySelector(".multi-toggle");if(mt)mt.disabled=on;
 }
+/* 잠금 개수 — 잠금 단추의 모양이 바뀔 때마다(어디서 바꾸든) 다시 센다 */
+function paintLockCount(){
+  const n=Object.keys(locks).filter(k=>locks[k]).length;
+  $("#lockCount").textContent=n;$("#unlockAll").disabled=!n;
+}
+new MutationObserver(paintLockCount).observe(document.body,{subtree:true,attributes:true,attributeFilter:['class']});
+function setLock(id,on){
+  locks[id]=on;if(id==='period'||id==='collection')lockFamily=null;
+  const b=lockBtn(id);if(b){b.classList.toggle("locked",on);b.textContent=on?"◆":"◇";}
+  paintLockCount();
+}
+$("#unlockAll").addEventListener("click",()=>{Object.keys(locks).forEach(k=>{if(locks[k])setLock(k,false);});});
 document.querySelectorAll(".lock").forEach(b=>{
   const id=b.dataset.lock;
   locks[id]=false;
@@ -1832,9 +1844,14 @@ function shelfSign(p){
   }
   return out.slice(0,3).join(' · ');
 }
+/* 고르면 잠금 — 기본 켜짐, 이 브라우저에 기억 */
+const shelfLock=$("#shelfLock");
+try{ shelfLock.checked=localStorage.getItem("taffy.shelfLock")!=="0"; }catch(e){ shelfLock.checked=true; }
+shelfLock.addEventListener("change",()=>{ try{localStorage.setItem("taffy.shelfLock",shelfLock.checked?"1":"0");}catch(e){} });
 function shelfPick(k,p){
   if($("#collection").value!==k){$("#collection").value=k;$("#collection").dispatchEvent(new Event("change"));}
   $("#period").value=p.label;$("#period").dispatchEvent(new Event("change"));
+  if(shelfLock.checked&&!skips.period)setLock('period',true);
   updatePreview();closeShelf();
 }
 function shelfGroups(){
@@ -1905,6 +1922,7 @@ function fitShelfChips(){
 }
 function openShelf(){
   $("#shelfTitle").textContent=selectLang==='ko'?'진열장':'Showcase';
+  $("#shelfLockText").textContent=selectLang==='ko'?'고르면 잠금':'Lock on pick';
   renderShelf();shelf.classList.add("open");fitShelfChips();
   const c=shelf.querySelector(".shelf-item.current");if(c)c.scrollIntoView({block:'center'});
 }
