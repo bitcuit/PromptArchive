@@ -384,7 +384,7 @@ const TF_MIX_PERIODS = [
       headwear: [['bow', 'Single head bow', '머리 리본 하나', 'single large head bow', ''], ['bonnet', 'Small bonnet', '작은 보닛', 'small bonnet', ''], ['headband', 'Lace headband', '레이스 머리띠', 'lace headband', '']],
       accessories: [['key', 'Wind-up key prop', '태엽 열쇠 소품', 'decorative wind-up key on the back of the costume', ''], ['gloves', 'Short gloves', '짧은 장갑', 'short gloves', ''], ['brooch', 'Heart brooch', '하트 브로치', 'heart-shaped brooch', '']],
       weapon: [['bear', 'Stuffed bear', '곰 인형', 'holding a worn stuffed bear', ''], ['book', 'Picture book', '그림책', 'holding an old picture book', '']],
-      device: [['joints', 'Painted doll joints', '그린 인형 관절', 'doll joints painted on the skin', 'c:bodypaint'], ['cheeks', 'Round cheek paint', '동그란 볼 분장', 'round cheek paint, doll makeup', ''], ['cracks', 'Painted porcelain cracks', '그린 도자기 금', 'porcelain cracks painted on the face', 'f1']],
+      device: [['joints', 'Painted doll joints', '그린 인형 관절', 'doll joints painted on the skin', 'c:joint'], ['cheeks', 'Round cheek paint', '동그란 볼 분장', 'round cheek paint, doll makeup', ''], ['cracks', 'Painted porcelain cracks', '그린 도자기 금', 'porcelain cracks painted on the face', 'f1']],
     },
   }),
   mixCostume({

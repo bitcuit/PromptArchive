@@ -113,6 +113,7 @@ const TF_PLACES = [
   ['_manor', 'Abandoned mansion hall', '버려진 저택 홀', 'abandoned mansion hall, thick cobwebs, dusty chandelier, torn curtains', 'f1'],
   ['_batsky', 'Bats across the full moon', '보름달을 가로지르는 박쥐 떼', 'swarm of bats flying across a huge full moon, night sky', 'f2'],
   ['_crows', 'Crows over a dead tree', '마른 나무 위 까마귀 떼', 'crows circling over a bare dead tree, grey dusk sky', 'f2'],
+  ['_sheets', 'Little sheet ghosts floating', '떠다니는 작은 천 유령들', 'tiny white sheet ghosts floating in the air around', 'f2'],
   ['_mist', 'Misty graveyard', '안개 낀 묘지', 'misty graveyard at midnight, crooked headstones, crows perched on the stones', 'f3'],
 ];
 
@@ -281,6 +282,14 @@ const TF_HEARTS = [
 ];
 const TF_HEART_IDS = new Set(['witch', 'w-dark', 'w-rose', 'vampire', 'frillvamp', 'v-punk', 'v-lounge', 'bride', 'ghostbride', 'f-bride', 'reaper', 'devil', 'redqueen', 'foggent', 'phantom', 'windup']);
 
+/* 해골 소품 — 어두운 분장의 손 소품에 더한다. 분장 고유 소품과 겹치지 않게 키 앞에 _ */
+const TF_SKULLS = [
+  ['_skull', 'Skull in hand', '손에 든 해골', 'holding a prop skull in one hand', 'f1'],
+  ['_skullcandle', 'Skull candleholder', '해골 촛대', 'holding a skull candleholder, candle dripping wax', 'f1'],
+  ['_skullcup', 'Skull goblet', '해골 잔', 'holding a skull-shaped goblet', 'f2'],
+];
+const TF_SKULL_IDS = new Set(['witch', 'w-dark', 'vampire', 'v-punk', 'ghostbride', 'reaper', 'devil', 'pirate', 'foggent', 'phantom']);
+
 /* 분장 하나를 엔진이 읽는 period 로 펼친다. */
 function costume(id, label, labelKo, callNo, spec) {
   const slots = {};
@@ -291,6 +300,7 @@ function costume(id, label, labelKo, callNo, spec) {
     /* 고증판(plain)에는 할로윈 장소 · 사탕 소품을 붙이지 않는다. */
     if (slot === 'effect' && !spec.plain) rows.unshift(...TF_PLACES);
     if (slot === 'weapon' && !spec.plain) rows.push(...TF_HELD);
+    if (slot === 'weapon' && TF_SKULL_IDS.has(id)) rows.push(...TF_SKULLS);
     if (slot === 'headwear' && TF_CROWNS[id]) rows.push(...TF_CROWNS[id].map(r => r.slice(0, 5)));
     if (slot === 'accessories' && TF_HEART_IDS.has(id)) rows.push(...TF_HEARTS);
     const list = [];
@@ -2681,7 +2691,7 @@ const storybook = collection('storybook', 'STORYBOOK', 'PA·TFY·II', 'tales and
       ],
       accessories: [
         ['key', 'Wind-up key on the back', '등에 단 태엽 열쇠', 'large wind-up key on the back'],
-        ['joints', 'Painted doll joints', '그린 인형 관절', 'doll joint lines painted on the elbows and knees', 'f1'],
+        ['joints', 'Painted doll joints', '그린 인형 관절', 'doll joint lines painted on the elbows and knees', 'f1 c:joint'],
         ['spin', 'Turning slowly on one toe', '한 발로 천천히 도는 몸', 'spinning slowly on one toe like a music box figure', 'f3 gf'],
       ],
       weapon: [
@@ -2697,6 +2707,130 @@ const storybook = collection('storybook', 'STORYBOOK', 'PA·TFY·II', 'tales and
       effect: [
         ['box', 'Inside a giant music box', '커다란 오르골 안', 'standing on a giant music box stage, mirrored lid', 'f2'],
         ['shop', 'Toy shop after closing', '문 닫은 장난감 가게', 'old toy shop after closing, shelves of dolls, moonlight', 'f3'],
+      ],
+    },
+  }),
+
+  /* ─── S-18 구체관절 인형 — 얼굴은 손대지 않는다(얼굴 분장 없음). 관절은 팔 · 손에만, 'joint' 필터로 끌 수 있다 ─── */
+  costume('bjd', 'Ball-jointed Doll', '구체관절 인형', 'S-18', {
+    tag: 'halloween costume, antique doll costume', tagReal: 'living doll, halloween night',
+    colors: ['ivory', 'black', 'dusty rose', 'powder blue', 'burgundy', 'cream', 'navy'],
+    items: {
+      garment: [
+        ['hm', 'Frilled dress and big bow', '프릴 원피스와 큰 리본', 'frilled dress, big hair bow', 'f0 F0 gf'],
+        ['hm-m', 'Shorts suit and knee socks', '반바지 정장과 무릎 양말', 'shorts suit, knee socks, bow tie', 'f0 F0 gm'],
+        ['pt-lolita', 'Classic lolita dress', '클래식 롤리타 드레스', 'doll costume, classic lolita dress, puff sleeves, layered lace petticoat', 'f1 F1 x0 gf n:high v:bjd-pt'],
+        ['pt-sailor', 'Sailor-collar dress', '세일러 칼라 원피스', 'doll costume, sailor collar dress, pleated skirt, ribbon tie', 'f1 F1 x1 gf v:bjd-pt'],
+        ['pt-short', 'Short pinafore dress', '짧은 앞치마 원피스', 'doll costume, short pinafore dress, frilled blouse, petticoat', 'f1 F1 x2 gf v:bjd-pt'],
+        ['pt-m', 'Shorts suit with a cape collar', '케이프 칼라 반바지 정장', 'doll costume, velvet shorts suit, cape collar, knee socks', 'f1 F1 x01 gm'],
+        ['pt-m2', 'Open waistcoat and shorts', '풀어 입은 조끼와 반바지', 'doll costume, open velvet waistcoat, frilled shirt, shorts', 'f1 F1 x2 gm'],
+        ['ed-gown', 'Antique lace gown', '앤틱 레이스 드레스', 'antique doll gown, ivory lace, tiered skirt, high collar', 'f2 x0 gf n:high v:bjd-ed'],
+        ['ed-velvet', 'Velvet doll dress', '벨벳 인형 드레스', 'velvet doll dress, square collar, lace cuffs, full petticoat', 'f2 x1 gf v:bjd-ed'],
+        ['ed-corset', 'Corset doll dress', '코르셋 인형 드레스', 'satin corset doll dress, short layered skirt, lace trim', 'f2 x2 gf v:bjd-ed'],
+        ['ed-m', 'Victorian doll suit', '빅토리아풍 인형 정장', 'victorian doll suit, lace jabot, velvet shorts, knee socks', 'f2 x01 gm'],
+      ],
+      structure: [
+        ['sash', 'Wide satin sash', '넓은 새틴 띠', 'wide satin sash with a back bow', 'gf'],
+        ['suspenders', 'Suspenders', '멜빵', 'thin suspenders', 'gm'],
+      ],
+      foundation: [
+        ['socks', 'Lace knee socks', '레이스 무릎 양말', 'white lace knee socks', 'gf'],
+        ['tights', 'White tights', '흰 타이츠', 'white tights', 'gf'],
+      ],
+      neckwear: [
+        ['ribbon', 'Ribbon choker', '리본 초커', 'satin ribbon choker', 'gf'],
+        ['jabot', 'Lace jabot', '레이스 자보', 'lace jabot', 'an:high'],
+      ],
+      outer: [
+        ['cape', 'Short capelet', '짧은 케이프', 'short velvet capelet', 'f1'],
+      ],
+      footwear: [
+        ['mary', 'Mary janes', '메리제인 구두', 'round-toe mary jane shoes'],
+        ['boots', 'Button boots', '단추 부츠', 'antique button boots', 'f1'],
+      ],
+      headwear: [
+        ['bow', 'Big hair bow', '큰 머리 리본', 'big satin hair bow', 'gf'],
+        ['bonnet', 'Lace bonnet', '레이스 보닛', 'lace bonnet tied under the chin', 'f1 gf'],
+        ['beret', 'Velvet beret', '벨벳 베레모', 'velvet beret', 'gm'],
+      ],
+      accessories: [
+        ['arms', 'Ball joints at the elbows and wrists', '팔꿈치 · 손목 구체관절', 'visible ball joints at the elbows and wrists', 'c:joint'],
+        ['hands', 'Jointed doll fingers', '마디 진 인형 손가락', 'ball-jointed doll hands, visible finger joints', 'f1 c:joint'],
+        ['tag', 'Name tag on a ribbon', '리본에 단 이름표', 'small paper name tag tied on with a ribbon', ''],
+        ['key', 'Wind-up key on the back', '등에 단 태엽 열쇠', 'small wind-up key on the back', 'f1'],
+        ['strings', 'Thin puppet strings', '가는 인형 줄', 'thin strings rising from the wrists', 'f3'],
+      ],
+      weapon: [
+        ['teddy', 'Small teddy bear', '작은 곰 인형', 'holding a small teddy bear'],
+        ['parasol', 'Lace parasol', '레이스 양산', 'holding a lace parasol', 'f1'],
+        ['teacup', 'Tiny teacup', '작은 찻잔', 'holding a tiny porcelain teacup', 'f1'],
+      ],
+      device: [],
+      effect: [
+        ['shelf', 'Doll shop shelf', '인형 가게 진열장', 'old doll shop, glass display shelves, rows of dolls', 'f2'],
+        ['box', 'Inside a doll box', '인형 상자 안', 'standing inside an open vintage doll box, satin lining', 'f2'],
+        ['attic', 'Dusty attic', '먼지 쌓인 다락', 'dusty attic, moonlight through a round window, old toys', 'f3'],
+      ],
+    },
+  }),
+
+  /* ─── S-19 체셔 고양이 — 그 고양이처럼 보이는 '의상'. 줄무늬 옷이 알아볼 표시라 얼굴 웃음 분장 · 사라지는 연출은 넣지 않는다 ─── */
+  costume('cheshire', 'Cheshire Cat', '체셔 고양이', 'S-19', {
+    tag: 'halloween costume, cheshire cat costume, purple and pink stripes', tagReal: 'cheshire cat costume, halloween night, purple and pink stripes',
+    colors: ['violet', 'hot pink', 'lavender', 'magenta', 'deep purple'],
+    need: { headwear: 'ears ears-hat ears-bow' },
+    items: {
+      garment: [
+        ['hm', 'Striped sweater and skirt', '줄무늬 스웨터와 치마', 'purple and pink striped sweater, purple skirt', 'f0 F0 gf'],
+        ['hm-m', 'Striped hoodie and jeans', '줄무늬 후드티와 청바지', 'purple and pink striped hoodie, jeans', 'f0 F0 gm'],
+        ['pt-long', 'Striped dress, long sleeves', '긴소매 줄무늬 원피스', 'cheshire cat costume, purple and pink striped dress, long sleeves, knee length', 'f1 F1 x0 gf v:cheshire-pt'],
+        ['pt-puff', 'Striped puff-sleeve dress', '줄무늬 퍼프 소매 원피스', 'cheshire cat costume, purple and pink striped dress, puff sleeves, flared skirt', 'f1 F1 x1 gf v:cheshire-pt'],
+        ['pt-short', 'Striped crop top and skirt', '줄무늬 크롭 상의와 치마', 'cheshire cat costume, purple and pink striped crop top, short pleated skirt', 'f1 F1 x2 gf v:cheshire-pt'],
+        ['pt-m', 'Striped jacket and trousers', '줄무늬 재킷과 바지', 'cheshire cat costume, purple and pink striped jacket, purple trousers', 'f1 F1 x01 gm'],
+        ['pt-m2', 'Open striped vest', '풀어 입은 줄무늬 조끼', 'cheshire cat costume, open purple and pink striped vest, fitted trousers', 'f1 F1 x2 gm'],
+        ['ed-gown', 'Striped velvet gown', '줄무늬 벨벳 드레스', 'purple and pink striped velvet gown, layered tulle underskirt', 'f2 x0 gf v:cheshire-ed'],
+        ['ed-corset', 'Striped corset dress', '줄무늬 코르셋 원피스', 'purple and pink striped corset dress, short ruffled skirt', 'f2 x2 gf v:cheshire-ed'],
+        ['ed-m', 'Striped tailcoat', '줄무늬 연미복', 'purple and pink striped tailcoat, lavender waistcoat, purple trousers', 'f2 x012 gm'],
+      ],
+      structure: [
+        ['bow', 'Pink waist bow', '분홍 허리 리본', 'big pink bow at the waist', 'gf'],
+        ['belt', 'Purple belt', '보라 벨트', 'purple belt', ''],
+      ],
+      foundation: [
+        ['stripe', 'Striped thigh-highs', '줄무늬 니삭스', 'purple and pink striped thigh-high socks', 'gf'],
+        ['tights', 'Purple tights', '보라 타이츠', 'purple tights', 'gf'],
+      ],
+      neckwear: [
+        ['bell', 'Bell collar', '방울 목걸이', 'pink collar with a small bell', 'gf'],
+        ['bowtie', 'Striped bow tie', '줄무늬 나비넥타이', 'purple and pink striped bow tie', ''],
+      ],
+      outer: [
+        ['hoodie', 'Cat-ear striped hoodie', '고양이 귀 줄무늬 후드', 'purple and pink striped hoodie with cat ears, hood down', 'f1'],
+      ],
+      footwear: [
+        ['mary', 'Purple mary janes', '보라 메리제인', 'purple mary jane shoes', 'gf'],
+        ['boots', 'Striped boots', '줄무늬 부츠', 'purple and pink striped boots', 'f1'],
+        ['shoes', 'Purple shoes', '보라 구두', 'purple shoes', 'gm'],
+      ],
+      headwear: [
+        ['ears', 'Striped cat ears', '줄무늬 고양이 귀', 'purple and pink striped cat ear headband'],
+        ['ears-hat', 'Cat ears and mini top hat', '고양이 귀와 미니 실크해트', 'striped cat ear headband, tilted mini top hat', 'f1'],
+        ['ears-bow', 'Cat ears with a bow', '리본 단 고양이 귀', 'striped cat ear headband with a pink bow', 'gf'],
+      ],
+      accessories: [
+        ['tail', 'Striped tail', '줄무늬 꼬리', 'long purple and pink striped tail'],
+        ['paws', 'Striped paw gloves', '줄무늬 발 장갑', 'purple and pink striped paw gloves', 'f1'],
+        ['sleeves', 'Striped arm warmers', '줄무늬 팔토시', 'purple and pink striped arm warmers', ''],
+      ],
+      weapon: [
+        ['teacup', 'Teacup', '찻잔', 'holding a teacup'],
+        ['card', 'Playing card', '트럼프 카드', 'holding a playing card', 'f1'],
+        ['yarn', 'Ball of yarn', '털실 뭉치', 'holding a ball of purple yarn', ''],
+      ],
+      device: [],
+      effect: [
+        ['branch', 'On a tree branch', '나뭇가지 위', 'sitting on a crooked tree branch, twilight forest', 'f2'],
+        ['party', 'Mad tea party table', '엉망진창 티 파티 식탁', 'long tea party table, mismatched teacups, lanterns', 'f2'],
       ],
     },
   }),

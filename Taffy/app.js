@@ -709,8 +709,9 @@ const CATS=[
   {id:'bodypaint',ko:'바디페인팅',en:'Body Paint'},{id:'bodysuit',ko:'밀착 전신 수트',en:'Fitted Bodysuits'},
   {id:'skintone',ko:'피부색 분장',en:'Skin Tone Paint'},{id:'facepaint',ko:'페이스페인팅',en:'Face Paint'},
   {id:'spider',ko:'거미',en:'Spiders'},{id:'clown',ko:'광대',en:'Clowns'},
+  {id:'joint',ko:'인형 관절',en:'Doll Joints'},
 ];
-const CAT_ORDER=['','animal','mask','bodypaint','bodysuit','spider','clown'];
+const CAT_ORDER=['','animal','mask','bodypaint','bodysuit','spider','clown','joint'];
 const FILTER_CAT=id=>CATS.some(c=>c.id===id)?id:'';
 const catsOff=new Set();
 try{ (JSON.parse(localStorage.getItem("taffy.catsOff")||"[]")).forEach(c=>catsOff.add(c)); }catch(e){}
@@ -1524,18 +1525,21 @@ $("#banMenu").addEventListener("click",e=>e.stopPropagation());
 function renderCatBar(){
   const el=$("#catBar");if(!el)return;el.innerHTML="";
   const head=document.createElement("span");head.className="ban-head";head.textContent=selectLang==='ko'?"필터:":"Filter:";el.appendChild(head);
-  for(const c of CATS){
+  /* 인형 관절은 맨 오른쪽(동아시아 설화 칩 뒤)에 둔다. */
+  const chip=c=>{
     const b=document.createElement("button");b.type="button";b.className="cat-chip"+(catsOff.has(c.id)?" off":"");
     b.textContent=(catsOff.has(c.id)?"✕ ":"✓ ")+(selectLang==='ko'?c.ko:c.en);
     b.title=selectLang==='ko'?"끄면 드롭다운과 랜덤에서 사라집니다":"Off = hidden from lists and shuffle";
     b.addEventListener("click",()=>{if(catsOff.has(c.id))catsOff.delete(c.id);else catsOff.add(c.id);saveCats();renderCatBar();if(c.id==='mask'||c.id==='spider'||c.id==='clown')updatePack();else populateSlots();rollSlotsOnly();if(slotQuery)renderSearchPanel(slotQuery);updatePreview();});
     el.appendChild(b);
-  }
+  };
+  for(const c of CATS) if(c.id!=='joint') chip(c);
   const east=document.createElement("button");east.type="button";east.className="cat-chip"+(eastRandom?"":" off");
   east.textContent=(eastRandom?"✓ ":"✕ ")+(selectLang==='ko'?"동아시아 설화 랜덤":"East Asian folklore shuffle");
   east.title=selectLang==='ko'?"끄면 랜덤에서만 빠집니다. 분장 목록에서는 직접 고를 수 있습니다":"Off excludes from shuffle only; direct selection stays available";
   east.addEventListener("click",()=>{eastRandom=!eastRandom;saveEastRandom();renderCatBar();populateSlots();updatePreview();});
   el.appendChild(east);
+  chip(CATS.find(c=>c.id==='joint'));
 }
 renderCatBar();
 
